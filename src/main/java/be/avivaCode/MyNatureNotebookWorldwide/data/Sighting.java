@@ -36,7 +36,7 @@ public class Sighting {
     @Column
     private LifeStage lifeStage;
     @Column
-    private Boolean deceased;
+    private boolean deceased;
     @Enumerated(EnumType.STRING)
     @Column
     private Sex sex;
@@ -48,8 +48,8 @@ public class Sighting {
     private String notes;
     @Column
     private Boolean lifer;
-    private Boolean keepPrivate;
-    private Boolean locationHidden;
+    private boolean keepPrivate;
+    private boolean locationHidden;
 
     public Sighting() {
     }
@@ -62,9 +62,9 @@ public class Sighting {
     }
     public Sighting(Long sightingId, User user, String speciesCommonName, String speciesScientificName,
                     Continent continent, Locale country, String location, LocalDateTime timeOfSighting,
-                    int quantity, TaxonomicClass taxonomicClass, LifeStage lifeStage, Boolean isDeceased,
-                    Sex sex, String behaviour, Double plantHeight, String notes, Boolean isLifer,
-                    Boolean isPrivate, Boolean isLocationHidden) {
+                    int quantity, TaxonomicClass taxonomicClass, LifeStage lifeStage, boolean deceased,
+                    Sex sex, String behaviour, Double plantHeight, String notes, Boolean lifer,
+                    boolean isPrivate, boolean isLocationHidden) {
         this.sightingId = sightingId;
         this.user = user;
         this.speciesCommonName = speciesCommonName;
@@ -76,12 +76,12 @@ public class Sighting {
         this.quantity = quantity;
         this.taxonomicClass = taxonomicClass;
         this.lifeStage = lifeStage;
-        this.deceased = isDeceased;
+        this.deceased = deceased;
         this.sex = sex;
         this.behaviour = behaviour;
         this.plantHeight = plantHeight;
         this.notes = notes;
-        this.lifer = isLifer;
+        this.lifer = lifer;
         this.keepPrivate = isPrivate;
         this.locationHidden = isLocationHidden;
     }
@@ -146,7 +146,7 @@ public class Sighting {
         return timeOfSighting;
     }
 
-    public void setTimeOfSighting(LocalDateTime timeOfSighting) {
+     public void setTimeOfSighting(LocalDateTime timeOfSighting) {
         this.timeOfSighting = timeOfSighting;
     }
 
@@ -174,11 +174,11 @@ public class Sighting {
         this.lifeStage = lifeStage;
     }
 
-    public Boolean isDeceased() {
+    public boolean isDeceased() {
         return deceased;
     }
 
-    public void setDeceased(Boolean deceased) {
+    public void setDeceased(boolean deceased) {
         this.deceased = deceased;
     }
 
@@ -214,7 +214,7 @@ public class Sighting {
         this.notes = notes;
     }
 
-    public Boolean isLifer() {
+    public Boolean getLifer() {
         return lifer;
     }
 
@@ -222,19 +222,19 @@ public class Sighting {
         this.lifer = lifer;
     }
 
-    public Boolean isKeepPrivate() {
+    public boolean isKeepPrivate() {
         return keepPrivate;
     }
 
-    public void setKeepPrivate(Boolean keepPrivate) {
+    public void setKeepPrivate(boolean keepPrivate) {
         this.keepPrivate = keepPrivate;
     }
 
-    public Boolean isLocationHidden() {
+    public boolean isLocationHidden() {
         return locationHidden;
     }
 
-    public void setLocationHidden(Boolean locationHidden) {
+    public void setLocationHidden(boolean locationHidden) {
         this.locationHidden = locationHidden;
     }
 

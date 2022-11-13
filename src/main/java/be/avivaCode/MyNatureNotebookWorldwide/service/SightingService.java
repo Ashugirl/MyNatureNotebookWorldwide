@@ -81,7 +81,7 @@ public class SightingService {
                     updatedSighting.setContinent(sighting.getContinent());
                     updatedSighting.setCountry(sighting.getCountry());
                     updatedSighting.setLocation(sighting.getLocation());
-                    updatedSighting.setLifer(sighting.isLifer());
+                    updatedSighting.setLifer(sighting.getLifer());
                     updatedSighting.setLocationHidden(sighting.isLocationHidden());
                     updatedSighting.setKeepPrivate(sighting.isKeepPrivate());
                     updatedSighting.setQuantity(sighting.getQuantity());
