@@ -4,31 +4,40 @@ import javax.persistence.*;
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Table(name = "users")
 @Entity
 public class User {
 
         @Id
-        @GeneratedValue
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         private long userId;
         @NotEmpty(message = "You must enter a user name.")
         @Column(nullable = false, updatable = false, unique = true)
         private String userName;
         @NotEmpty(message = "You must enter an email address.")
         @Email(message = "Please enter a valid email address.")
-        @Column(nullable = false)
         private String email;
         @NotEmpty(message = "You must enter a password.")
-        @Column(nullable = false)
         private String password;
         @NotEmpty(message = "Please re-enter your password.")
         private String passwordCheck;
         private boolean passwordsMatch= true;
 
+        private boolean enabled;
+
         @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
         private List<Sighting> sightings;
+
+        @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+        @JoinTable(
+                name = "users_roles",
+                joinColumns = @JoinColumn(name = "user_id"),
+                inverseJoinColumns = @JoinColumn(name = "role_id"))
+        private Set<Role> roles = new HashSet<>();
 
         public User() {
         }
@@ -36,17 +45,19 @@ public class User {
             this.userName = userName;
         }
 
-        public User(long userId, String userName, String email, String password, String passwordCheck, boolean passwordsMatch, List<Sighting> sightings) {
-            this.userId = userId;
-            this.userName = userName;
-            this.email = email;
-            this.password = password;
-            this.passwordCheck = passwordCheck;
-            this.passwordsMatch = passwordsMatch;
-            this.sightings = sightings;
-        }
+    public User(long userId, String userName, String email, String password, String passwordCheck, boolean passwordsMatch, boolean enabled, List<Sighting> sightings, Set<Role> roles) {
+        this.userId = userId;
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+        this.passwordCheck = passwordCheck;
+        this.passwordsMatch = passwordsMatch;
+        this.enabled = enabled;
+        this.sightings = sightings;
+        this.roles = roles;
+    }
 
-        public long getUserId() {
+    public long getUserId() {
             return userId;
         }
 
@@ -101,7 +112,23 @@ public class User {
             this.sightings = sightings;
         }
 
-        @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    @Override
         public String toString() {
             return "User{" +
                     "userName='" + userName + '\'' +

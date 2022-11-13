@@ -1,3 +1,6 @@
 INSERT
-INTO users (userId, userName, email, password, passwordCheck, passwordsMatch)
-VALUES (503 , 'bloop', 'bloop@gmail.com', '123', '123', 1);
+INTO
+  users
+  (userName, email, password, passwordCheck, passwordsMatch, enabled)
+VALUES
+  ('bloop', 'bloop@gmail.com', '123', '123', 1, 1);

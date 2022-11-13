@@ -41,22 +41,20 @@ public class UserController {
 
     }
 
-//    @GetMapping("/index")
-//    public String getlogin() {
-//        return "index";
-//    }
+    @GetMapping("/loginPage")
+    public String getlogin() {
+        return "loginPage";
+    }
 
 
-    @PostMapping("/index")
-    public String userLogin(@ModelAttribute User user, Model model, Sighting sighting) {
+    @PostMapping("/loginPage")
+    public String userLogin(@ModelAttribute User user, Model model) {
         User registeredUser = userService.authenticateUser(user.getUserName(), user.getPassword());
-        Long sightingId = sighting.getSightingId();
-        model.addAttribute("sighting", sightingService.getSightingById(sightingId));
         model.addAttribute("userName", registeredUser.getUserName());
         if (registeredUser == null) {
-            return "index";
+            return "loginPage";
         } else {
-            return "redirect:/{userId}/addSighting";
+            return "index";
         }
     }
 
