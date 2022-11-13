@@ -44,8 +44,8 @@ public class UserService {
         return null;
     }
 
-    public User getCurrentUser(String username) {
-        Optional user = userRepository.findUserByUserName(username);
+    public User getCurrentUser(Long userId) {
+        Optional user = userRepository.findById(userId);
         if (user.isPresent()) {
             return (User) user.get();
         }

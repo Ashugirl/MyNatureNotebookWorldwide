@@ -24,7 +24,7 @@ public class Sighting {
     Locale country;
     @Column
     private String location;
-    @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+    @DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME)
     @Column
     LocalDateTime timeOfSighting;
     @Column
@@ -54,6 +54,10 @@ public class Sighting {
     public Sighting() {
     }
 
+    public Sighting(User user, String speciesCommonName){
+        this.user = user;
+        this.speciesCommonName = speciesCommonName;
+    }
     public Sighting(User user, String speciesCommonName, Continent continent, Locale country){
         this.user = user;
         this.speciesCommonName = speciesCommonName;

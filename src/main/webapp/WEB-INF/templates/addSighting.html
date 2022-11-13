@@ -38,7 +38,7 @@
 
 <!-- partial:index.partial.html -->
 <div class="wrap">
-    <form action="#" th:action="@{/addSighting}" th:object="${sighting}" method="get">
+    <form action="#" th:action="@{{userId}/addSighting (userId=${user.userId})}" th:object="${sighting}" method="post">
         <div class="form-header">
             <h2>Add a sighting</h2>
         </div>

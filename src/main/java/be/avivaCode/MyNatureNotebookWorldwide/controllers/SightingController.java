@@ -35,9 +35,11 @@ public class SightingController {
         return "index";
     }
 
-    @GetMapping("/addSighting")
-    public String addSightingForm(Model model){
+    @GetMapping("/{userId}/addSighting")
+    public String addSightingForm(Model model, @PathVariable Long userId){
+        User user = userService.getCurrentUser(userId);
         model.addAttribute("sighting", new Sighting());
+        model.addAttribute("countryList", sightingService.getCountryList());
         model.addAttribute("deceased", new Sighting().isDeceased());
         model.addAttribute("lifer", new Sighting().getLifer());
         model.addAttribute("locationHidden", new Sighting().isLocationHidden());
@@ -49,13 +51,13 @@ public class SightingController {
 
 
     @PostMapping("/addSighting")
-    public String submitSighting(Model model, @ModelAttribute String commonName, Sighting sighting, BindingResult bindingResult) {
-        User user = new User();
+    public String submitSighting(Sighting sighting, @PathVariable Long userId, String speciesCommonName) {
+        User user = userService.getCurrentUser(userId);
+        sighting = new Sighting(user, speciesCommonName);
        // sighting = new Sighting(sighting.getSightingId(), user, sighting.getContinent(), sighting.getCountry(), "" );
-        if (bindingResult.hasErrors())
-            return "addSighting";
-        model.addAttribute("user", userService.getCurrentUser(new User().getUserName()));
-        model.addAttribute("sighting", sightingService.createSighting(sighting));
+        sightingService.createSighting(sighting);
+//        model.addAttribute("user", userService.getCurrentUser(user.getUserId()));
+//        model.addAttribute("sighting", sightingService.createSighting(sighting));
 
         return "redirect:/index";
 

@@ -56,7 +56,7 @@ public class UserController {
         if (registeredUser == null) {
             return "index";
         } else {
-            return "index";
+            return "redirect:/{userId}/addSighting";
         }
     }
 
