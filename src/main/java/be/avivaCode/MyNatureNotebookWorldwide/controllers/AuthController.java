@@ -65,7 +65,6 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login(){
-        System.out.println("authcontroller login");
         return "login";
     }
 }

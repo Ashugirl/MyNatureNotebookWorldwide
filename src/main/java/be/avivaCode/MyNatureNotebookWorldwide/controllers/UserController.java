@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 
-
+@Controller
 public class UserController {
-//    private UserServiceImpl userServiceImpl;
-//    private SightingService sightingService;
+    private UserServiceImpl userServiceImpl;
+    private SightingService sightingService;
 
 //      @Autowired
 //    public UserController(UserServiceImpl userServiceImpl, SightingService sightingService) {

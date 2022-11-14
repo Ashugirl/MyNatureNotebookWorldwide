@@ -69,7 +69,9 @@ public class UserServiceImpl implements UserService {
         role.setName("ROLE_ADMIN");
         return roleRepository.save(role);
     }
-
+    public Optional<User> getUserById(Long id){
+        return userRepository.findById(id);
+    }
 
 
 

@@ -10,7 +10,7 @@ import java.util.Locale;
 public class Sighting {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sightingId;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")//, nullable = false)

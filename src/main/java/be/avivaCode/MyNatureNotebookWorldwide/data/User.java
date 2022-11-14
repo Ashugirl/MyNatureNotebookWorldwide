@@ -24,6 +24,10 @@ public class User {
     )
     private List<Role> roles = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Sighting> sightings;
+
+
     public User() {
     }
 
@@ -33,6 +37,15 @@ public class User {
         this.email = email;
         this.password = password;
         this.roles = roles;
+    }
+
+    public User(Long id, String name, String email, String password, List<Role> roles, List<Sighting> sightings) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+        this.sightings = sightings;
     }
 
     public Long getId() {
@@ -73,5 +86,13 @@ public class User {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public List<Sighting> getSightings() {
+        return sightings;
+    }
+
+    public void setSightings(List<Sighting> sightings) {
+        this.sightings = sightings;
     }
 }
