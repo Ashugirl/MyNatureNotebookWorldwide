@@ -1,24 +1,27 @@
 package be.avivaCode.MyNatureNotebookWorldwide.data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "roles")
 public class Role {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, unique = true)
     private String name;
-    private String description;
+    @ManyToMany(mappedBy = "roles")
+    private List<User> users = new ArrayList<>();
 
     public Role() {
     }
 
-    public Role(Long id, String name, String description) {
+    public Role(Long id, String name, List<User> users) {
         this.id = id;
         this.name = name;
-        this.description = description;
+        this.users = users;
     }
 
     public Long getId() {
@@ -37,11 +40,11 @@ public class Role {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }
