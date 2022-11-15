@@ -112,7 +112,9 @@ public class SightingService {
     //GETTING INFO FROM ITIS API
 
     public static List<String> getSearchedCommonNames(String query){
-        List<String> commonNames = new ArrayList<>();
+        Map<String, String> speciesMap = new HashMap<>();
+        //List<String> commonNames = new ArrayList<>();
+        //List<String> scientificNames = new ArrayList<>();
         try {
             System.out.println("What species would you like to see?");
             String baseUrl = "https://www.itis.gov/ITISWebService/jsonservice/getITISTermsFromCommonName?srchKey=";
@@ -146,17 +148,30 @@ public class SightingService {
                 if (itisTerms.listIterator().hasNext()) {
                     for (int i = 0; i < itisTerms.size(); i++) {
                         itisObject = (JSONObject) itisTerms.get(i);
-                        commonNames.add(i, itisObject.get("commonNames").toString());
+                        System.out.println(itisObject.keySet());
+                        //scientificNames.add(i, itisObject.get("scientificName").toString());
                         //System.out.println(itisObject.get("commonNames").toString());
                         //.out.println(itisObject.get("scientificName"));
+                        //commonNames.add(i, itisObject.get("commonNames").toString());
+                        speciesMap.put("scientificNames", "commonNames");
+
                     }
+                    for(String scientificName : speciesMap.keySet()){
+                        System.out.println(scientificName);
+                        System.out.println(speciesMap.values());
+                    }
+//                    for(String scientificName : scientificNames){
+//                        System.out.println(scientificName);}
+//                    for(String commonName : commonNames){
+//                        System.out.println(commonName);
+//                    }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(commonNames);
-        return commonNames;
+        //System.out.println(commonNames);
+        return (List<String>) speciesMap;
     }
 
     //encodes search queries with spaces into values that can be appended to URL
