@@ -48,8 +48,8 @@ public class Sighting {
     private String notes;
     @Column
     private Boolean lifer;
-    private boolean keepPrivate;
-    private boolean locationHidden;
+    private Boolean keepPrivate;
+    private Boolean locationHidden;
 
     public Sighting() {
     }
@@ -58,17 +58,18 @@ public class Sighting {
         this.user = user;
         this.speciesCommonName = speciesCommonName;
     }
-    public Sighting(User user, String speciesCommonName, Continent continent, Locale country){
+    public Sighting(User user, String speciesCommonName, String speciesScientificName, Continent continent, Locale country){
         this.user = user;
         this.speciesCommonName = speciesCommonName;
+        this.speciesScientificName = speciesScientificName;
         this.continent = continent;
         this.country = country;
     }
     public Sighting(Long sightingId, User user, String speciesCommonName, String speciesScientificName,
                     Continent continent, Locale country, String location, LocalDateTime timeOfSighting,
-                    int quantity, TaxonomicClass taxonomicClass, LifeStage lifeStage, boolean deceased,
+                    int quantity, TaxonomicClass taxonomicClass, LifeStage lifeStage, Boolean deceased,
                     Sex sex, String behaviour, Double plantHeight, String notes, Boolean lifer,
-                    boolean isPrivate, boolean isLocationHidden) {
+                    Boolean isPrivate, Boolean isLocationHidden) {
         this.sightingId = sightingId;
         this.user = user;
         this.speciesCommonName = speciesCommonName;
@@ -226,19 +227,19 @@ public class Sighting {
         this.lifer = lifer;
     }
 
-    public boolean isKeepPrivate() {
+    public Boolean getKeepPrivate() {
         return keepPrivate;
     }
 
-    public void setKeepPrivate(boolean keepPrivate) {
+    public void setKeepPrivate(Boolean keepPrivate) {
         this.keepPrivate = keepPrivate;
     }
 
-    public boolean isLocationHidden() {
+    public Boolean getLocationHidden() {
         return locationHidden;
     }
 
-    public void setLocationHidden(boolean locationHidden) {
+    public void setLocationHidden(Boolean locationHidden) {
         this.locationHidden = locationHidden;
     }
 

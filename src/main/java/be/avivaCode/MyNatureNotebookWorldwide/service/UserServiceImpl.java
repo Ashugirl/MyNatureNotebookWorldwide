@@ -5,6 +5,7 @@ import be.avivaCode.MyNatureNotebookWorldwide.data.User;
 import be.avivaCode.MyNatureNotebookWorldwide.dto.UserDto;
 import be.avivaCode.MyNatureNotebookWorldwide.repositories.RoleRepository;
 import be.avivaCode.MyNatureNotebookWorldwide.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,9 @@ public class UserServiceImpl implements UserService {
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
 
+    public UserServiceImpl() {
+    }
+    @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;

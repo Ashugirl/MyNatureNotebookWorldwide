@@ -18,11 +18,23 @@ public class UserController {
     private UserServiceImpl userServiceImpl;
     private SightingService sightingService;
 
-//      @Autowired
-//    public UserController(UserServiceImpl userServiceImpl, SightingService sightingService) {
-//        this.userServiceImpl = userServiceImpl;
-//        this.sightingService = sightingService;
-//    }
+
+      @Autowired
+    public UserController(UserServiceImpl userServiceImpl, SightingService sightingService) {
+        this.userServiceImpl = userServiceImpl;
+        this.sightingService = sightingService;
+    }
+
+    @GetMapping("/profile")
+    public String getUserProfilePage(Model model){
+
+          return "profile";
+    }
+
+    @GetMapping("/yourPage")
+    public String getYourPage(Model model){
+          return "yourPage";
+    }
 //    @GetMapping("/signUp")
 //    public String userRegistrationPage(Model model) {
 //        User user = new User();

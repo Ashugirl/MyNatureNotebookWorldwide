@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,11 +22,17 @@ public class SpringSecurity {
         // configure security filter chain
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+            http.headers().frameOptions().disable();
             http.csrf().disable()
                     .authorizeRequests()
                     .antMatchers("/register/**").permitAll()
                     .antMatchers("/index").permitAll()
                     .antMatchers("/users").hasRole("ADMIN")
+                    .antMatchers("/h2/**").permitAll()
+                    .antMatchers("/addSighting/**").permitAll()
+                    .antMatchers("/yourPage").permitAll()
+                    .antMatchers("/sightingPage").permitAll()
+                    .antMatchers("/profile").permitAll()
                     .and()
                     .formLogin(
                             form -> form

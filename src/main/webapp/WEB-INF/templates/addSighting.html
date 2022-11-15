@@ -7,6 +7,8 @@
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css}"><link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -37,14 +39,14 @@
     <div class="row col-md-8 offset-md-2">
         <div class="card-header">
             <h2 class="text-center">Add a Sighting</h2>
-        </div>
-    </div>
-</div>
+
+
+
         <!-- partial:index.partial.html -->
-       <!-- <div class="wrap">
+<div class="wrap">
             <form action="#" th:action="@{/addSighting}" th:object="${sighting}" method="post">
                 <div class="form-header">
-                    <h2>Add a sighting</h2>
+                    <h3>Sighting Information</h3>
                 </div>
                 <div th:if="${param.success}">
                     <div class="alert alert-info">
@@ -101,28 +103,184 @@
                         </div>
 
                         <div class="form-group mb-3">
-                            <label class="form-label">Password</label>
+                            <label for="country">Country</label>
+                            <select id="country" name="country" required>
+                                <option value="name">Select Country</option>
+                                <option th:each="country : ${countryList}"
+                                        th:value="${country}"
+                                        th:text="${country}"
+                                        th:field="*{country}">
+                                </option>
+                            </select>
+                            <p th:errors = "*{country}" class="text-danger"
+                               th:if="${#fields.hasErrors('country')}"></p>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="form-label">Location</label>
                             <input
                                     class="form-control"
-                                    id="password"
-                                    name="password"
-                                    placeholder="Enter password"
-                                    th:field="*{password}"
-                                    type="password"
+                                    id="location"
+                                    name="location"
+                                    placeholder="Optional location: ex. region, town, park"
+                                    th:field="*{location}"
+                                    type="text"
                             />
-                            <p th:errors = "*{password}" class="text-danger"
-                               th:if="${#fields.hasErrors('password')}"></p>
+                            <p th:errors = "*{location}" class="text-danger"
+                               th:if="${#fields.hasErrors('location')}"></p>
                         </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label">Time of Sighting</label>
+                            <input
+                                    class="form-control"
+                                    id="timeOfSighting"
+                                    name="timeOfSighting"
+                                    placeholder=""
+                                    th:field="*{timeOfSighting}"
+                                    type="datetime-local"
+                            />
+                            <p th:errors = "*{timeOfSighting}" class="text-danger"
+                               th:if="${#fields.hasErrors('timeOfSighting')}"></p>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label">Quantity</label>
+                            <input
+                                    class="form-control"
+                                    id="quantity"
+                                    name="quantity"
+                                    placeholder=""
+                                    th:field="*{quantity}"
+                                    type="number"
+                            />
+                            <p th:errors = "*{quantity}" class="text-danger"
+                               th:if="${#fields.hasErrors('quantity')}"></p>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label">Notes</label>
+                            <textarea
+                                    class="form-control"
+                                    id="notes"
+                                    name="notes"
+                                    placeholder=""
+                                    th:field="*{notes}"
+                                    type="text"
+                            />
+                            <p th:errors = "*{notes}" class="text-danger"
+                               th:if="${#fields.hasErrors('notes')}"></p>
+                        </div>
+                        <fieldset class="box"><legend><i class="fa fa-paw"></i> Extra info for Animals </legend>
+                            <div class="form-group mb-3">
+                                <label for="taxonomicClass">Taxonomic Class</label>
+                                <select id="taxonomicClass" name="taxonomicClass" required>
+                                    <option value="taxonomicClass">Select One</option>
+                                    <option th:each="taxonomicClass : ${T(be.avivaCode.MyNatureNotebookWorldwide.data.Sighting.TaxonomicClass).values()}"
+                                            th:value="${taxonomicClass}"
+                                            th:text="${taxonomicClass.displayValue}"
+                                            th:field="*{taxonomicClass}">
+                                    </option>
+                                </select>
+                                <p th:errors = "*{taxonomicClass}" class="text-danger"
+                                   th:if="${#fields.hasErrors('taxonomicClass')}"></p>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="sex">Sex</label>
+                                <select id="sex" name="sex" required>
+                                    <option value="name">Select one</option>
+                                    <option th:each="sex : ${T(be.avivaCode.MyNatureNotebookWorldwide.data.Sighting.Sex).values()}"
+                                            th:value="${sex}"
+                                            th:text="${sex.displayValue}"
+                                            th:field="*{sex}">
+                                    </option>
+                                </select>
+                                <p th:errors = "*{sex}" class="text-danger"
+                                   th:if="${#fields.hasErrors('sex')}"></p>
+                            </div><div class="form-group mb-3">
+                                <label for="lifeStage">Life Stage</label>
+                                <select id="lifeStage" name="lifeStage" required>
+                                    <option value="name">Select One</option>
+                                    <option th:each="lifeStage : ${T(be.avivaCode.MyNatureNotebookWorldwide.data.Sighting.LifeStage).values()}"
+                                            th:value="${lifeStage}"
+                                            th:text="${lifeStage.displayValue}"
+                                            th:field="*{lifeStage}">
+                                    </option>
+                                </select>
+                                <p th:errors = "*{lifeStage}" class="text-danger"
+                                   th:if="${#fields.hasErrors('lifeStage')}"></p>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label class="form-label">Behaviour</label>
+                                <textarea
+                                        class="form-control"
+                                        id="behaviour"
+                                        name="behaviour"
+                                        placeholder=""
+                                        th:field="*{behaviour}"
+                                        type="text"
+                                />
+                                <p th:errors = "*{behaviour}" class="text-danger"
+                                   th:if="${#fields.hasErrors('behaviour')}"></p>
+                            </div>
+
+                            <div class="sub-opt">
+                                <label class="form-label">Deceased</label>
+                                <input type="checkbox"
+                                        id="deceased"
+                                        name="options"
+                                        th:field="*{deceased}"
+                                />
+                                <p th:errors = "*{deceased}" class="text-danger"
+                                   th:if="${#fields.hasErrors('deceased')}"></p>
+                            </div>
+                        </fieldset>
+                        <fieldset class="sub-opts">
+                            <legend><i class="fa fa-check"></i> Other options </legend>
+                            <div class="sub-opt">
+                                <label class="sub-label" for="lifer">   Mark as "lifer"
+                                    <i title="If this is your first time seeing this species you can say it's a 'lifer'.'."class="fa fa-question-circle" style="font-size:24px;color:blue"></i></label>
+
+                                <input type="checkbox"
+                                       id="lifer"
+                                       name="options"
+                                       th:field="*{lifer}"
+                                />
+                                <p th:errors = "*{lifer}" class="text-danger"
+                                   th:if="${#fields.hasErrors('lifer')}"></p>
+                            </div>
+                            <div class="sub-opt">
+                                <label class="sub-label" for="locationHidden"> Hide location <i title="If the species is vulnerable or endangered, you may want to hide the exact location to keep disturbance to a minimum."class="fa fa-question-circle" style="font-size:24px;color:blue"></i></label>
+                            <input type="checkbox"
+                                   id="locationHidden"
+                                   name="options"
+                                   th:field="*{locationHidden}"
+                            />
+                            <p th:errors = "*{locationHidden}" class="text-danger"
+                               th:if="${#fields.hasErrors('locationHidden')}"></p>
+                        </div><div class="sub-opt">
+                            <label class="sub-label" for="keepPrivate"> Keep private <i title="This will make the sighting visible only to you."class="fa fa-question-circle" style="font-size:24px;color:blue"></i></label>
+                            <input type="checkbox"
+                                   id="keepPrivate"
+                                   name="options"
+                                   th:field="*{keepPrivate}"
+                            />
+                            <p th:errors = "*{keepPrivate}" class="text-danger"
+                               th:if="${#fields.hasErrors('keepPrivate')}"></p>
+                        </div>
+
+                        </fieldset>
                         <div class="form-group">
-                            <button class="btn btn-primary" type="submit">Register</button>
-                            <span>Already registered? <a th:href="@{/login}">Login here</a></span>
+                            <button class="btn btn-primary" type="submit">Submit</button>
                         </div>
                     </form>
                 </div>
             </form></div>
         </div>
     </div>
-        <div class="form-body">
+
+
+</div>
+
+<!--        <div class="form-body">
             <fieldset>
                 <legend><i class="fa fa-leaf"></i> Sighting Information</legend>
                     <p>Species: (one required)
