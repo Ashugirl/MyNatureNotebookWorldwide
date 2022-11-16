@@ -3,14 +3,14 @@ package be.avivaCode.MyNatureNotebookWorldwide.controllers;
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
 import be.avivaCode.MyNatureNotebookWorldwide.dto.UserDto;
 import be.avivaCode.MyNatureNotebookWorldwide.service.UserService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -49,7 +49,6 @@ public class AuthController {
             model.addAttribute("user", userDto);
             return "/register";
         }
-        System.out.println("authcontroller registration");
         userService.saveUser(userDto);
         return "redirect:/register?success";
 
@@ -65,6 +64,16 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login(){
+
+        System.out.println();
         return "login";
     }
+
+// method to get current user:
+    @RequestMapping(value = "/userName", method = RequestMethod.GET)
+    @ResponseBody
+    public String getCurrentUserName(Principal principal){
+        return principal.getName();
+    }
+
 }
