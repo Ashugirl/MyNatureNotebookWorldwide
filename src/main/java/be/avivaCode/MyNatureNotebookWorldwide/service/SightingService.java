@@ -118,11 +118,9 @@ public class SightingService {
 
     public List<String> getSearchedCommonNames(String query){
         Map<String, String> speciesMap = new HashMap<>();
-        //List<String> commonNames = new ArrayList<>();
-        //List<String> scientificNames = new ArrayList<>();
         List<String> speciesList = new ArrayList<>();
         try {
-            System.out.println("Enter a species");
+            //System.out.println("Enter a species");
             String baseUrl = "https://www.itis.gov/ITISWebService/jsonservice/getITISTermsFromCommonName?srchKey=";
             //trims and appends user query to URL
             String encodeQuery = encodeValue(query.trim());
@@ -165,22 +163,13 @@ public class SightingService {
                                 .sorted()
                                 .collect(Collectors.toList());
                     }
-
-//                    for(String scientificName : scientificNames){
-//                        System.out.println(scientificName);}
-//                    for(String commonName : commonNames){
-//                        System.out.println(commonName);
-//                    }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-//
-
         System.out.println(speciesList);
             return speciesList;
-
     }
 
     //encodes search queries with spaces into values that can be appended to URL

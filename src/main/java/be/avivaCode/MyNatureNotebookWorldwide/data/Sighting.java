@@ -34,7 +34,7 @@ public class Sighting {
     @Column(name = "classOfAnimal")
     private TaxonomicClass taxonomicClass;
     @Enumerated(EnumType.STRING)
-    @Column
+    @Column(nullable = true)
     private LifeStage lifeStage;
     @Column
     private Boolean deceased;

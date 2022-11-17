@@ -37,49 +37,13 @@ public class SightingController {
 
     @PostMapping("/addSighting/save")
     public String addSighting(@ModelAttribute("sighting") Sighting sighting,
-//                              @RequestParam String speciesCommonName,
-//                              @RequestParam String speciesScientificName,
-//                              @RequestParam Sighting.Continent continent,
-//                              @RequestParam Locale country,
-//                              @RequestParam String location,
-//                              @RequestParam LocalDateTime timeOfSigthing,
-//                              @RequestParam int quantity,
-//                              @RequestParam String notes,
-//                              @RequestParam Sighting.TaxonomicClass taxonomicClass,
-//                              @RequestParam Sighting.Sex sex,
-//                              @RequestParam Sighting.LifeStage lifeStage,
-//                              @RequestParam String behaviour,
-//                              @RequestParam Boolean deceased,
-//                              @RequestParam Boolean lifer,
-//                              @RequestParam Boolean hideLocation,
-//                              @RequestParam Boolean keepPrivate,
-                              Authentication authentication){
-//        User user = (User) authentication.getPrincipal();
+                              Authentication authentication) {
         System.out.println(authentication.getPrincipal());
         System.out.println(authentication.getName());
         sighting.setUser(userServiceImpl.findUserByEmail(authentication.getName()));
         sightingService.createSighting(sighting);
-//        sighting.setSpeciesCommonName(speciesCommonName);
-//        sighting.setSpeciesScientificName(speciesScientificName);
-//        sighting.setContinent(continent);
-//        sighting.setCountry(country);
-//        sighting.setLocation(location);
-//        sighting.setTimeOfSighting(timeOfSigthing);
-//        sighting.setQuantity(quantity);
-//        sighting.setNotes(notes);
-//        sighting.setTaxonomicClass(taxonomicClass);
-//        sighting.setSex(sex);
-//        sighting.setLifeStage(lifeStage);
-//        sighting.setDeceased(deceased);
-//        sighting.setBehaviour(behaviour);
-//        sighting.setLifer(lifer);
-//        sighting.setLocationHidden(hideLocation);
-//        sighting.setKeepPrivate(keepPrivate);
         return "redirect:/addSighting?success";
-
     }
-
-
 
     @GetMapping("/sightingPage")
     public String getSightingPage(Model model){
@@ -90,12 +54,6 @@ public class SightingController {
     @ResponseBody
     public List<String> speciesNameAutocomplete(@RequestParam(value = "term", required = false, defaultValue = "") String term){
         List<String> suggestions = sightingService.getSearchedCommonNames(term);
-        //List<String> speciesNames = new ArrayList<>(suggestions);
-//        speciesNames.add("Fox squirrel");
-//        speciesNames.add("Ground squirrel");
-//        speciesNames.add("Red squirrel");
-
-       // System.out.println(speciesNames);
         return suggestions;
     }
 //
