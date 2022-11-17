@@ -1,5 +1,6 @@
 package be.avivaCode.MyNatureNotebookWorldwide.data;
 
+import be.avivaCode.MyNatureNotebookWorldwide.dto.UserDto;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -36,7 +37,7 @@ public class Sighting {
     @Column
     private LifeStage lifeStage;
     @Column
-    private boolean deceased;
+    private Boolean deceased;
     @Enumerated(EnumType.STRING)
     @Column
     private Sex sex;
@@ -179,11 +180,11 @@ public class Sighting {
         this.lifeStage = lifeStage;
     }
 
-    public boolean isDeceased() {
+    public Boolean getDeceased() {
         return deceased;
     }
 
-    public void setDeceased(boolean deceased) {
+    public void setDeceased(Boolean deceased) {
         this.deceased = deceased;
     }
 
