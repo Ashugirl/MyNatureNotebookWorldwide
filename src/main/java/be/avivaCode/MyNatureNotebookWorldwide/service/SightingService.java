@@ -114,7 +114,7 @@ public class SightingService {
 
     //GETTING INFO FROM ITIS API
 
-    public static Map<String, String> getSearchedCommonNames(String query){
+    public Map<String, String> getSearchedCommonNames(String query){
         Map<String, String> speciesMap = new HashMap<>();
         //List<String> commonNames = new ArrayList<>();
         //List<String> scientificNames = new ArrayList<>();

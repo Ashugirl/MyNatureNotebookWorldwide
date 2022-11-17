@@ -32,7 +32,7 @@ public class SightingController {
         Sighting sighting = new Sighting();
         model.addAttribute("sighting", sighting);
         model.addAttribute("countryList", sightingService.getCountryList());
-
+       // model.addAttribute("speciesMap", sightingService.getSearchedCommonNames(""));
         return "addSighting";
     }
 

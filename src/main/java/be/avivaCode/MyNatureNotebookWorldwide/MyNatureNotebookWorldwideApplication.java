@@ -14,7 +14,7 @@ public class MyNatureNotebookWorldwideApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MyNatureNotebookWorldwideApplication.class, args);
-		SightingService.getSearchedCommonNames("");
+		//	SightingService.getSearchedCommonNames("");
 
 	}
 
