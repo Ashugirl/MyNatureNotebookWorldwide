@@ -6,6 +6,7 @@ import be.avivaCode.MyNatureNotebookWorldwide.repositories.SightingRepository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -14,13 +15,14 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class SightingService {
    SightingRepository sightingRepository;
     private UserServiceImpl userServiceImpl;
 
-
+    @Autowired
     public SightingService(SightingRepository sightingRepository, UserServiceImpl userServiceImpl) {
         this.sightingRepository = sightingRepository;
         this.userServiceImpl = userServiceImpl;
@@ -114,15 +116,14 @@ public class SightingService {
 
     //GETTING INFO FROM ITIS API
 
-    public Map<String, String> getSearchedCommonNames(String query){
+    public List<String> getSearchedCommonNames(String query){
         Map<String, String> speciesMap = new HashMap<>();
         //List<String> commonNames = new ArrayList<>();
         //List<String> scientificNames = new ArrayList<>();
+        List<String> speciesList = new ArrayList<>();
         try {
-            System.out.println("What species would you like to see?");
+            System.out.println("Enter a species");
             String baseUrl = "https://www.itis.gov/ITISWebService/jsonservice/getITISTermsFromCommonName?srchKey=";
-            Scanner inputScanner = new Scanner(System.in);
-            query = inputScanner.nextLine();
             //trims and appends user query to URL
             String encodeQuery = encodeValue(query.trim());
             String completeURL = baseUrl + encodeQuery;
@@ -156,8 +157,13 @@ public class SightingService {
                         //System.out.println(itisObject.get("commonNames").toString());
                         //.out.println(itisObject.get("scientificName"));
                         //commonNames.add(i, itisObject.get("commonNames").toString());
-                        speciesMap.put(itisObject.get("scientificName").toString(), itisObject.get("commonNames").toString());
 
+                        speciesMap.put(itisObject.get("scientificName").toString(), itisObject.get("commonNames").toString());
+                        speciesList = speciesMap.entrySet()
+                                .stream()
+                                .map(entry -> entry.getKey() + " " + entry.getValue())
+                                .sorted()
+                                .collect(Collectors.toList());
                     }
 
 //                    for(String scientificName : scientificNames){
@@ -170,13 +176,10 @@ public class SightingService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for(Map.Entry<String, String> entry : speciesMap.entrySet()){
-            System.out.println(entry.getKey() + " - " + entry.getValue());
+//
 
-        }
-
-
-            return speciesMap;
+        System.out.println(speciesList);
+            return speciesList;
 
     }
 
