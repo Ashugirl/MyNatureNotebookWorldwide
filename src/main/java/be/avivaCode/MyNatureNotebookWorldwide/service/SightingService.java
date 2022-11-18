@@ -7,6 +7,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -52,19 +53,12 @@ public class SightingService {
         return sightings;
     }
 
-    public List<Sighting> getAllBySpeciesCommonName(String commonName){
+    public List<Sighting> getAllBySpeciesName(String speciesName){
         List<Sighting> sightings = new ArrayList<>();
-         sightingRepository.findAllBySpeciesCommonName(commonName)
+         sightingRepository.findAllBySpeciesName(speciesName)
                  .forEach(sightings::add);
                   return sightings;
    }
-
-    public List<Sighting> getAllBySpeciesScientificName(String scientificName){
-        List<Sighting> sightings = new ArrayList<>();
-        sightingRepository.findAllBySpeciesScientificName(scientificName)
-                .forEach(sightings::add);
-        return sightings;
-    }
 
     public List<Sighting> getAllByContinent(Sighting.Continent continent){
         List<Sighting> sightings = new ArrayList<>();
@@ -81,8 +75,7 @@ public class SightingService {
     public void editSighting(Sighting sighting) {
         sightingRepository.findById(sighting.getSightingId())
                 .ifPresent(updatedSighting -> {
-                    updatedSighting.setSpeciesCommonName(sighting.getSpeciesCommonName());
-                    updatedSighting.setSpeciesScientificName(sighting.getSpeciesScientificName());
+                    updatedSighting.setSpeciesName(sighting.getSpeciesName());
                     updatedSighting.setTimeOfSighting(sighting.getTimeOfSighting());
                     updatedSighting.setContinent(sighting.getContinent());
                     updatedSighting.setCountry(sighting.getCountry());
@@ -115,8 +108,8 @@ public class SightingService {
     }
 
     //GETTING INFO FROM ITIS API
-
-    public List<String> getSearchedCommonNames(String query){
+    @Cacheable("strings")
+    public List<String> getSearchedSpeciesNames(String query){
         Map<String, String> speciesMap = new HashMap<>();
         List<String> speciesList = new ArrayList<>();
         try {

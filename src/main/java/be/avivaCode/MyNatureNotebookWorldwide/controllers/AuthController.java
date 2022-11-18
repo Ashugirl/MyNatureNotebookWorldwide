@@ -21,12 +21,13 @@ public class AuthController {
     public AuthController(UserService userService) {
         this.userService = userService;
     }
-
-    // handler method to handle home page request
-    @GetMapping("/index")
-    public String home(){
-        return "index";
-    }
+//
+//    // handler method to handle home page request
+//    @GetMapping("/index")
+//    public String home(){
+//
+//        return "index";
+//    }
 
     // handler method to handle user registration form request
     @GetMapping("/register")
@@ -62,10 +63,10 @@ public class AuthController {
 
     }
 
+
     @GetMapping("/login")
     public String login(){
 
-        System.out.println();
         return "login";
     }
 

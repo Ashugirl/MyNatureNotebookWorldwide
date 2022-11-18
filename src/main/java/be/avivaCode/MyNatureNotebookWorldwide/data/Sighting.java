@@ -1,6 +1,5 @@
 package be.avivaCode.MyNatureNotebookWorldwide.data;
 
-import be.avivaCode.MyNatureNotebookWorldwide.dto.UserDto;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -16,8 +15,8 @@ public class Sighting {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")//, nullable = false)
     private User user;
-    private String speciesCommonName;
-    private String speciesScientificName;
+    @Column(nullable = false)
+    private String speciesName;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Continent continent;
@@ -31,7 +30,7 @@ public class Sighting {
     @Column
     private int quantity;
     @Enumerated(EnumType.STRING)
-    @Column(name = "classOfAnimal")
+    @Column(name = "classOfAnimal", nullable = true)
     private TaxonomicClass taxonomicClass;
     @Enumerated(EnumType.STRING)
     @Column(nullable = true)
@@ -39,12 +38,10 @@ public class Sighting {
     @Column
     private Boolean deceased;
     @Enumerated(EnumType.STRING)
-    @Column
+    @Column(nullable = true)
     private Sex sex;
     @Column
     private String behaviour;
-    @Column
-    private Double plantHeight;
     @Column
     private String notes;
     @Column
@@ -55,26 +52,24 @@ public class Sighting {
     public Sighting() {
     }
 
-    public Sighting(User user, String speciesCommonName){
+    public Sighting(User user, String speciesName){
         this.user = user;
-        this.speciesCommonName = speciesCommonName;
+        this.speciesName = speciesName;
     }
-    public Sighting(User user, String speciesCommonName, String speciesScientificName, Continent continent, Locale country){
+    public Sighting(User user, String speciesName,  Continent continent, Locale country){
         this.user = user;
-        this.speciesCommonName = speciesCommonName;
-        this.speciesScientificName = speciesScientificName;
+        this.speciesName = speciesName;
         this.continent = continent;
         this.country = country;
     }
-    public Sighting(Long sightingId, User user, String speciesCommonName, String speciesScientificName,
+    public Sighting(Long sightingId, User user, String speciesName,
                     Continent continent, Locale country, String location, LocalDateTime timeOfSighting,
                     int quantity, TaxonomicClass taxonomicClass, LifeStage lifeStage, Boolean deceased,
-                    Sex sex, String behaviour, Double plantHeight, String notes, Boolean lifer,
+                    Sex sex, String behaviour, String notes, Boolean lifer,
                     Boolean isPrivate, Boolean isLocationHidden) {
         this.sightingId = sightingId;
         this.user = user;
-        this.speciesCommonName = speciesCommonName;
-        this.speciesScientificName = speciesScientificName;
+        this.speciesName = speciesName;
         this.continent = continent;
         this.country = country;
         this.location = location;
@@ -85,7 +80,6 @@ public class Sighting {
         this.deceased = deceased;
         this.sex = sex;
         this.behaviour = behaviour;
-        this.plantHeight = plantHeight;
         this.notes = notes;
         this.lifer = lifer;
         this.keepPrivate = isPrivate;
@@ -108,20 +102,12 @@ public class Sighting {
         this.user = user;
     }
 
-    public String getSpeciesCommonName() {
-        return speciesCommonName;
+    public String getSpeciesName() {
+        return speciesName;
     }
 
-    public void setSpeciesCommonName(String speciesCommonName) {
-        this.speciesCommonName = speciesCommonName;
-    }
-
-    public String getSpeciesScientificName() {
-        return speciesScientificName;
-    }
-
-    public void setSpeciesScientificName(String speciesScientificName) {
-        this.speciesScientificName = speciesScientificName;
+    public void setSpeciesName(String speciesName) {
+        this.speciesName = speciesName;
     }
 
     public Continent getContinent() {
@@ -204,14 +190,6 @@ public class Sighting {
         this.behaviour = behaviour;
     }
 
-    public Double getPlantHeight() {
-        return plantHeight;
-    }
-
-    public void setPlantHeight(Double plantHeight) {
-        this.plantHeight = plantHeight;
-    }
-
     public String getNotes() {
         return notes;
     }
@@ -249,8 +227,7 @@ public class Sighting {
         return "Sighting{" +
                 "sightingId=" + sightingId +
                 ", user=" + user +
-                ", speciesCommonName='" + speciesCommonName + '\'' +
-                ", speciesScientificName='" + speciesScientificName + '\'' +
+                ", speciesCommonName='" + speciesName + '\'' +
                 ", continent=" + continent +
                 ", country=" + country +
                 ", location='" + location + '\'' +
@@ -261,7 +238,6 @@ public class Sighting {
                 ", isDeceased=" + deceased +
                 ", sex=" + sex +
                 ", behaviour='" + behaviour + '\'' +
-                ", plantHeight=" + plantHeight +
                 ", notes='" + notes + '\'' +
                 ", isLifer=" + lifer +
                 ", isPrivate=" + keepPrivate +
@@ -271,7 +247,7 @@ public class Sighting {
 
     public enum Continent {
         AFRICA("Africa"),
-        ANTARCTICA("Antartica"),
+        ANTARCTICA("Antarctica"),
         ASIA("Asia"),
         EUROPE("Europe"),
         NORTH_AMERICA("North America"),

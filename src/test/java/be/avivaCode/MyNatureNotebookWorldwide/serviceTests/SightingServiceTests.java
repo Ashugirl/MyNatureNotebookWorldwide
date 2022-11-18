@@ -46,10 +46,10 @@ public class SightingServiceTests {
     public static void createData(){
         user1 = new User();
         user2 = new User();
-        sighting1 = new Sighting(user1, "Common swift", "Apus apus", Sighting.Continent.AFRICA, new Locale("en", "Egypt"));
-        sighting2 = new Sighting(user1, "Red fox", "Vulpes vulpes", Sighting.Continent.EUROPE, new Locale("en", "Belgium"));
-        sighting3 = new Sighting(user2, "Common swift", "Apus apus", Sighting.Continent.EUROPE, new Locale("en", "Germany"));
-        sighting4 = new Sighting(user2, "Cattle egret", "Bubulcus ibis", Sighting.Continent.AFRICA, new Locale("en", "Botswana"));
+        sighting1 = new Sighting(user1, "Common swift - Apus apus", Sighting.Continent.AFRICA, new Locale("en", "Egypt"));
+        sighting2 = new Sighting(user1, "Red fox Vulpes vulpes", Sighting.Continent.EUROPE, new Locale("en", "Belgium"));
+        sighting3 = new Sighting(user2, "Common swift Apus apus", Sighting.Continent.EUROPE, new Locale("en", "Germany"));
+        sighting4 = new Sighting(user2, "Cattle egret Bubulcus ibis", Sighting.Continent.AFRICA, new Locale("en", "Botswana"));
 
 
     }
@@ -85,8 +85,8 @@ public class SightingServiceTests {
         List<Sighting> sightingsOfSwifts = new ArrayList<>();
         sightingsOfSwifts.add(sighting1);
         sightingsOfSwifts.add(sighting3);
-        when(sightingRepository.findAllBySpeciesCommonName("Common swift")).thenReturn((sightingsOfSwifts));
-        List<Sighting> findAllOfSwifts = sightingService.getAllBySpeciesCommonName("Common swift");
+        when(sightingRepository.findAllBySpeciesName("Common swift Apus Apus")).thenReturn((sightingsOfSwifts));
+        List<Sighting> findAllOfSwifts = sightingService.getAllBySpeciesName("Common swift Apus Apus");
         Assert.assertEquals(2, findAllOfSwifts.size());
         Assert.assertTrue(findAllOfSwifts.contains(sighting1));
         Assert.assertTrue(findAllOfSwifts.contains(sighting3));
@@ -97,8 +97,8 @@ public class SightingServiceTests {
     public void testIfYouCanGetAllByScientificName(){
         List<Sighting> sightingsOfVulpes = new ArrayList<>();
         sightingsOfVulpes.add(sighting2);
-        when(sightingRepository.findAllBySpeciesScientificName("Vulpes vulpes")).thenReturn((sightingsOfVulpes));
-        List<Sighting> findAllOfVulpes = sightingService.getAllBySpeciesScientificName("Vulpes vulpes");
+        when(sightingRepository.findAllBySpeciesName("Vulpes vulpes")).thenReturn((sightingsOfVulpes));
+        List<Sighting> findAllOfVulpes = sightingService.getAllBySpeciesName("Vulpes vulpes");
         Assert.assertEquals(1, findAllOfVulpes.size());
         Assert.assertTrue(findAllOfVulpes.contains(sighting2));
         Assert.assertFalse(findAllOfVulpes.contains(sighting4));

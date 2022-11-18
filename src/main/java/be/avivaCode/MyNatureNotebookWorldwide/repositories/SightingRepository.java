@@ -11,8 +11,7 @@ import java.util.Optional;
 public interface SightingRepository extends JpaRepository<Sighting, Long> {
     List<Sighting> findAll();
     List<Sighting> findAllByUser(Long userId);
-    List<Sighting> findAllBySpeciesCommonName(String commonName);
-    List<Sighting> findAllBySpeciesScientificName(String scientificName);
+    List<Sighting> findAllBySpeciesName(String speciesName);
     List<Sighting> findAllByContinent(Sighting.Continent continent);
     List<Sighting> findAllByCountry(Locale country);
 }
