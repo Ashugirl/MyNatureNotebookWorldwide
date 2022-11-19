@@ -42,9 +42,13 @@ public class SightingService {
         return sightingRepository.findById(sightingId).get();
     }
 
+    //gets all sigthing from newest to oldest
     public List<Sighting> getAllSightings(){
+        List<Sighting> allSightings = sightingRepository.findAll();
+        allSightings.sort(Comparator.comparing(Sighting::getTimeOfSighting).reversed());
         return sightingRepository.findAll();
     }
+
 
     public List<Sighting> getAllByUser(User user){
         List<Sighting> sightings = new ArrayList<>();
@@ -66,12 +70,23 @@ public class SightingService {
                 .forEach(sightings::add);
         return sightings;
     }
-    public List<Sighting> getAllByCountry(Locale country){
+    public List<Sighting> getAllBySpecies(String speciesName){
         List<Sighting> sightings = new ArrayList<>();
-        sightingRepository.findAllByCountry(country)
+        sightingRepository.findAllBySpeciesName(speciesName)
                 .forEach(sightings::add);
         return sightings;
     }
+//    public List<Sighting> getAllByCountry(Locale country){
+//        Sighting sighting = new Sighting();
+//        country = sighting.getCountry();
+//        System.out.println(country);
+//        List<Sighting> sightings = new ArrayList<>();
+//                sightingRepository.findAllByCountry(country)
+//                        .forEach(sightings::add);
+////        sightings.sort(Comparator.comparing(Sighting::getTimeOfSighting).reversed());
+//        System.out.println(sightings);
+//        return sightings;
+//    }
     public void editSighting(Sighting sighting) {
         sightingRepository.findById(sighting.getSightingId())
                 .ifPresent(updatedSighting -> {
@@ -91,6 +106,11 @@ public class SightingService {
     public void deleteSighting(Long sightingId){
         sightingRepository.deleteById(sightingId);
     }
+
+//    public List<Sighting> filterByCountry(Locale country){
+//        List<Sighting> sightingsByCountry = sightingRepository.findAllByCountry(country);
+//        return sightingsByCountry;
+//    }
 
     public List<String> getCountryList() {
         String[] countryCodes = Locale.getISOCountries();

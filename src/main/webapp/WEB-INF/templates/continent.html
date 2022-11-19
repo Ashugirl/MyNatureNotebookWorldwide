@@ -51,12 +51,13 @@
 
 <div class="container">
     <div class="row col-md-10">
-        <h2>All sightings by </h2>
+        <h2>All sightings from </h2>
     </div>
     <table class="table table-bordered table-hover">
         <thead class="table-dark">
         <tr>
             <th>Species</th>
+            <th>Continent</th>
             <th>Country</th>
             <th>User Name</th>
         </tr>
@@ -64,7 +65,8 @@
         <tbody>
         <tr th:each = "sighting : ${sightings}">
             <td th:text = "${sighting.speciesName}"></td>
-            <td><a th:href="@{/index/{country}(country = ${sighting.country})}" th:text = "${sighting.country}">country</a></td>
+            <td><a th:href="@{/index/{continent} (continent=${sighting.country})}" th:text = "${sighting.continent}">continent</a></td>
+            <td><a th:href="@{/index/{country} (country=${sighting.country})}" th:text = "${sighting.country}">country</a></td>
             <td th:text = "${sighting.user.name}"></td>
         </tr>
         </tbody>

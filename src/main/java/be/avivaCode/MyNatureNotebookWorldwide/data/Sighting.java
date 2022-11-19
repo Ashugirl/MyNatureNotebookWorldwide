@@ -24,7 +24,7 @@ public class Sighting {
     Locale country;
     @Column
     private String location;
-    @DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME)
+    //@DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME)
     @Column
     LocalDateTime timeOfSighting;
     @Column
@@ -48,6 +48,13 @@ public class Sighting {
     private Boolean lifer;
     private Boolean keepPrivate;
     private Boolean locationHidden;
+
+    @PrePersist
+    protected void oneCreate() {
+
+        this.timeOfSighting = LocalDateTime.now();
+    }
+
 
     public Sighting() {
     }

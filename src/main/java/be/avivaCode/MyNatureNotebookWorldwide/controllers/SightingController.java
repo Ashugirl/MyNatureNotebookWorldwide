@@ -26,6 +26,38 @@ public class SightingController {
             this.userServiceImpl = userServiceImpl;
     }
 
+    // handler method to handle home page request
+    @GetMapping("/index")
+    public String home(Model model, Locale country){
+        List<Sighting> sightings = sightingService.getAllSightings();
+        model.addAttribute("sightings", sightings);
+        return "index";
+    }
+//    @GetMapping("/{species}")
+//    public String getAllBySpecies(Model model, @PathVariable("species") String speciesName) {
+//        List<Sighting> showAllBySpecies = sightingService.getAllBySpecies(speciesName);
+//        System.out.println(speciesName);
+//    }
+
+//    @GetMapping("/index/{continent}")
+//    public String getAllByContinent(Model model, @PathVariable("continent") Sighting.Continent continent){
+//        List<Sighting> showAllByContinent = sightingService.getAllByContinent(continent);
+//        System.out.println(continent);
+//        System.out.println(showAllByContinent);
+//        model.addAttribute("continent", continent);
+//        model.addAttribute("sightings", showAllByContinent);
+//        return "continent";
+//    }
+
+//    @GetMapping("/index/{country}")
+//    public String getAllByCountry(Model model, @PathVariable("country") Locale country){
+//        List<Sighting> showAllByCountry = sightingService.getAllByCountry(country);
+////        System.out.println(country);
+////        System.out.println(showAllByCountry);
+//        model.addAttribute("country", country);
+//        model.addAttribute("sightings", showAllByCountry);
+//        return "country";
+   // }
     @GetMapping("/addSighting")
     public String getAddSightingPage(Model model){
         Sighting sighting = new Sighting();
@@ -68,13 +100,7 @@ public class SightingController {
     }
 
 
-    // handler method to handle home page request
-    @GetMapping("/index")
-    public String home(Model model){
-        List<Sighting> sightings = sightingService.getAllSightings();
-        model.addAttribute("sightings", sightings);
-        return "index";
-    }
+
 
 }
 

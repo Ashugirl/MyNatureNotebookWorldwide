@@ -106,18 +106,18 @@ public class SightingServiceTests {
         Assert.assertFalse(findAllOfVulpes.contains(sighting1));
     }
 
-    @Test
-    public void testIfYouCanGetAllByCountry(){
-        List<Sighting> sightingsFromBelgium = new ArrayList<>();
-        sightingsFromBelgium.add(sighting2);
-        when(sightingRepository.findAllByCountry(new Locale("en", "Belgium"))).thenReturn((sightingsFromBelgium));
-        List<Sighting> findAllFromBelgium = sightingService.getAllByCountry(new Locale("en", "Belgium"));
-        Assert.assertEquals(1, findAllFromBelgium.size());
-        Assert.assertTrue(findAllFromBelgium.contains(sighting2));
-        Assert.assertFalse(findAllFromBelgium.contains(sighting4));
-        Assert.assertFalse(findAllFromBelgium.contains(sighting3));
-        Assert.assertFalse(findAllFromBelgium.contains(sighting1));
-    }
+//    @Test
+//    public void testIfYouCanGetAllByCountry(){
+//        List<Sighting> sightingsFromBelgium = new ArrayList<>();
+//        sightingsFromBelgium.add(sighting2);
+//        when(sightingRepository.findAllByCountry(new Locale("en", "Belgium"))).thenReturn((sightingsFromBelgium));
+//        List<Sighting> findAllFromBelgium = sightingService.getAllByCountry(new Locale("en", "Belgium"));
+//        Assert.assertEquals(1, findAllFromBelgium.size());
+//        Assert.assertTrue(findAllFromBelgium.contains(sighting2));
+//        Assert.assertFalse(findAllFromBelgium.contains(sighting4));
+//        Assert.assertFalse(findAllFromBelgium.contains(sighting3));
+//        Assert.assertFalse(findAllFromBelgium.contains(sighting1));
+//    }
     @Test
     public void testIfYouCanGetOneById(){
         Optional<Sighting> sighting = Optional.ofNullable(sighting1);
