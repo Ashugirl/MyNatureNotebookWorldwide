@@ -53,20 +53,20 @@ public class SightingServiceTests {
 
 
     }
-
-    @Test
-    public void testIfYouCanGetAllByUser(){
-        List<Sighting> sightingsByUser1 = new ArrayList<>();
-        sightingsByUser1.add(sighting1);
-        sightingsByUser1.add(sighting2);
-        when(sightingRepository.findAllByUser(user1.getId())).thenReturn(sightingsByUser1);
-        List<Sighting> findAllByUser1 = sightingService.getAllByUser(user1);
-        Assert.assertEquals(2, findAllByUser1.size());
-        Assert.assertTrue(findAllByUser1.contains(sighting1));
-        Assert.assertTrue(findAllByUser1.contains(sighting2));
-        Assert.assertFalse(findAllByUser1.contains(sighting3));
-        Assert.assertFalse(findAllByUser1.contains(sighting4));
-    }
+//
+//    @Test
+//    public void testIfYouCanGetAllByUser(){
+//        List<Sighting> sightingsByUser1 = new ArrayList<>();
+//        sightingsByUser1.add(sighting1);
+//        sightingsByUser1.add(sighting2);
+//        when(sightingRepository.findAllByUser(user1.getId())).thenReturn(sightingsByUser1);
+//        List<Sighting> findAllByUser1 = sightingService.getAllByUser(user1);
+//        Assert.assertEquals(2, findAllByUser1.size());
+//        Assert.assertTrue(findAllByUser1.contains(sighting1));
+//        Assert.assertTrue(findAllByUser1.contains(sighting2));
+//        Assert.assertFalse(findAllByUser1.contains(sighting3));
+//        Assert.assertFalse(findAllByUser1.contains(sighting4));
+//    }
     @Test
     public void testIfYouCanGetAllByContinent(){
         List<Sighting> sightingsFromAfrica = new ArrayList<>();

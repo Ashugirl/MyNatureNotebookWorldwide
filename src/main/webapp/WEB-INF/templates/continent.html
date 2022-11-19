@@ -51,27 +51,30 @@
 
 <div class="container">
     <div class="row col-md-10">
-        <h2>All sightings from </h2>
+        <h2>Recently Spotted</h2>
     </div>
     <table class="table table-bordered table-hover">
         <thead class="table-dark">
         <tr>
+            <th>ID</th>
             <th>Species</th>
             <th>Continent</th>
             <th>Country</th>
             <th>User Name</th>
+            <th>Date</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each = "sighting : ${sightings}">
-            <td th:text = "${sighting.speciesName}"></td>
-            <td><a th:href="@{/index/{continent} (continent=${sighting.country})}" th:text = "${sighting.continent}">continent</a></td>
+            <td><a th:href="@{/index/{sightingId} (sightingId=${sighting.sightingId})}" th:text="${sighting.sightingId}">sightingId</a></td>
+            <td><a th:href="@{/index/{species} (species=${sighting.speciesName})}" th:text = "${sighting.speciesName}">speciesName</a></td>
+            <td><a th:href="@{/index/{continent} (continent=${sighting.continent})}" th:text = "${sighting.continent}">continent</a></td>
             <td><a th:href="@{/index/{country} (country=${sighting.country})}" th:text = "${sighting.country}">country</a></td>
-            <td th:text = "${sighting.user.name}"></td>
+            <td><a th:href="@{/index/{userName} (userName=${sighting.user.name})}" th:text = "${sighting.user.name}">user</a></td>
+            <td th:text="${sighting.dateOfSighting}">dateOfSighting</td>
         </tr>
         </tbody>
     </table>
 </div>
-
 </body>
 </html>

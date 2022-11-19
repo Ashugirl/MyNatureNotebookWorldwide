@@ -1,8 +1,7 @@
 package be.avivaCode.MyNatureNotebookWorldwide.data;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Locale;
 
@@ -26,7 +25,7 @@ public class Sighting {
     private String location;
     //@DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME)
     @Column
-    LocalDateTime timeOfSighting;
+    LocalDateTime dateOfSighting;
     @Column
     private int quantity;
     @Enumerated(EnumType.STRING)
@@ -49,12 +48,6 @@ public class Sighting {
     private Boolean keepPrivate;
     private Boolean locationHidden;
 
-    @PrePersist
-    protected void oneCreate() {
-
-        this.timeOfSighting = LocalDateTime.now();
-    }
-
 
     public Sighting() {
     }
@@ -70,7 +63,7 @@ public class Sighting {
         this.country = country;
     }
     public Sighting(Long sightingId, User user, String speciesName,
-                    Continent continent, Locale country, String location, LocalDateTime timeOfSighting,
+                    Continent continent, Locale country, String location, LocalDateTime dateOfSighting,
                     int quantity, TaxonomicClass taxonomicClass, LifeStage lifeStage, Boolean deceased,
                     Sex sex, String behaviour, String notes, Boolean lifer,
                     Boolean isPrivate, Boolean isLocationHidden) {
@@ -80,7 +73,7 @@ public class Sighting {
         this.continent = continent;
         this.country = country;
         this.location = location;
-        this.timeOfSighting = timeOfSighting;
+        this.dateOfSighting = dateOfSighting;
         this.quantity = quantity;
         this.taxonomicClass = taxonomicClass;
         this.lifeStage = lifeStage;
@@ -141,12 +134,12 @@ public class Sighting {
         this.location = location;
     }
 
-    public LocalDateTime getTimeOfSighting() {
-        return timeOfSighting;
+    public LocalDateTime getDateOfSighting() {
+        return dateOfSighting;
     }
 
-     public void setTimeOfSighting(LocalDateTime timeOfSighting) {
-        this.timeOfSighting = timeOfSighting;
+     public void setDateOfSighting(LocalDateTime dateOfSighting) {
+        this.dateOfSighting = dateOfSighting;
     }
 
     public int getQuantity() {
@@ -238,7 +231,7 @@ public class Sighting {
                 ", continent=" + continent +
                 ", country=" + country +
                 ", location='" + location + '\'' +
-                ", timeOfSighting=" + timeOfSighting +
+                ", dateOfSighting=" + dateOfSighting +
                 ", quantity=" + quantity +
                 ", taxonomicClass=" + taxonomicClass +
                 ", lifeStage=" + lifeStage +
