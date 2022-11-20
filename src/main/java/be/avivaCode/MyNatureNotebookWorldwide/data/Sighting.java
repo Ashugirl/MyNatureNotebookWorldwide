@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Locale;
 
 @Entity
@@ -25,9 +26,12 @@ public class Sighting {
     String country;
     @Column
     private String location;
-    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column
-    LocalDateTime dateOfSighting;
+    LocalDate dateOfSighting;
+    @DateTimeFormat(pattern = "HH:mm")
+    @Column
+    LocalTime timeOfSighting;
     @Column
     private int quantity;
     @Enumerated(EnumType.STRING)
@@ -65,7 +69,7 @@ public class Sighting {
         this.country = country;
     }
     public Sighting(Long sightingId, User user, String speciesName,
-                    Continent continent, String country, String location, LocalDateTime dateOfSighting,
+                    Continent continent, String country, String location, LocalDate dateOfSighting, LocalTime timeOfSighting,
                     int quantity, TaxonomicClass taxonomicClass, LifeStage lifeStage, Boolean deceased,
                     Sex sex, String behaviour, String notes, Boolean lifer,
                     Boolean isPrivate, Boolean isLocationHidden) {
@@ -76,6 +80,7 @@ public class Sighting {
         this.country = country;
         this.location = location;
         this.dateOfSighting = dateOfSighting;
+        this.timeOfSighting = timeOfSighting;
         this.quantity = quantity;
         this.taxonomicClass = taxonomicClass;
         this.lifeStage = lifeStage;
@@ -136,12 +141,20 @@ public class Sighting {
         this.location = location;
     }
 
-    public LocalDateTime getDateOfSighting() {
+    public LocalDate getDateOfSighting() {
         return dateOfSighting;
     }
 
-     public void setDateOfSighting(LocalDateTime dateOfSighting) {
+    public void setDateOfSighting(LocalDate dateOfSighting) {
         this.dateOfSighting = dateOfSighting;
+    }
+
+    public LocalTime getTimeOfSighting() {
+        return timeOfSighting;
+    }
+
+    public void setTimeOfSighting(LocalTime timeOfSighting) {
+        this.timeOfSighting = timeOfSighting;
     }
 
     public int getQuantity() {

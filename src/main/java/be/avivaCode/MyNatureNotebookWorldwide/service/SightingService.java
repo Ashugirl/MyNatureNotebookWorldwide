@@ -105,6 +105,7 @@ public class SightingService {
                 .ifPresent(updatedSighting -> {
                     updatedSighting.setSpeciesName(sighting.getSpeciesName());
                     updatedSighting.setDateOfSighting(sighting.getDateOfSighting());
+                    updatedSighting.setTimeOfSighting(sighting.getTimeOfSighting());
                     updatedSighting.setContinent(sighting.getContinent());
                     updatedSighting.setCountry(sighting.getCountry());
                     updatedSighting.setLocation(sighting.getLocation());

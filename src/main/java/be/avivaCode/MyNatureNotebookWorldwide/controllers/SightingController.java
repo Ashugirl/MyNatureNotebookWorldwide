@@ -107,26 +107,25 @@ public class SightingController {
         return "addSighting";
     }
 
-    public LocalDateTime changeStringToDate(String str){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        LocalDateTime dateOfSighting = LocalDateTime.parse(str, formatter);
-        return dateOfSighting;
-    }
+//    public LocalDateTime changeStringToDate(String str){
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+//        LocalDateTime dateOfSighting = LocalDateTime.parse(str, formatter);
+//        return dateOfSighting;
+//    }
 
     // persists a sighting to the database
     @PostMapping("/addSighting/save")
     public String addSighting(@ModelAttribute("sighting") Sighting sighting,
-                              Authentication authentication, String dateOfSighting, Model model) {
-        dateOfSighting.replace('T', ' ');
-        model.addAttribute("dateOfSighting", changeStringToDate(dateOfSighting));
+                              Authentication authentication) {
         sighting.setUser(userServiceImpl.findUserByEmail(authentication.getName()));
         sightingService.createSighting(sighting);
         return "redirect:/addSighting?success";
     }
 
-    @GetMapping("/sightingPage")
-    public String getSightingPage(Model model, Long id){
+    @GetMapping("/sightingPage/{id}")
+    public String getSightingPage(Model model, @PathVariable Long id){
         Sighting sighting = sightingService.getSightingById(id);
+        model.addAttribute("id", sighting.getSightingId());
         model.addAttribute("sighting", sighting);
         model.addAttribute("species", sighting.getSpeciesName());
         return "sightingPage";
