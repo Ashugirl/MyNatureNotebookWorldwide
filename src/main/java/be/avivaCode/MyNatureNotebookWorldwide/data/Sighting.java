@@ -1,5 +1,7 @@
 package be.avivaCode.MyNatureNotebookWorldwide.data;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,7 +25,7 @@ public class Sighting {
     String country;
     @Column
     private String location;
-    //@DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
     @Column
     LocalDateTime dateOfSighting;
     @Column
@@ -44,9 +46,9 @@ public class Sighting {
     @Column
     private String notes;
     @Column
-    private Boolean lifer;
-    private Boolean keepPrivate;
-    private Boolean locationHidden;
+    private Boolean lifer = false;
+    private Boolean keepPrivate = false;
+    private Boolean locationHidden = false;
 
 
     public Sighting() {

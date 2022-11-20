@@ -9,12 +9,18 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
+import org.thymeleaf.spring5.ISpringTemplateEngine;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -45,7 +51,7 @@ public class SightingService {
     //gets all sigthing from newest to oldest
     public List<Sighting> getAllSightings(){
         List<Sighting> allSightings = sightingRepository.findAll();
-        allSightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
+       // allSightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
         return allSightings;
     }
 
@@ -110,6 +116,20 @@ public class SightingService {
                 });
     }
 
+    private ISpringTemplateEngine templateEngine(ITemplateResolver templateResolver) {
+        SpringTemplateEngine engine = new SpringTemplateEngine();
+        engine.addDialect(new Java8TimeDialect());
+        engine.setTemplateResolver(templateResolver);
+        return engine;
+    }
+
+
+//
+//    public void hideLocation(Boolean locationHidden){
+//        if(sighting.getLocationHidden() == true){
+//            sighting.setLocation("Location hidden");
+//        }
+//    }
     public void deleteSighting(Long sightingId){
         sightingRepository.deleteById(sightingId);
     }

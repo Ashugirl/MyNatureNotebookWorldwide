@@ -4,9 +4,12 @@ package be.avivaCode.MyNatureNotebookWorldwide.controllers;
 import be.avivaCode.MyNatureNotebookWorldwide.data.Sighting;
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
 import be.avivaCode.MyNatureNotebookWorldwide.service.SightingService;
+import be.avivaCode.MyNatureNotebookWorldwide.service.UserService;
 import be.avivaCode.MyNatureNotebookWorldwide.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
@@ -29,6 +33,15 @@ public class SightingController {
     }
 
     // handler method to handle home page request
+    @GetMapping("/index")
+    public String index(Model model, Sighting sighting){
+        List<Sighting> sightings = sightingService.getAllSightings();
+        model.addAttribute("sighting", sighting);
+        model.addAttribute("sightings", sightings);
+        return "index";
+    }
+
+
     @GetMapping("/")
     public String home(Model model, Sighting sighting){
         List<Sighting> sightings = sightingService.getAllSightings();
@@ -41,6 +54,9 @@ public class SightingController {
     @GetMapping("/sightingPage/{sightingId}")
     public String getSpecificSighting(Model model, @PathVariable("sightingId") Long sightingId){
         Sighting sighting = sightingService.getSightingById(sightingId);
+        if(sighting.getLocationHidden() == true){
+            sighting.setLocation("Location hidden");
+        }
         return "sightingPage";
     }
 
@@ -59,29 +75,26 @@ public class SightingController {
         Optional<User> user = userServiceImpl.getUserByUserName(name);
         List<Sighting> showAllByUser = sightingService.getAllByUser(user);
         model.addAttribute("sightings", showAllByUser);
-        model.addAttribute("user", sighting.getUser());
+        //unwraps user from Optional
+        userServiceImpl.getUserByUserName(name).ifPresent(u -> model.addAttribute("user", u));
         model.addAttribute("name", user.get().getName());
-        System.out.println("controller " +user);
-        System.out.println("controller " + showAllByUser);
-        System.out.println("controller " + sighting.getUser());
-        System.out.println("controller " + user.get().getName());
         return "yourPage";
     }
 
     // returns all sightings from a specific continent
     @GetMapping("/continent/{continent}")
-    public String getAllByContinent(Model model, @PathVariable("continent")Sighting.Continent continent){
+    public String getAllByContinent(Model model, @PathVariable("continent")Sighting.Continent continent, Sighting sighting){
         List<Sighting> showAllByContinent = sightingService.getAllByContinent(continent);
-        model.addAttribute("continent", continent);
+        model.addAttribute("continent", sighting.getContinent());
         model.addAttribute("sightings", showAllByContinent);
         return "continent";
     }
 
     // returns all sightings from a specific country
     @GetMapping("/country/{country}")
-    public String getAllByCountry(Model model, @PathVariable("country") String country){
+    public String getAllByCountry(Model model, @PathVariable("country") String country, Sighting sighting){
         List<Sighting> showAllByCountry = sightingService.getAllByCountry(country);
-        model.addAttribute("country", country);
+        model.addAttribute("country", sighting.getCountry());
         model.addAttribute("sightings", showAllByCountry);
         return "country";
     }
@@ -94,12 +107,18 @@ public class SightingController {
         return "addSighting";
     }
 
+    public LocalDateTime changeStringToDate(String str){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        LocalDateTime dateOfSighting = LocalDateTime.parse(str, formatter);
+        return dateOfSighting;
+    }
+
     // persists a sighting to the database
     @PostMapping("/addSighting/save")
     public String addSighting(@ModelAttribute("sighting") Sighting sighting,
-                              Authentication authentication, String countryName, Locale country) {
-//        System.out.println(authentication.getPrincipal());
-//        System.out.println(authentication.getName());
+                              Authentication authentication, String dateOfSighting, Model model) {
+        dateOfSighting.replace('T', ' ');
+        model.addAttribute("dateOfSighting", changeStringToDate(dateOfSighting));
         sighting.setUser(userServiceImpl.findUserByEmail(authentication.getName()));
         sightingService.createSighting(sighting);
         return "redirect:/addSighting?success";

@@ -130,17 +130,17 @@
                                th:if="${#fields.hasErrors('location')}"></p>
                         </div>
                         <div class="form-group mb-3">
-                            <label class="form-label">Time of Sighting</label>
+                            <label class="form-label">Date of Sighting</label>
                             <input
                                     class="form-control"
-                                    id="timeOfSighting"
-                                    name="timeOfSighting"
+                                    id="dateOfSighting"
+                                    name="dateOfSighting"
                                     placeholder=""
-                                    th:field="*{timeOfSighting}"
+                                    th:field="*{dateOfSighting}"
                                     type="datetime-local"
                             />
-                            <p th:errors = "*{timeOfSighting}" class="text-danger"
-                               th:if="${#fields.hasErrors('timeOfSighting')}"></p>
+                            <p th:errors = "*{dateOfSighting}" class="text-danger"
+                               th:if="${#fields.hasErrors('dateOfSighting')}"></p>
                         </div>
                         <div class="form-group mb-3">
                             <label class="form-label">Quantity</label>

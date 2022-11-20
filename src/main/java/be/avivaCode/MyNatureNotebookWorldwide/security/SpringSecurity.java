@@ -40,7 +40,7 @@ public class SpringSecurity {
                     .antMatchers("/index").permitAll()
                     .antMatchers("/users").hasRole("ADMIN")
                     .antMatchers("/h2/**").permitAll()
-                    .antMatchers("/addSighting/**").permitAll()
+                    .antMatchers("/addSighting").permitAll()
                     .antMatchers("/yourPage").permitAll()
                     .antMatchers("/sightingPage").permitAll()
                     .antMatchers("/profile").permitAll()
