@@ -14,5 +14,5 @@ public interface SightingRepository extends JpaRepository<Sighting, Long> {
     List<Sighting> findAllByUser(Optional<User> user);
     List<Sighting> findAllBySpeciesName(String speciesName);
     List<Sighting> findAllByContinent(Sighting.Continent continent);
-    List<Sighting> findAllByCountry(Locale country);
+    List<Sighting> findAllByCountry(String country);
 }

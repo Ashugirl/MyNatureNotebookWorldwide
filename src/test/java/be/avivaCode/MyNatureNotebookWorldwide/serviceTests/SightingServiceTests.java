@@ -42,17 +42,17 @@ public class SightingServiceTests {
     private SightingService sightingService = new SightingService(sightingRepository, userService);
 
 
-    @BeforeClass
-    public static void createData(){
-        user1 = new User();
-        user2 = new User();
-        sighting1 = new Sighting(user1, "Common swift - Apus apus", Sighting.Continent.AFRICA, new Locale("en", "Egypt"));
-        sighting2 = new Sighting(user1, "Red fox Vulpes vulpes", Sighting.Continent.EUROPE, new Locale("en", "Belgium"));
-        sighting3 = new Sighting(user2, "Common swift Apus apus", Sighting.Continent.EUROPE, new Locale("en", "Germany"));
-        sighting4 = new Sighting(user2, "Cattle egret Bubulcus ibis", Sighting.Continent.AFRICA, new Locale("en", "Botswana"));
-
-
-    }
+//    @BeforeClass
+//    public static void createData(){
+//        user1 = new User();
+//        user2 = new User();
+//        sighting1 = new Sighting(user1, "Common swift - Apus apus", Sighting.Continent.AFRICA, new Locale("en", "Egypt"));
+//        sighting2 = new Sighting(user1, "Red fox Vulpes vulpes", Sighting.Continent.EUROPE, new Locale("en", "Belgium"));
+//        sighting3 = new Sighting(user2, "Common swift Apus apus", Sighting.Continent.EUROPE, new Locale("en", "Germany"));
+//        sighting4 = new Sighting(user2, "Cattle egret Bubulcus ibis", Sighting.Continent.AFRICA, new Locale("en", "Botswana"));
+//
+//
+//    }
 //
 //    @Test
 //    public void testIfYouCanGetAllByUser(){

@@ -29,7 +29,7 @@ public class SightingController {
     }
 
     // handler method to handle home page request
-    @GetMapping("/index")
+    @GetMapping("/")
     public String home(Model model, Sighting sighting){
         List<Sighting> sightings = sightingService.getAllSightings();
         model.addAttribute("sighting", sighting);
@@ -37,58 +37,55 @@ public class SightingController {
         return "index";
     }
 
-    //TODO THIS WORKS! DON'T TOUCH!
-    @GetMapping("/species/{species}")
-    public String getAllBySpecies(Model model, @PathVariable("species") String speciesName) {
+    // returns page with detailed information about a specific sighting
+    @GetMapping("/sightingPage/{sightingId}")
+    public String getSpecificSighting(Model model, @PathVariable("sightingId") Long sightingId){
+        Sighting sighting = sightingService.getSightingById(sightingId);
+        return "sightingPage";
+    }
+
+    // returns all sightings of a specific species
+    @GetMapping("/species/{speciesName}")
+    public String getAllBySpecies(Model model, @PathVariable("speciesName") String speciesName, Sighting sighting) {
         List<Sighting> showAllBySpecies = sightingService.getAllBySpecies(speciesName);
         model.addAttribute("sightings", showAllBySpecies);
-        System.out.println(speciesName);
+        model.addAttribute("speciesName",sighting.getSpeciesName());
         return "species";
     }
 
-    //TODO = THIS WORKS! DON'T TOUCH!
+    // returns all sightings by a specific user
     @GetMapping("/name/{name}")
-    public String getAllByUser(Model model, @PathVariable("name") String name){
+    public String getAllByUser(Model model, @PathVariable("name") String name, Sighting sighting){
         Optional<User> user = userServiceImpl.getUserByUserName(name);
-        System.out.println(user);
         List<Sighting> showAllByUser = sightingService.getAllByUser(user);
-        model.addAttribute("name", user.get().getName());
         model.addAttribute("sightings", showAllByUser);
-        System.out.println("Passing getAllByUser in SightingController");
-        System.out.println(showAllByUser);
+        model.addAttribute("user", sighting.getUser());
+        model.addAttribute("name", user.get().getName());
+        System.out.println("controller " +user);
+        System.out.println("controller " + showAllByUser);
+        System.out.println("controller " + sighting.getUser());
+        System.out.println("controller " + user.get().getName());
         return "yourPage";
     }
-//    @GetMapping("/index/{sightingId}")
-//    public String getSpecificSighting(Model model, @PathVariable("sightingId") Long sightingId){
-//        Sighting sighting = sightingService.getSightingById(sightingId);
-////        model.addAttribute("sightingId", sightingId);
-////        model.addAttribute("species", sighting.getSpeciesName());
-////        model.addAttribute("country", sighting.getCountry());
-////        model.addAttribute("continent", sighting.getContinent());
-//        System.out.println(sighting.getSightingId());
-//        System.out.println(sighting.getContinent());
-//
-//        return "sightingPage/{sightingId}";
-//    }
-//    @GetMapping("/index/{continent}")
-//    public String getAllByContinent(Model model, @PathVariable("continentDisplayValue") String continentDisplayValue, Sighting.Continent continent){
-//        List<Sighting> showAllByContinent = sightingService.getAllByContinent(continent);
-//        System.out.println(continent);
-//        System.out.println(showAllByContinent);
-//        model.addAttribute("continentDisplayValue", continent.getDisplayValue());
-//        model.addAttribute("sightings", showAllByContinent);
-//        return "continent";
-//    }
 
+    // returns all sightings from a specific continent
+    @GetMapping("/continent/{continent}")
+    public String getAllByContinent(Model model, @PathVariable("continent")Sighting.Continent continent){
+        List<Sighting> showAllByContinent = sightingService.getAllByContinent(continent);
+        model.addAttribute("continent", continent);
+        model.addAttribute("sightings", showAllByContinent);
+        return "continent";
+    }
+
+    // returns all sightings from a specific country
     @GetMapping("/country/{country}")
-    public String getAllByCountry(Model model, @PathVariable("country") Locale country){
+    public String getAllByCountry(Model model, @PathVariable("country") String country){
         List<Sighting> showAllByCountry = sightingService.getAllByCountry(country);
-//        System.out.println(country);
-//        System.out.println(showAllByCountry);
         model.addAttribute("country", country);
         model.addAttribute("sightings", showAllByCountry);
         return "country";
     }
+    // returns page with form to add a sighting
     @GetMapping("/addSighting")
     public String getAddSightingPage(Model model){
         Sighting sighting = new Sighting();
@@ -97,26 +94,27 @@ public class SightingController {
         return "addSighting";
     }
 
-
-
+    // persists a sighting to the database
     @PostMapping("/addSighting/save")
     public String addSighting(@ModelAttribute("sighting") Sighting sighting,
-                              Authentication authentication) {
-        System.out.println(authentication.getPrincipal());
-        System.out.println(authentication.getName());
+                              Authentication authentication, String countryName, Locale country) {
+//        System.out.println(authentication.getPrincipal());
+//        System.out.println(authentication.getName());
         sighting.setUser(userServiceImpl.findUserByEmail(authentication.getName()));
         sightingService.createSighting(sighting);
         return "redirect:/addSighting?success";
     }
 
     @GetMapping("/sightingPage")
-    public String getSightingPage(Model model){
-         List<Sighting> sightings = sightingService.getAllSightings();
-            model.addAttribute("sightings", sightings);
-
+    public String getSightingPage(Model model, Long id){
+        Sighting sighting = sightingService.getSightingById(id);
+        model.addAttribute("sighting", sighting);
+        model.addAttribute("species", sighting.getSpeciesName());
         return "sightingPage";
     }
 
+
+    // returns the call to api ITIS database for form autocomplete
     @GetMapping("/speciesNameAutocomplete")
     @ResponseBody
     public List<String> speciesNameAutocomplete(@RequestParam(value = "term", required = false, defaultValue = "") String term){
@@ -125,7 +123,9 @@ public class SightingController {
     }
 
 
-    @InitBinder     /* Converts empty strings into null when a form is submitted */
+    // Converts empty strings to null when addSighting form is submitted to prevent IllegalArgumentException when
+    // enum-dropdowns are left blank.
+    @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }

@@ -49,46 +49,51 @@ public class SightingService {
         return allSightings;
     }
 
-
+    // returns all sightings by user from newest to oldest
     public List<Sighting> getAllByUser(Optional<User> user){
         List<Sighting> sightings = new ArrayList<>();
         sightingRepository.findAllByUser(user)
               .forEach(sightings::add);
+        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
         return sightings;
     }
 
+    // returns all sightings of a species from newest to oldest
     public List<Sighting> getAllBySpeciesName(String speciesName){
         List<Sighting> sightings = new ArrayList<>();
          sightingRepository.findAllBySpeciesName(speciesName)
                  .forEach(sightings::add);
-                  return sightings;
-   }
+        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
+        return sightings;
+    }
 
+    // returns all sightings from a continent from newest to oldest
     public List<Sighting> getAllByContinent(Sighting.Continent continent){
         List<Sighting> sightings = new ArrayList<>();
         sightingRepository.findAllByContinent(continent)
                 .forEach(sightings::add);
-        System.out.println(sightings);
+        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
         return sightings;
     }
-    //TODO THIS WORKS! DON'T TOUCH!
+
+    // returns all sightings of a species from newest to oldest
     public List<Sighting> getAllBySpecies(String speciesName){
         List<Sighting> sightings = new ArrayList<>();
         sightingRepository.findAllBySpeciesName(speciesName)
                 .forEach(sightings::add);
+        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
         return sightings;
     }
-    public List<Sighting> getAllByCountry(Locale country){
-        Sighting sighting = new Sighting();
-        country = sighting.getCountry();
-        System.out.println(country);
+
+    // returns all sightings from a country from newest to oldest
+    public List<Sighting> getAllByCountry(String country){
         List<Sighting> sightings = new ArrayList<>();
                 sightingRepository.findAllByCountry(country)
                         .forEach(sightings::add);
-//        sightings.sort(Comparator.comparing(Sighting::getTimeOfSighting).reversed());
-        System.out.println(sightings);
+        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
         return sightings;
     }
+
     public void editSighting(Sighting sighting) {
         sightingRepository.findById(sighting.getSightingId())
                 .ifPresent(updatedSighting -> {
@@ -109,14 +114,7 @@ public class SightingService {
         sightingRepository.deleteById(sightingId);
     }
 
-//    public List<Sighting> filterByCountry(Locale country){
-//        List<Sighting> sightingsByCountry = sightingRepository.findAllByCountry(country);
-//        return sightingsByCountry;
-//    }
-
-
-
-
+    // gets a list of countries from for dropdown list on form
     public List<String> getCountryList() {
         String[] countryCodes = Locale.getISOCountries();
         List<String> countryList;

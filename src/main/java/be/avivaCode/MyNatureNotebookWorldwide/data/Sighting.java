@@ -20,7 +20,7 @@ public class Sighting {
     @Column(nullable = false)
     private Continent continent;
     @Column(nullable = false)
-    Locale country;
+    String country;
     @Column
     private String location;
     //@DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME)
@@ -56,14 +56,14 @@ public class Sighting {
         this.user = user;
         this.speciesName = speciesName;
     }
-    public Sighting(User user, String speciesName,  Continent continent, Locale country){
+    public Sighting(User user, String speciesName,  Continent continent, String country){
         this.user = user;
         this.speciesName = speciesName;
         this.continent = continent;
         this.country = country;
     }
     public Sighting(Long sightingId, User user, String speciesName,
-                    Continent continent, Locale country, String location, LocalDateTime dateOfSighting,
+                    Continent continent, String country, String location, LocalDateTime dateOfSighting,
                     int quantity, TaxonomicClass taxonomicClass, LifeStage lifeStage, Boolean deceased,
                     Sex sex, String behaviour, String notes, Boolean lifer,
                     Boolean isPrivate, Boolean isLocationHidden) {
@@ -118,11 +118,11 @@ public class Sighting {
         this.continent = continent;
     }
 
-    public Locale getCountry() {
+    public String getCountry() {
         return country;
     }
 
-    public void setCountry(Locale country) {
+    public void setCountry(String country) {
         this.country = country;
     }
 
