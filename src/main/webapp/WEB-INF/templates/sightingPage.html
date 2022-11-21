@@ -72,58 +72,68 @@
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto">
                         <div class="fw-bold">Country</div>
-                        Content for list item
+                        <a th:href="@{/country/{country} (country=${sighting.country})}" th:text = "${sighting.country}">country</a>
                     </div>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto">
                         <div class="fw-bold">Location</div>
-                        Content for list item
+                        <a th:text = "${sighting.location}">location</a>
                     </div>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto">
                         <div class="fw-bold">Date</div>
-                        Content for list item
+                        <a th:text = "${sighting.dateOfSighting}" >dateOfSighting</a>
+                        <a th:text = "${sighting.timeOfSighting}" >timeOfSighting</a>
                     </div>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto">
                         <div class="fw-bold">Quantity</div>
-                        Content for list item
+                        <a th:text = "${sighting.quantity}">quantity</a>
                     </div>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto">
                         <div class="fw-bold">Taxonomic Class</div>
-                        Content for list item
+                        <a th:text = "${sighting.taxonomicClass}">taxonomicClass</a>
                     </div>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto">
                         <div class="fw-bold">Sex</div>
-                        Content for list item
+                        <a th:text = "${sighting.sex}">sex</a>
                     </div>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto">
                         <div class="fw-bold">Life Stage</div>
-                        Content for list item
+                        <a th:text = "${sighting.lifeStage}">lifeStage</a>
                     </div>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto">
                         <div class="fw-bold">Behaviour</div>
-                        Content for list item
+                        <a th:text = "${sighting.behaviour}">behaviour</a>
                     </div>
                 </li>
-            </ol>        </div>
+            </ol>
+        </div>
+        <br>
+        <br>
         <div class="col">
             <ol class="list-group list-group-flush">
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Erithacus_rubecula_with_cocked_head.jpg" class="img-fluid" alt="...">
-        </div>
+                        <div class="card text-bg-dark">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Erithacus_rubecula_with_cocked_head.jpg" class="img-fluid" alt="...">
+                            <div class="card-img-overlay d-flex flex-column justify-content-end">
+                                <p class="card-text"><small>&copy;<span th:text="${user.name}">User</span></small></p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
         <li class="list-group-item d-flex justify-content-between align-items-start">
             <div class="ms-2 me-auto">
                 <div class="fw-bold">Notes</div>
@@ -142,6 +152,6 @@
         <p th:text="${sighting}">sighting</p>
     </div>
 </div>-->
-
+    </div>
 </body>
 </html>
