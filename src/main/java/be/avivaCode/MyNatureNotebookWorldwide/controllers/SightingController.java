@@ -54,6 +54,10 @@ public class SightingController {
     @GetMapping("/sightingPage/{sightingId}")
     public String getSpecificSighting(Model model, @PathVariable("sightingId") Long sightingId){
         Sighting sighting = sightingService.getSightingById(sightingId);
+        model.addAttribute("user", sighting.getUser());
+        model.addAttribute("speciesName", sighting.getSpeciesName());
+        model.addAttribute("sighting", sighting);
+        model.addAttribute("sightingId", sighting.getSightingId());
         if(sighting.getLocationHidden() == true){
             sighting.setLocation("Location hidden");
         }
@@ -122,14 +126,14 @@ public class SightingController {
         return "redirect:/addSighting?success";
     }
 
-    @GetMapping("/sightingPage/{id}")
-    public String getSightingPage(Model model, @PathVariable Long id){
-        Sighting sighting = sightingService.getSightingById(id);
-        model.addAttribute("id", sighting.getSightingId());
-        model.addAttribute("sighting", sighting);
-        model.addAttribute("species", sighting.getSpeciesName());
-        return "sightingPage";
-    }
+//    @GetMapping("/sightingPage")
+//    public String getSightingPage(Model model, @PathVariable Long id){
+//        Sighting sighting = sightingService.getSightingById(id);
+//        model.addAttribute("id", sighting.getSightingId());
+//        model.addAttribute("sighting", sighting);
+//        model.addAttribute("species", sighting.getSpeciesName());
+//        return "sightingPage";
+//    }
 
 
     // returns the call to api ITIS database for form autocomplete

@@ -28,10 +28,10 @@ public class Sighting {
     private String location;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column
-    LocalDate dateOfSighting;
+    LocalDate dateOfSighting= LocalDate.now();
     @DateTimeFormat(pattern = "HH:mm")
     @Column
-    LocalTime timeOfSighting;
+    LocalTime timeOfSighting= LocalTime.of(00,00);
     @Column
     private int quantity;
     @Enumerated(EnumType.STRING)

@@ -62,6 +62,7 @@
             <th>Country</th>
             <th>User Name</th>
             <th>Date</th>
+            <th>Time</th>
         </tr>
         </thead>
         <tbody>
@@ -71,7 +72,8 @@
             <td><a th:href="@{/continent/{continent} (continent=${sighting.continent})}" th:text ="${sighting.continent}">continent</a></td>
             <td><a th:href="@{/country/{country} (country=${sighting.country})}" th:text = "${sighting.country}">country</a></td>
             <td><a th:href="@{/name/{name} (name=${sighting.user.name})}" th:text = "${sighting.user.name}">user</a></td>
-            <td th:text="${#temporals.format(sighting.dateOfSighting, 'dd-MM-yyyy HH:mm')}">dateOfSighting</td>
+            <td th:text="${#temporals.format(sighting.dateOfSighting, 'dd-MM-yyyy')}">dateOfSighting</td>
+            <td th:text="${#temporals.format(sighting.timeOfSighting, 'HH:mm')}">timeOfSighting</td>
         </tr>
         </tbody>
     </table>

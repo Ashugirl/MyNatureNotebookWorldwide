@@ -45,13 +45,14 @@ public class SightingService {
     }
 
     public Sighting getSightingById(Long sightingId){
+        System.out.println(sightingRepository.findById(sightingId).get());
         return sightingRepository.findById(sightingId).get();
     }
 
     //gets all sigthing from newest to oldest
     public List<Sighting> getAllSightings(){
         List<Sighting> allSightings = sightingRepository.findAll();
-       // allSightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
+        allSightings.sort(Comparator.comparing(Sighting::getDateOfSighting).thenComparing(Sighting::getTimeOfSighting).reversed());
         return allSightings;
     }
 
@@ -60,7 +61,7 @@ public class SightingService {
         List<Sighting> sightings = new ArrayList<>();
         sightingRepository.findAllByUser(user)
               .forEach(sightings::add);
-        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
+        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).thenComparing(Sighting::getTimeOfSighting).reversed());
         return sightings;
     }
 
@@ -69,7 +70,7 @@ public class SightingService {
         List<Sighting> sightings = new ArrayList<>();
          sightingRepository.findAllBySpeciesName(speciesName)
                  .forEach(sightings::add);
-        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
+        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).thenComparing(Sighting::getTimeOfSighting).reversed());
         return sightings;
     }
 
@@ -78,7 +79,7 @@ public class SightingService {
         List<Sighting> sightings = new ArrayList<>();
         sightingRepository.findAllByContinent(continent)
                 .forEach(sightings::add);
-        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
+        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).thenComparing(Sighting::getTimeOfSighting).reversed());
         return sightings;
     }
 
@@ -87,7 +88,7 @@ public class SightingService {
         List<Sighting> sightings = new ArrayList<>();
         sightingRepository.findAllBySpeciesName(speciesName)
                 .forEach(sightings::add);
-        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
+        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).thenComparing(Sighting::getTimeOfSighting).reversed());
         return sightings;
     }
 
@@ -96,7 +97,7 @@ public class SightingService {
         List<Sighting> sightings = new ArrayList<>();
                 sightingRepository.findAllByCountry(country)
                         .forEach(sightings::add);
-        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
+        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).thenComparing(Sighting::getTimeOfSighting).reversed());
         return sightings;
     }
 
@@ -196,7 +197,9 @@ public class SightingService {
                         speciesMap.put(itisObject.get("scientificName").toString(), itisObject.get("commonNames").toString());
                         speciesList = speciesMap.entrySet()
                                 .stream()
-                                .map(entry -> entry.getKey() + " " + entry.getValue())
+                                .map(entry -> entry.getKey() + " - " + entry.getValue().replace('"', ' ')
+                                        .replace('[', ' ')
+                                        .replace(']', ' ') )
                                 .sorted()
                                 .collect(Collectors.toList());
                     }
@@ -205,7 +208,8 @@ public class SightingService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(speciesList);
+
+
             return speciesList;
     }
 
