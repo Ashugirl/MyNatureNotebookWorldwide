@@ -3,10 +3,9 @@ package be.avivaCode.MyNatureNotebookWorldwide.data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.awt.image.BufferedImage;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Locale;
 
 @Entity
 public class Sighting {
@@ -53,6 +52,7 @@ public class Sighting {
     private Boolean lifer = false;
     private Boolean keepPrivate = false;
     private Boolean locationHidden = false;
+
 
 
     public Sighting() {
@@ -236,6 +236,7 @@ public class Sighting {
     public void setLocationHidden(Boolean locationHidden) {
         this.locationHidden = locationHidden;
     }
+
 
     @Override
     public String toString() {

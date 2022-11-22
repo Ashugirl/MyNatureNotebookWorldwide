@@ -14,11 +14,18 @@ import org.thymeleaf.spring5.ISpringTemplateEngine;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -222,8 +229,20 @@ public class SightingService {
         }
     }
 
-
-
+public BufferedImage getSightingImage(){
+        BufferedImage sightingImage = new BufferedImage(250, 250, 6);
+    try{
+        Path imgPath = Path.of(" ");
+        Files.createFile(imgPath);
+        sightingImage = ImageIO.read(new URL(""));
+        ImageIO.write(sightingImage, "jpg", new File(String.valueOf(imgPath)));
+    } catch (MalformedURLException e) {
+        e.printStackTrace();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+    return sightingImage;
+}
 
 
 

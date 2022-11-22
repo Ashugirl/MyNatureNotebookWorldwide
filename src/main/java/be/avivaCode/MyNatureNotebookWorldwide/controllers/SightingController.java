@@ -24,6 +24,7 @@ import java.util.*;
 public class SightingController {
     private SightingService sightingService;
     private UserServiceImpl userServiceImpl;
+    private UploadController uploadController;
 
 
     @Autowired
@@ -108,6 +109,7 @@ public class SightingController {
         Sighting sighting = new Sighting();
         model.addAttribute("sighting", sighting);
         model.addAttribute("countryList", sightingService.getCountryList());
+       // model.addAttribute("sightingImage", uploadController.displayUploadForm());
         return "addSighting";
     }
 
@@ -120,7 +122,7 @@ public class SightingController {
     // persists a sighting to the database
     @PostMapping("/addSighting/save")
     public String addSighting(@ModelAttribute("sighting") Sighting sighting,
-                              Authentication authentication) {
+                              Authentication authentication, Model model) {
         sighting.setUser(userServiceImpl.findUserByEmail(authentication.getName()));
         sightingService.createSighting(sighting);
         return "redirect:/addSighting?success";
