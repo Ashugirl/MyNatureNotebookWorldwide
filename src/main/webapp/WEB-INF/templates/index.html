@@ -10,6 +10,21 @@
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
+
+    <!-- jquery cdns for autocomplete field -->
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js" integrity="sha256-xLD7nhI62fcsEZK2/v8LsBcb4lG7dgULkuXoXB/j91c=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+    <script defer type="text/javascript">
+    console.log("hi");
+        $(function() {
+            $("#speciesName").autocomplete({
+                source: "speciesNameAutocomplete",
+                minLength: 3
+            });
+        });
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -35,7 +50,7 @@
         <div class="collapse navbar-collapse" id="userOptions">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/yourPage}">Your Sightings</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{/yourSightings}">Your Sightings</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="@{/profile}">Your Profile</a>
@@ -45,6 +60,10 @@
                 </li>
             </ul>
         </div>
+        <form class="d-flex" role="search" th:action="@{/search}" method="get">
+            <input type="text" value="search" name="species" id="speciesName" th:value="${speciesName}" placeholder="Search by species" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
     </div>
 </nav>
 <br /><br />
@@ -69,7 +88,7 @@
         <tr th:each = "sighting : ${sightings}">
             <td><a th:href="@{/sightingPage/{sightingId} (sightingId=${sighting.sightingId})}" th:text="${sighting.sightingId}">sightingId</a></td>
             <td><a th:href="@{/species/{species} (species=${sighting.speciesName})}" th:text = "${sighting.speciesName}">speciesName</a></td>
-            <td><a th:href="@{/continent/{continent} (continent=${sighting.continent})}" th:text ="${sighting.continent}">continent</a></td>
+            <td><a th:href="@{/continent/{continent} (continent=${sighting.continent.displayValue})}" th:text ="${sighting.continent.displayValue}">continent</a></td>
             <td><a th:href="@{/country/{country} (country=${sighting.country})}" th:text = "${sighting.country}">country</a></td>
             <td><a th:href="@{/name/{name} (name=${sighting.user.name})}" th:text = "${sighting.user.name}">user</a></td>
             <td th:text="${#temporals.format(sighting.dateOfSighting, 'dd-MM-yyyy')}">dateOfSighting</td>

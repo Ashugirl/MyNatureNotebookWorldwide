@@ -4,6 +4,7 @@ import be.avivaCode.MyNatureNotebookWorldwide.data.User;
 import be.avivaCode.MyNatureNotebookWorldwide.service.SightingService;
 import be.avivaCode.MyNatureNotebookWorldwide.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -26,7 +28,11 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String getUserProfilePage(Model model){
+    public String getUserProfilePage(Model model, Authentication authentication, String name){
+        User currentUser = userServiceImpl.findUserByEmail(authentication.getName());
+        model.addAttribute("user", currentUser);
+       // Optional user = userServiceImpl.getUserByUserName(currentUser.getName());
+        model.addAttribute("name", currentUser.getName());
 
           return "profile";
     }

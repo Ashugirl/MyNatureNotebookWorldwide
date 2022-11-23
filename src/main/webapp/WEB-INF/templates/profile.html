@@ -34,7 +34,7 @@
         <div class="collapse navbar-collapse" id="userOptions">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" th:href="@{/yourPage}">Your Sightings</a>
+                    <a class="nav-link active" aria-current="page" th:href="@{/yourSightings}">Your Sightings</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="@{/profile}">Your Profile</a>
@@ -49,7 +49,7 @@
 <br /><br /><br />
 <div class="container">
     <div class="row col-md-8 offset-md-2">
-        <h1>This will be the page for your user profile.</h1>
+        <h1>This will be the page for your user profile, <span th:text="${user.name}">userName</span></h1>
         <!--  <div class="card">
               <div class="card-header">
                   <h2 class="text-center">Registration</h2>

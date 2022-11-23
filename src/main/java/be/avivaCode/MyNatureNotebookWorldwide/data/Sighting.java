@@ -243,7 +243,7 @@ public class Sighting {
         return "Sighting{" +
                 "sightingId=" + sightingId +
                 ", user=" + user +
-                ", speciesCommonName='" + speciesName + '\'' +
+                ", species name='" + speciesName + '\'' +
                 ", continent=" + continent +
                 ", country=" + country +
                 ", location='" + location + '\'' +
@@ -302,7 +302,13 @@ public class Sighting {
         REPTILE("Reptile"),
         AMPHIBIAN("Amphibian"),
         FISH("Fish"),
-        INVERTEBRATE("Invertebrate");
+        INVERTEBRATE("Invertebrate"),
+        EMPTY("");
+
+        @Override
+        public String toString() {
+            return this == EMPTY ? "" : this.name();
+        }
 
         private final String displayValue;
 

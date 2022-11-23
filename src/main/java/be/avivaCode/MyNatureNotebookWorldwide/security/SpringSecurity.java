@@ -24,9 +24,8 @@ public class SpringSecurity {
                 .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
     }
 
-        //TODO make not static - made static to allow access to encrypted pws for dummy data
         @Bean
-        public static PasswordEncoder passwordEncoder() {
+        public PasswordEncoder passwordEncoder() {
             return new BCryptPasswordEncoder();
         }
 
@@ -40,10 +39,10 @@ public class SpringSecurity {
                     .antMatchers("/index").permitAll()
                     .antMatchers("/users").hasRole("ADMIN")
                     .antMatchers("/h2/**").permitAll()
-                    .antMatchers("/addSighting").permitAll()
-                    .antMatchers("/yourPage").permitAll()
                     .antMatchers("/sightingPage").permitAll()
-                    .antMatchers("/profile").permitAll()
+                    .antMatchers("/addSighting").authenticated()
+                    .antMatchers("/yourSightings").authenticated()
+                    .antMatchers("/profile").authenticated()
                     .and()
                     .formLogin(
                             form -> form

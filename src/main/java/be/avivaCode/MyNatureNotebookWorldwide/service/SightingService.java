@@ -63,6 +63,16 @@ public class SightingService {
         return allSightings;
     }
 
+    public List<Sighting> searchBySpecies(String searchTerm){
+        if(searchTerm != null){
+            String speciesName = encodeValue(searchTerm);
+            System.out.println("service speciesName" + speciesName);
+            System.out.println("service return value " + sightingRepository.searchBySpecies(speciesName));
+            return sightingRepository.searchBySpecies(speciesName);
+        }
+        return sightingRepository.findAll();
+    }
+
     // returns all sightings by user from newest to oldest
     public List<Sighting> getAllByUser(Optional<User> user){
         List<Sighting> sightings = new ArrayList<>();
@@ -72,14 +82,14 @@ public class SightingService {
         return sightings;
     }
 
-    // returns all sightings of a species from newest to oldest
-    public List<Sighting> getAllBySpeciesName(String speciesName){
-        List<Sighting> sightings = new ArrayList<>();
-         sightingRepository.findAllBySpeciesName(speciesName)
-                 .forEach(sightings::add);
-        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).thenComparing(Sighting::getTimeOfSighting).reversed());
-        return sightings;
-    }
+//    // returns all sightings of a species from newest to oldest
+//    public List<Sighting> getAllBySpeciesName(String speciesName){
+//        List<Sighting> sightings = new ArrayList<>();
+//         sightingRepository.findAllBySpeciesName(speciesName)
+//                 .forEach(sightings::add);
+//        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).thenComparing(Sighting::getTimeOfSighting).reversed());
+//        return sightings;
+//    }
 
     // returns all sightings from a continent from newest to oldest
     public List<Sighting> getAllByContinent(Sighting.Continent continent){
@@ -200,8 +210,12 @@ public class SightingService {
                         //System.out.println(itisObject.get("commonNames").toString());
                         //.out.println(itisObject.get("scientificName"));
                         //commonNames.add(i, itisObject.get("commonNames").toString());
-
-                        speciesMap.put(itisObject.get("scientificName").toString(), itisObject.get("commonNames").toString());
+                        try {
+                            speciesMap.put(itisObject.get("scientificName").toString(),
+                                    itisObject.get("commonNames").toString());
+                        } catch (Exception e){
+                            System.out.println("Species not found. Please check spelling.");
+                            }
                         speciesList = speciesMap.entrySet()
                                 .stream()
                                 .map(entry -> entry.getKey() + " - " + entry.getValue().replace('"', ' ')
@@ -221,7 +235,7 @@ public class SightingService {
     }
 
     //encodes search queries with spaces into values that can be appended to URL
-    private static String encodeValue(String value){
+    public static String encodeValue(String value){
         try{
             return URLEncoder.encode(value, StandardCharsets.UTF_8.toString()).replace("+", "%20");
         } catch (UnsupportedEncodingException ex){

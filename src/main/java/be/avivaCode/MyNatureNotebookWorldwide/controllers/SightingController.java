@@ -9,6 +9,7 @@ import be.avivaCode.MyNatureNotebookWorldwide.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
+import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -34,23 +35,53 @@ public class SightingController {
     }
 
     // handler method to handle home page request
-    @GetMapping("/index")
-    public String index(Model model, Sighting sighting){
-        List<Sighting> sightings = sightingService.getAllSightings();
-        model.addAttribute("sighting", sighting);
-        model.addAttribute("sightings", sightings);
-        return "index";
+//    @GetMapping("/index")
+//    public String index(Model model, Sighting sighting,String name){
+//        List<Sighting> sightings = sightingService.getAllSightings();
+////        Optional<User> user = userServiceImpl.getUserByUserName(authentication.getName());
+////        userServiceImpl.getUserByUserName(name).ifPresent(u ->model.addAttribute("user", u));
+////        model.addAttribute("name", user.get().getName());
+//        model.addAttribute("sighting", sighting);
+//        model.addAttribute("sightings", sightings);
+//        return "index";
+//    }
+//TODO figure out why search term is coming back null
+    @RequestMapping(path = {"/", "/index", "/search"})
+    public String home(Model model, Sighting sighting, @Param("speciesName") String speciesName) {
+        model.addAttribute("speciesName", speciesName);
+        if (speciesName != null) {
+            List<Sighting> sightings = sightingService.getAllBySpecies(speciesName);
+            model.addAttribute("sighting", sighting);
+            model.addAttribute("sightings", sightings);
+            System.out.println("controller if " + sightings);
+        } else {
+            List<Sighting> sightings = sightingService.getAllSightings();
+            model.addAttribute("sighting", sighting);
+            model.addAttribute("sightings", sightings);
+            System.out.println("controller else " + sightings);
+        }
+            return "index";
+
     }
+//    @RequestMapping(path = {"/", "/search"})
+//    public String home(Model model, Sighting sighting, @Param("speciesName") String speciesName){
+//        List<Sighting> sightingsOfSpecies = sightingService.getAllBySpecies(speciesName);
+//        model.addAttribute("sightingsOfSpecies", sightingsOfSpecies);
+//        model.addAttribute("speciesName", speciesName);
+//        List<Sighting> sightings = sightingService.getAllSightings();
+//        model.addAttribute("sighting", sighting);
+//        model.addAttribute("sightings", sightings);
+//        return "index";
+//    }
 
-
-    @GetMapping("/")
-    public String home(Model model, Sighting sighting){
-        List<Sighting> sightings = sightingService.getAllSightings();
-        model.addAttribute("sighting", sighting);
-        model.addAttribute("sightings", sightings);
-        return "index";
-    }
-
+//    @GetMapping("/{species}")
+//    public String search(Model model, @Param("speciesName") String searchTerm){
+//        String speciesName = sightingService.encodeValue(searchTerm);
+//        List<Sighting> searchedSpeciesSightings = sightingService.getAllBySpecies(speciesName);
+//        model.addAttribute("searchedSpeciesSightings", searchedSpeciesSightings);
+//        model.addAttribute("speciesName", speciesName);
+//        return "redirect:/species/{searchedSpeciesSightings}";
+//    }
     // returns page with detailed information about a specific sighting
     @GetMapping("/sightingPage/{sightingId}")
     public String getSpecificSighting(Model model, @PathVariable("sightingId") Long sightingId){
@@ -83,7 +114,16 @@ public class SightingController {
         //unwraps user from Optional
         userServiceImpl.getUserByUserName(name).ifPresent(u -> model.addAttribute("user", u));
         model.addAttribute("name", user.get().getName());
-        return "yourPage";
+        return "userSightings";
+    }
+    @GetMapping("/yourSightings")
+    public String getAllByCurrentUser(Authentication authentication, Model model, String name, Sighting sighting){
+            User currentUser = userServiceImpl.findUserByEmail(authentication.getName());
+            Optional user = userServiceImpl.getUserByUserName(currentUser.getName());
+            List<Sighting> showAllByCurrentUser = sightingService.getAllByUser(user);
+            model.addAttribute("sightings", showAllByCurrentUser);
+            return "yourSightings";
+
     }
 
     // returns all sightings from a specific continent
@@ -112,12 +152,6 @@ public class SightingController {
        // model.addAttribute("sightingImage", uploadController.displayUploadForm());
         return "addSighting";
     }
-
-//    public LocalDateTime changeStringToDate(String str){
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-//        LocalDateTime dateOfSighting = LocalDateTime.parse(str, formatter);
-//        return dateOfSighting;
-//    }
 
     // persists a sighting to the database
     @PostMapping("/addSighting/save")

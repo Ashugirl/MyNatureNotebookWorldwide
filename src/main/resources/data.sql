@@ -11,16 +11,16 @@ INSERT INTO users (name, email, password)
 VALUES ('Clip Clop', 'clop@gmail.com', '$2a$10$brkZMwQsPZCZXWwP5XGdOORhlgy5.k.cRA/izDmRj35kZVoMnphy.');
 
 INSERT INTO sighting (sightingId, continent, country, quantity, user_id, speciesName, dateOfSighting, timeOfSighting, locationHidden)
-VALUES (default, 'AFRICA', 'Egypt', 3, 1, 'Bubulcus ibis ["cattle egret"]', '2021-06-21', '12:13', 0);
+VALUES (default, 'AFRICA', 'Egypt', 3, 1, 'Bubulcus ibis - Cattle Egret', '2021-06-21', '12:13', 0);
 
 INSERT INTO sighting (sightingId, continent, country, quantity, user_id, speciesName, dateOfSighting, timeOfSighting, locationHidden)
-VALUES (default ,'EUROPE', 'Greece', 1, 2, 'Bubulcus ibis ["cattle egret"]', '2022-01-14', '15:34', 0);
+VALUES (default ,'EUROPE', 'Greece', 1, 2, 'Bubulcus ibis - Cattle Egret', '2022-01-14', '15:34', 0);
 
 INSERT INTO sighting (sightingId, continent, country, quantity, user_id, speciesName, dateOfSighting, timeOfSighting, locationHidden)
 VALUES (default, 'AFRICA', 'South Africa', 20,  3, 'Apus apus - Common Swift', '2022-02-13', '09:30' , 0);
 
 INSERT INTO sighting (sightingId, continent, country, quantity, user_id, speciesName, dateOfSighting, timeOfSighting, locationHidden)
-VALUES (default, 'OCEANIA', 'Australia', 5, 1, 'Osphranter rufus - Red Kangaroo"]', '2021-12-30', '11:34', 0 );
+VALUES (default, 'OCEANIA', 'Australia', 5, 1, 'Osphranter rufus - Red Kangaroo', '2021-12-30', '11:34', 0 );
 
 INSERT INTO sighting (sightingId, continent, country, quantity, user_id, speciesName, dateOfSighting, timeOfSighting, locationHidden)
 VALUES (default ,'OCEANIA', 'Australia', 1, 3, 'Merops ornatus - Rainbow Bee-eater', '2022-11-17', '10:15', 0);
@@ -36,3 +36,4 @@ VALUES (default ,'NORTH_AMERICA', 'Canada', 5, 4, 'Cyanocitta stelleri - Steller
 
 INSERT INTO sighting (sightingId, continent, country, quantity, user_id, speciesName, dateOfSighting, timeOfSighting, locationHidden)
 VALUES (default ,'EUROPE', 'Belgium', 1, 1, 'Sciurus vulgaris - Eurasian Red Squirrel', '2022-11-06', '09:31', 0 );
+

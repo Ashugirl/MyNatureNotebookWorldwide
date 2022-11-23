@@ -35,7 +35,7 @@
     <div class="collapse navbar-collapse" id="userOptions">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" th:href="@{/yourPage}">Your Sightings</a>
+          <a class="nav-link active" aria-current="page" th:href="@{/yourSightings}">Your Sightings</a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" th:href="@{/profile}">Your Profile</a>
@@ -62,13 +62,14 @@
       <th>Country</th>
       <th>User Name</th>
       <th>Date</th>
+      <th>Time</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each = "sighting : ${sightings}">
       <td><a th:href="@{/sightingPage/{sightingId} (sightingId=${sighting.sightingId})}" th:text="${sighting.sightingId}">sightingId</a></td>
       <td><a th:href="@{/species/{species} (species=${sighting.speciesName})}" th:text = "${sighting.speciesName}">speciesName</a></td>
-      <td><a th:href="@{/continent/{continent} (continent=${sighting.continent})}" th:text = "${sighting.continent}">continent</a></td>
+      <td><a th:href="@{/continent/{continent} (continent=${sighting.continent.displayValue})}" th:text = "${sighting.continent.displayValue}">continent</a></td>
       <td><a th:href="@{/country/{country} (country=${sighting.country})}" th:text = "${sighting.country}">country</a></td>
       <td><a th:href="@{/name/{name} (name=${sighting.user.name})}" th:text = "${sighting.user.name}">user</a></td>
       <td th:text="${#temporals.format(sighting.dateOfSighting, 'dd-MM-yyyy')}">dateOfSighting</td>
