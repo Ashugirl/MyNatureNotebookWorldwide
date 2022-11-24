@@ -47,16 +47,16 @@ public class SightingController {
 //    }
 //TODO figure out why search term is coming back null
     @RequestMapping(path = {"/", "/index", "/search"})
-    public String home(Model model, Sighting sighting, @Param("speciesName") String speciesName) {
-        model.addAttribute("speciesName", speciesName);
+    public String home(Model model, Sighting sighting, @Param("speciesName") String speciesName,  String query) {
+
         if (speciesName != null) {
             List<Sighting> sightings = sightingService.getAllBySpecies(speciesName);
-            model.addAttribute("sighting", sighting);
+            //model.addAttribute("sighting", sighting);
             model.addAttribute("sightings", sightings);
             System.out.println("controller if " + sightings);
         } else {
+            model.addAttribute("speciesName", speciesName);
             List<Sighting> sightings = sightingService.getAllSightings();
-            model.addAttribute("sighting", sighting);
             model.addAttribute("sightings", sightings);
             System.out.println("controller else " + sightings);
         }

@@ -63,14 +63,13 @@ public class SightingService {
         return allSightings;
     }
 
-    public List<Sighting> searchBySpecies(String searchTerm){
-        if(searchTerm != null){
-            String speciesName = encodeValue(searchTerm);
-            System.out.println("service speciesName" + speciesName);
-            System.out.println("service return value " + sightingRepository.searchBySpecies(speciesName));
-            return sightingRepository.searchBySpecies(speciesName);
+    public List<Sighting> searchBySpecies(String query){
+        if(query != null){
+            System.out.println("service speciesName" + query);
+            System.out.println("service return value " + sightingRepository.searchBySpecies(query));
+            return sightingRepository.searchBySpecies(query);
         }
-        return sightingRepository.findAll();
+        return sightingRepository.searchBySpecies(query);
     }
 
     // returns all sightings by user from newest to oldest

@@ -60,7 +60,7 @@
                 </li>
             </ul>
         </div>
-        <form class="d-flex" role="search" th:action="@{/search}" method="get">
+        <form class="d-flex" role="search" th:action="@{/search}" th:object=method="get">
             <input type="text" value="search" name="species" id="speciesName" th:value="${speciesName}" placeholder="Search by species" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
