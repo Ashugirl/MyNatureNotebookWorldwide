@@ -2,6 +2,8 @@ package be.avivaCode.MyNatureNotebookWorldwide.repositories;
 
 import be.avivaCode.MyNatureNotebookWorldwide.data.Sighting;
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
+import org.hibernate.event.spi.SaveOrUpdateEvent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,6 +19,8 @@ public interface SightingRepository extends JpaRepository<Sighting, Long> {
     List<Sighting> findAllBySpeciesName(String speciesName);
     List<Sighting> findAllByContinent(Sighting.Continent continent);
     List<Sighting> findAllByCountry(String country);
+
+
     @Query(value = "select * from sighting s where s.speciesName like %:species%", nativeQuery = true)
     List<Sighting> searchBySpecies(@Param("species") String speciesName);
 

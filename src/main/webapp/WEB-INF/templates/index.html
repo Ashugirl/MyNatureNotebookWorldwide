@@ -60,8 +60,8 @@
                 </li>
             </ul>
         </div>
-        <form class="d-flex" role="search" th:action="@{/search}" th:object=method="get">
-            <input type="text" value="search" name="species" id="speciesName" th:value="${speciesName}" placeholder="Search by species" aria-label="Search">
+        <form class="d-flex" role="search" th:object="${sighting}", method="post">
+            <input type="text" value="search" name="species" id="speciesName" th:field="*{speciesName}" placeholder="Search by species" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
     </div>
@@ -87,8 +87,8 @@
         <tbody>
         <tr th:each = "sighting : ${sightings}">
             <td><a th:href="@{/sightingPage/{sightingId} (sightingId=${sighting.sightingId})}" th:text="${sighting.sightingId}">sightingId</a></td>
-            <td><a th:href="@{/species/{species} (species=${sighting.speciesName})}" th:text = "${sighting.speciesName}">speciesName</a></td>
-            <td><a th:href="@{/continent/{continent} (continent=${sighting.continent.displayValue})}" th:text ="${sighting.continent.displayValue}">continent</a></td>
+            <td><a th:href="@{/species/{speciesName} (speciesName=${sighting.speciesName})}" th:text = "${sighting.speciesName}">speciesName</a></td>
+            <td><a th:href="@{/continent/{continent} (continent=${sighting.continent})}" th:text ="${sighting.continent.displayValue}">continent</a></td>
             <td><a th:href="@{/country/{country} (country=${sighting.country})}" th:text = "${sighting.country}">country</a></td>
             <td><a th:href="@{/name/{name} (name=${sighting.user.name})}" th:text = "${sighting.user.name}">user</a></td>
             <td th:text="${#temporals.format(sighting.dateOfSighting, 'dd-MM-yyyy')}">dateOfSighting</td>

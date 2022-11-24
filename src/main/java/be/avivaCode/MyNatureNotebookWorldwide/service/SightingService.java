@@ -63,13 +63,13 @@ public class SightingService {
         return allSightings;
     }
 
-    public List<Sighting> searchBySpecies(String query){
-        if(query != null){
-            System.out.println("service speciesName" + query);
-            System.out.println("service return value " + sightingRepository.searchBySpecies(query));
-            return sightingRepository.searchBySpecies(query);
+    public List<Sighting> searchBySpecies(String speciesName){
+        if(speciesName != null){
+            System.out.println("service speciesName" + speciesName);
+            System.out.println("service return value " + sightingRepository.searchBySpecies(speciesName));
+            return sightingRepository.searchBySpecies(speciesName);
         }
-        return sightingRepository.searchBySpecies(query);
+        return sightingRepository.findAll();
     }
 
     // returns all sightings by user from newest to oldest
@@ -100,8 +100,10 @@ public class SightingService {
     }
 
     // returns all sightings of a species from newest to oldest
-    public List<Sighting> getAllBySpecies(String speciesName){
+    public List<Sighting> getAllBySpeciesName(String speciesName){
         List<Sighting> sightings = new ArrayList<>();
+        System.out.println("passing service " + speciesName);
+        System.out.println("Check if repo works " + sightingRepository.findAllBySpeciesName(speciesName));
         sightingRepository.findAllBySpeciesName(speciesName)
                 .forEach(sightings::add);
         sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).thenComparing(Sighting::getTimeOfSighting).reversed());
@@ -111,6 +113,8 @@ public class SightingService {
     // returns all sightings from a country from newest to oldest
     public List<Sighting> getAllByCountry(String country){
         List<Sighting> sightings = new ArrayList<>();
+        System.out.println("passing service " + country);
+        System.out.println("check if repo works " +sightingRepository.findAllByCountry(country));
                 sightingRepository.findAllByCountry(country)
                         .forEach(sightings::add);
         sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).thenComparing(Sighting::getTimeOfSighting).reversed());
@@ -217,9 +221,10 @@ public class SightingService {
                             }
                         speciesList = speciesMap.entrySet()
                                 .stream()
-                                .map(entry -> entry.getKey() + " - " + entry.getValue().replace('"', ' ')
-                                        .replace('[', ' ')
-                                        .replace(']', ' ') )
+                                .map(entry -> entry.getKey() + " - " + entry.getValue().replace("\"", "")
+                                        .replace("[", "")
+
+                                        .replace("]", "") )
                                 .sorted()
                                 .collect(Collectors.toList());
                     }
@@ -234,7 +239,7 @@ public class SightingService {
     }
 
     //encodes search queries with spaces into values that can be appended to URL
-    public static String encodeValue(String value){
+    private static String encodeValue(String value){
         try{
             return URLEncoder.encode(value, StandardCharsets.UTF_8.toString()).replace("+", "%20");
         } catch (UnsupportedEncodingException ex){

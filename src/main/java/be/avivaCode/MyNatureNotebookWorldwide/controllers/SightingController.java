@@ -17,6 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -35,33 +38,36 @@ public class SightingController {
     }
 
     // handler method to handle home page request
-//    @GetMapping("/index")
-//    public String index(Model model, Sighting sighting,String name){
-//        List<Sighting> sightings = sightingService.getAllSightings();
-////        Optional<User> user = userServiceImpl.getUserByUserName(authentication.getName());
-////        userServiceImpl.getUserByUserName(name).ifPresent(u ->model.addAttribute("user", u));
-////        model.addAttribute("name", user.get().getName());
-//        model.addAttribute("sighting", sighting);
-//        model.addAttribute("sightings", sightings);
-//        return "index";
-//    }
-//TODO figure out why search term is coming back null
-    @RequestMapping(path = {"/", "/index", "/search"})
-    public String home(Model model, Sighting sighting, @Param("speciesName") String speciesName,  String query) {
+    @GetMapping("/index")
+    public String index(Model model, Sighting sighting, String name){
+        List<Sighting> sightings = sightingService.getAllSightings();
+//        Optional<User> user = userServiceImpl.getUserByUserName(authentication.getName());
+//        userServiceImpl.getUserByUserName(name).ifPresent(u ->model.addAttribute("user", u));
+//        model.addAttribute("name", user.get().getName());
 
+        model.addAttribute("sighting", sighting);
+        model.addAttribute("sightings", sightings);
+        return "index";
+    }
+//TODO figure out why search term is coming back null
+    @RequestMapping(path = { "/", "/index", "/search"})
+    public String home(Model model, Sighting sighting, @Param("species") String speciesName,  String query) {
         if (speciesName != null) {
-            List<Sighting> sightings = sightingService.getAllBySpecies(speciesName);
-            //model.addAttribute("sighting", sighting);
+            List<Sighting> sightings = sightingService.searchBySpecies(speciesName);
+            model.addAttribute("species", speciesName);
+            model.addAttribute("sighting", sighting);
             model.addAttribute("sightings", sightings);
             System.out.println("controller if " + sightings);
+            return "species";
         } else {
-            model.addAttribute("speciesName", speciesName);
+//            model.addAttribute("speciesName", speciesName);
             List<Sighting> sightings = sightingService.getAllSightings();
+            model.addAttribute("sighting", sighting);
             model.addAttribute("sightings", sightings);
             System.out.println("controller else " + sightings);
-        }
-            return "index";
 
+            return "index";
+        }
     }
 //    @RequestMapping(path = {"/", "/search"})
 //    public String home(Model model, Sighting sighting, @Param("speciesName") String speciesName){
@@ -98,14 +104,23 @@ public class SightingController {
 
     // returns all sightings of a specific species
     @GetMapping("/species/{speciesName}")
-    public String getAllBySpecies(Model model, @PathVariable("speciesName") String speciesName, Sighting sighting) {
-        List<Sighting> showAllBySpecies = sightingService.getAllBySpecies(speciesName);
+    public String getAllBySpeciesName(Model model, @PathVariable("speciesName") String speciesName, Sighting sighting) {
+        System.out.println("passing controller " + speciesName);
+        List<Sighting> showAllBySpecies = sightingService.getAllBySpeciesName(speciesName);
+        model.addAttribute("sighting", sighting);
         model.addAttribute("sightings", showAllBySpecies);
-        model.addAttribute("speciesName",sighting.getSpeciesName());
+        model.addAttribute("speciesName", speciesName);
         return "species";
     }
+    private static String encodeValue(String value) {
+        try {
+            return URLEncoder.encode(value, StandardCharsets.UTF_8.toString()).replace("%20", "+");
+        } catch (UnsupportedEncodingException ex) {
+            throw new RuntimeException(ex.getCause());
+        }
+    }
 
-    // returns all sightings by a specific user
+        // returns all sightings by a specific user
     @GetMapping("/name/{name}")
     public String getAllByUser(Model model, @PathVariable("name") String name, Sighting sighting){
         Optional<User> user = userServiceImpl.getUserByUserName(name);
@@ -128,9 +143,10 @@ public class SightingController {
 
     // returns all sightings from a specific continent
     @GetMapping("/continent/{continent}")
-    public String getAllByContinent(Model model, @PathVariable("continent")Sighting.Continent continent, Sighting sighting){
-        List<Sighting> showAllByContinent = sightingService.getAllByContinent(continent);
-        model.addAttribute("continent", sighting.getContinent());
+    public String getAllByContinent(Model model, @PathVariable("continent")Sighting.Continent continent, String continentString, Sighting sighting){
+        continentString = continent.getDisplayValue();
+        List<Sighting> showAllByContinent = sightingService.getAllByContinent(sighting.getContinent());
+        model.addAttribute("continent", continentString);
         model.addAttribute("sightings", showAllByContinent);
         return "continent";
     }
@@ -138,6 +154,7 @@ public class SightingController {
     // returns all sightings from a specific country
     @GetMapping("/country/{country}")
     public String getAllByCountry(Model model, @PathVariable("country") String country, Sighting sighting){
+        System.out.println("passing controller " + country);
         List<Sighting> showAllByCountry = sightingService.getAllByCountry(country);
         model.addAttribute("country", sighting.getCountry());
         model.addAttribute("sightings", showAllByCountry);
