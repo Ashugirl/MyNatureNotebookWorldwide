@@ -5,12 +5,9 @@ import be.avivaCode.MyNatureNotebookWorldwide.data.Sighting;
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
 import be.avivaCode.MyNatureNotebookWorldwide.service.SightingService;
 import be.avivaCode.MyNatureNotebookWorldwide.service.UserService;
-import be.avivaCode.MyNatureNotebookWorldwide.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.data.repository.query.Param;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,19 +17,17 @@ import org.springframework.web.bind.annotation.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
 public class SightingController {
     private SightingService sightingService;
-    private UserServiceImpl userServiceImpl;
+    private UserService userServiceImpl;
     private UploadController uploadController;
 
 
     @Autowired
-    public SightingController(SightingService sightingService, UserServiceImpl userServiceImpl) {
+    public SightingController(SightingService sightingService, UserService userServiceImpl) {
             this.sightingService = sightingService;
             this.userServiceImpl = userServiceImpl;
     }
@@ -128,13 +123,13 @@ public class SightingController {
         model.addAttribute("sightings", showAllByUser);
         //unwraps user from Optional
         userServiceImpl.getUserByUserName(name).ifPresent(u -> model.addAttribute("user", u));
-        model.addAttribute("name", user.get().getName());
+        model.addAttribute("name", user.get().getUserName());
         return "userSightings";
     }
     @GetMapping("/yourSightings")
     public String getAllByCurrentUser(Authentication authentication, Model model, String name, Sighting sighting){
             User currentUser = userServiceImpl.findUserByEmail(authentication.getName());
-            Optional user = userServiceImpl.getUserByUserName(currentUser.getName());
+            Optional user = userServiceImpl.getUserByUserName(currentUser.getUserName());
             List<Sighting> showAllByCurrentUser = sightingService.getAllByUser(user);
             model.addAttribute("sightings", showAllByCurrentUser);
             return "yourSightings";

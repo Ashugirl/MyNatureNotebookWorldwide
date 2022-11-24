@@ -5,21 +5,15 @@ import be.avivaCode.MyNatureNotebookWorldwide.repositories.SightingRepository;
 import be.avivaCode.MyNatureNotebookWorldwide.repositories.UserRepository;
 import be.avivaCode.MyNatureNotebookWorldwide.service.SightingService;
 import be.avivaCode.MyNatureNotebookWorldwide.service.UserService;
-import be.avivaCode.MyNatureNotebookWorldwide.service.UserServiceImpl;
 import org.junit.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
@@ -37,7 +31,7 @@ public class SightingServiceTests {
     @Mock
     private UserRepository userRepository;
     @InjectMocks
-    UserServiceImpl userService = new UserServiceImpl();
+    UserService userService = new UserService();
     @InjectMocks
     private SightingService sightingService = new SightingService(sightingRepository, userService);
 

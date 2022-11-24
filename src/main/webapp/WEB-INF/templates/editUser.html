@@ -38,20 +38,36 @@
     <div class="row col-md-8 offset-md-2">
         <div class="card">
             <div class="card-header">
-                <h2 class="text-center">Registration</h2>
+                <h2 class="text-center">Edit Your Profile</h2>
             </div>
             <div th:if="${param.success}">
                 <div class="alert alert-info">
-                    You have successfully registered to My Nature Notebook Worldwide!
+                    You have successfully updated your profile!
                 </div>
             </div>
             <div class="card-body">
                 <form
                         method="post"
                         role="form"
-                        th:action="@{/register/save}"
+                        th:action="@{/editUser/save}"
                         th:object="${user}"
                 >
+                    <input type="hidden" th:field="*{id}"/>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">User Name</label>
+                        <input
+                                class="form-control"
+                                id="userName"
+                                name="userName"
+                                placeholder="Enter user name"
+                                th:field="*{userName}"
+                                type="text"
+                        />
+                        <p th:errors = "*{userName}" class="text-danger"
+                           th:if="${#fields.hasErrors('userName')}"></p>
+                    </div>
+
                     <div class="form-group mb-3">
                         <label class="form-label">First Name</label>
                         <input
@@ -108,8 +124,7 @@
                            th:if="${#fields.hasErrors('password')}"></p>
                     </div>
                     <div class="form-group">
-                        <button class="btn btn-primary" type="submit">Register</button>
-                        <span>Already registered? <a th:href="@{/login}">Login here</a></span>
+                        <button class="btn btn-primary" type="submit">Submit</button>
                     </div>
                 </form>
             </div>

@@ -1,14 +1,15 @@
-INSERT INTO users (name, email, password)
-VALUES ('Bloop blorp', 'blorp@gmail.com', '$2a$10$sbnm1oKTKZuujwjfE2YEPeGHTCoALAngP7iB4bjK2UvwsSVREC.CC');
+INSERT INTO users (firstName, lastName, userName, email, password)
+VALUES ('Joe', 'Smith', 'happyJoe', 'happyJoe@gmail.com', '$2a$10$sbnm1oKTKZuujwjfE2YEPeGHTCoALAngP7iB4bjK2UvwsSVREC.CC');
 
-INSERT INTO users (name, email, password)
-VALUES ('Snip snop', 'snip@gmail.com', '$2a$10$brkZMwQsPZCZXWwP5XGdOORhlgy5.k.cRA/izDmRj35kZVoMnphy.');
+INSERT INTO users (firstName, lastName, userName, email, password)
+VALUES ('Samantha', 'Starling', 'AStarIsBorn', 'star@gmail.com', '$2a$10$brkZMwQsPZCZXWwP5XGdOORhlgy5.k.cRA/izDmRj35kZVoMnphy.');
 
-INSERT INTO users (name, email, password)
-VALUES ('Floop flop', 'floop@gmail.com', '$2a$10$brkZMwQsPZCZXWwP5XGdOORhlgy5.k.cRA/izDmRj35kZVoMnphy.');
+INSERT INTO users (firstName, lastName, userName, email, password)
+VALUES ('Edith', 'Flunk', 'flunky', 'flunk@gmail.com', '$2a$10$brkZMwQsPZCZXWwP5XGdOORhlgy5.k.cRA/izDmRj35kZVoMnphy.');
 
-INSERT INTO users (name, email, password)
-VALUES ('Clip Clop', 'clop@gmail.com', '$2a$10$brkZMwQsPZCZXWwP5XGdOORhlgy5.k.cRA/izDmRj35kZVoMnphy.');
+INSERT INTO users (firstName, lastName, userName, email, password)
+VALUES ('Charles', 'Irving', 'irv', 'chirv
+@gmail.com', '$2a$10$brkZMwQsPZCZXWwP5XGdOORhlgy5.k.cRA/izDmRj35kZVoMnphy.');
 
 INSERT INTO sighting (sightingId, continent, country, quantity, user_id, speciesName, dateOfSighting, timeOfSighting, locationHidden)
 VALUES (default, 'AFRICA', 'Egypt', 3, 1, 'Bubulcus ibis - Cattle Egret , Western Cattle Egret', '2021-06-21', '12:13', 0);

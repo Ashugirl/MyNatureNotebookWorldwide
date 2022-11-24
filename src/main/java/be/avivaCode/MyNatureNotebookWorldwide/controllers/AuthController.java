@@ -70,7 +70,7 @@ public class AuthController {
         return "login";
     }
 
-// method to get current user:
+    // method to get current user:
     @RequestMapping(value = "/userName", method = RequestMethod.GET)
     @ResponseBody
     public String getCurrentUserName(Principal principal){

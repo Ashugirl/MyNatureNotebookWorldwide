@@ -26,18 +26,16 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class SightingService {
    SightingRepository sightingRepository;
-    private UserServiceImpl userServiceImpl;
+    private UserService userServiceImpl;
 
     @Autowired
-    public SightingService(SightingRepository sightingRepository, UserServiceImpl userServiceImpl) {
+    public SightingService(SightingRepository sightingRepository, UserService userServiceImpl) {
         this.sightingRepository = sightingRepository;
         this.userServiceImpl = userServiceImpl;
 
@@ -62,7 +60,7 @@ public class SightingService {
         allSightings.sort(Comparator.comparing(Sighting::getDateOfSighting).thenComparing(Sighting::getTimeOfSighting).reversed());
         return allSightings;
     }
-
+    @Cacheable("speciesNames")
     public List<Sighting> searchBySpecies(String speciesName){
         if(speciesName != null){
             System.out.println("service speciesName" + speciesName);
@@ -173,7 +171,7 @@ public class SightingService {
     }
 
     //GETTING INFO FROM ITIS API
-    @Cacheable("strings")
+    @Cacheable("searchedNames")
     public List<String> getSearchedSpeciesNames(String query){
         Map<String, String> speciesMap = new HashMap<>();
         List<String> speciesList = new ArrayList<>();

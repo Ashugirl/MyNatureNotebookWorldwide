@@ -60,7 +60,7 @@
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto">
                         <div class="fw-bold">User</div>
-                        <a th:href="@{/name/{name} (name=${user.name})}" th:text = "${user.name}">name</a>
+                        <a th:href="@{/name/{userName} (userName=${user.userName})}" th:text = "${user.userName}">name</a>
                     </div>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -129,7 +129,7 @@
                         <div class="card text-bg-dark text-white">
                             <img src="https://waarnemingen.be/media/photo/57273042.jpg" class="img-fluid" alt="...">
                             <div class="card-img-overlay d-flex flex-column justify-content-end">
-                                 <p class="card-text"><small>&copy;<span th:text="${user.name}">User</span></small></p>
+                                 <p class="card-text"><small>&copy;<span th:text="${user.userName}">userName</span></small></p>
                             </div>
                             </div>
                     </div>

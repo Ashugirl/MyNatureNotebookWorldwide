@@ -11,7 +11,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private String name;
+    private String firstName;
+    @Column(nullable = false)
+    private String lastName;
+    @Column(nullable = false)
+    private String userName;
     @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
@@ -31,17 +35,19 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String name, String email, String password, List<Role> roles) {
+    public User(Long id, String userName, String email, String password, List<Role> roles) {
         this.id = id;
-        this.name = name;
+        this.userName = userName;
         this.email = email;
         this.password = password;
         this.roles = roles;
     }
 
-    public User(Long id, String name, String email, String password, List<Role> roles, List<Sighting> sightings) {
+    public User(Long id, String userName, String firstName, String lastName,String email, String password, List<Role> roles, List<Sighting> sightings) {
         this.id = id;
-        this.name = name;
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.roles = roles;
@@ -56,12 +62,28 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
