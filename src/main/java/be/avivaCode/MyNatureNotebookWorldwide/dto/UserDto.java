@@ -9,6 +9,8 @@ public class UserDto {
     private String firstName;
     @NotEmpty
     private String lastName;
+    @NotEmpty
+    private String userName;
     @NotEmpty(message = "Please enter an email address.")
     @Email
     private String email;
@@ -18,10 +20,11 @@ public class UserDto {
     public UserDto() {
     }
 
-    public UserDto(Long id, String firstName, String lastName, String email, String password) {
+    public UserDto(Long id, String firstName, String lastName, String userName, String email, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.userName = userName;
         this.email = email;
         this.password = password;
     }
@@ -48,6 +51,14 @@ public class UserDto {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getEmail() {

@@ -63,6 +63,8 @@
             <th>User Name</th>
             <th>Date</th>
             <th>Time</th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody>
@@ -74,9 +76,15 @@
             <td><a th:href="@{/name/{name} (name=${sighting.user.userName})}" th:text = "${sighting.user.userName}">user</a></td>
             <td th:text="${#temporals.format(sighting.dateOfSighting, 'dd-MM-yyyy')}">dateOfSighting</td>
             <td th:text="${#temporals.format(sighting.timeOfSighting, 'HH:mm')}">timeOfSighting</td>
-        </tr>
-        </tbody>
-    </table>
+            <td><a th:href="@{/editSighting/{sightingId} (sightingId=${sighting.sightingId})}" type="button" class="btn btn-primary">Edit</a></td>
+            <td><form method="post"
+                     role="form"
+                     th:action="@{{sightingId}/deleteSighting (sightingId = ${sighting.sightingId})}"
+                     th:object="${sighting}"><button type="submit" class="btn btn-primary">Delete</button> </form>
+                     </td>
+       </tr>
+       </tbody>
+   </table>
 </div>
 
 </body>

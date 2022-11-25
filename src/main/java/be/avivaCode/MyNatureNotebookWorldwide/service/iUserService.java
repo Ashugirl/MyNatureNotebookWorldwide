@@ -14,4 +14,6 @@ public interface iUserService {
         User findUserByEmail(String email);
 
         List<UserDto> findAllUsers();
+
+        void deleteUser(UserDto userDto);
     }

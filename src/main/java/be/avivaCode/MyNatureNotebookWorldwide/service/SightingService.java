@@ -32,12 +32,12 @@ import java.util.stream.Collectors;
 @Service
 public class SightingService {
    SightingRepository sightingRepository;
-    private UserService userServiceImpl;
+    private UserService userService;
 
     @Autowired
-    public SightingService(SightingRepository sightingRepository, UserService userServiceImpl) {
+    public SightingService(SightingRepository sightingRepository, UserService userService) {
         this.sightingRepository = sightingRepository;
-        this.userServiceImpl = userServiceImpl;
+        this.userService = userService;
 
     }
 
@@ -134,6 +134,7 @@ public class SightingService {
                     updatedSighting.setQuantity(sighting.getQuantity());
                     sightingRepository.save(updatedSighting);
                 });
+                    sightingRepository.save(sighting);
     }
 
     private ISpringTemplateEngine templateEngine(ITemplateResolver templateResolver) {

@@ -2,6 +2,7 @@ package be.avivaCode.MyNatureNotebookWorldwide.data;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -26,7 +27,7 @@ public class User {
             joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "role_id", referencedColumnName = "id") }
     )
-    private List<Role> roles = new ArrayList<>();
+    private List<Role> roles = new LinkedList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Sighting> sightings;

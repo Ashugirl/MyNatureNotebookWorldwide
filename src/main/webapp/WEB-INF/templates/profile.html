@@ -50,7 +50,7 @@
 
 <div class="container">
     <div class="row col-md-10">
-        <h2>Welcome to your profile page, <a th:text = "${user.userName}">userName</a>
+        <h2>Welcome to your profile page, <p th:text = "${user.userName}">userName</p>
         </h2><br>
     </div>
 </div><br>
@@ -90,8 +90,37 @@
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto">
-                        <div class="button"><a th:href="@{/editUser}"> edit profile</a></div>
+                        <a th:href="@{/editUser}" type="button" class="btn btn-success" >Edit Profile</a>
+                        <form method="post"
+                              role="form"
+                              th:action="@{/profile/delete}"
+                              th:object="${user}">
+                            <button class="btn btn-danger" type="submit">Delete Account</button>
+                        </form>
 
+                        <!-- Button trigger modal
+
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#profile"  th:action="@{/profile/deleteButton}">
+                            Delete Account
+                        </button>
+                        <!-- Modal
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete account? Are you sure?</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Deleting your account would permanently delete all of your sightings.
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No. Go back.</button>
+                                        <button type="button" th:action="@{/profile/delete}" class="btn btn-primary">Yes. Delete.</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
                     </div>
                 </li>
             </ol>
@@ -115,84 +144,6 @@
             </ol>
         </div>
     </div>
-        <!--  <div class="card">
-              <div class="card-header">
-                  <h2 class="text-center">Registration</h2>
-              </div>
-              <div th:if="${param.success}">
-                  <div class="alert alert-info">
-                      You have successfully registered our app!
-                  </div>
-              </div>
-              <div class="card-body">
-                  <form
-                          method="post"
-                          role="form"
-                          th:action="@{/register/save}"
-                          th:object="${user}"
-                  >
-                      <div class="form-group mb-3">
-                          <label class="form-label">First Name</label>
-                          <input
-                                  class="form-control"
-                                  id="firstName"
-                                  name="firstName"
-                                  placeholder="Enter first name"
-                                  th:field="*{firstName}"
-                                  type="text"
-                          />
-                          <p th:errors = "*{firstName}" class="text-danger"
-                             th:if="${#fields.hasErrors('firstName')}"></p>
-                      </div>
-
-                      <div class="form-group mb-3">
-                          <label class="form-label">Last Name</label>
-                          <input
-                                  class="form-control"
-                                  id="lastName"
-                                  name="lastName"
-                                  placeholder="Enter last name"
-                                  th:field="*{lastName}"
-                                  type="text"
-                          />
-                          <p th:errors = "*{lastName}" class="text-danger"
-                             th:if="${#fields.hasErrors('lastName')}"></p>
-                      </div>
-
-                      <div class="form-group mb-3">
-                          <label class="form-label">Email</label>
-                          <input
-                                  class="form-control"
-                                  id="email"
-                                  name="email"
-                                  placeholder="Enter email address"
-                                  th:field="*{email}"
-                                  type="email"
-                          />
-                          <p th:errors = "*{email}" class="text-danger"
-                             th:if="${#fields.hasErrors('email')}"></p>
-                      </div>
-
-                      <div class="form-group mb-3">
-                          <label class="form-label">Password</label>
-                          <input
-                                  class="form-control"
-                                  id="password"
-                                  name="password"
-                                  placeholder="Enter password"
-                                  th:field="*{password}"
-                                  type="password"
-                          />
-                          <p th:errors = "*{password}" class="text-danger"
-                             th:if="${#fields.hasErrors('password')}"></p>
-                      </div>
-                      <div class="form-group">
-                          <button class="btn btn-primary" type="submit">Register</button>
-                          <span>Already registered? <a th:href="@{/login}">Login here</a></span>
-                      </div>
-                  </form>
-              </div>
-          </div>-->
     </div>
 </div>
 </body>

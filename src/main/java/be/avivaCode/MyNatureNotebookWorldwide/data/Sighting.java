@@ -13,7 +13,7 @@ public class Sighting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sightingId;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id")//, nullable = false)
     private User user;
     @Column(nullable = false)

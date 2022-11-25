@@ -32,7 +32,9 @@ public class UserService implements iUserService {
 
     public void saveUser(UserDto userDto) {
         User user = new User();
-        user.setUserName(userDto.getFirstName() + " " + userDto.getLastName());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setUserName(userDto.getUserName());
         user.setEmail(userDto.getEmail());
         //encrypt the password using spring security
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
@@ -44,9 +46,24 @@ public class UserService implements iUserService {
         userRepository.save(user);
     }
 
+    public void updateUser(UserDto userDto){
+        User user = userRepository.findByEmail(userDto.getEmail());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setUserName(userDto.getUserName());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        System.out.println("service layer update method " + user);
+        userRepository.save(user);
+    }
+
+    public void deleteUser(UserDto userDto){
+        User user = userRepository.findByEmail(userDto.getEmail());
+        System.out.println("service layer delete method " + user);
+        userRepository.delete(user);
+    }
     @Override
     public User findUserByEmail(String email) {
-        System.out.println("userserviceimpl findbyemail");
         return userRepository.findByEmail(email);
     }
 
@@ -70,6 +87,7 @@ public class UserService implements iUserService {
         role.setName("ROLE_ADMIN");
         return roleRepository.save(role);
     }
+
     public Optional<User> getUserById(Long id){
         return userRepository.findById(id);
     }
@@ -92,9 +110,7 @@ public class UserService implements iUserService {
 //
 //
 //    }
-    public void deleteUser(User user){
 
-    }
 
 //
 //    public User createUser(User user){
