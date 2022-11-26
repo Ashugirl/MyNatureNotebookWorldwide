@@ -78,8 +78,8 @@ public class SightingController {
                               Authentication authentication, Model model, @PathVariable ("sightingId")Long sightingId) {
         sighting.setUser(userService.findUserByEmail(authentication.getName()));
         model.addAttribute("sightingId", sightingId);
+        System.out.println("Controller edit method " + sighting);
         sightingService.editSighting(sighting);
-        System.out.println(sighting);
         return "redirect:/sightingPage/{sightingId}";
     }
 
@@ -149,16 +149,21 @@ public class SightingController {
             return "yourSightings";
     }
 
-    @GetMapping("/yourSightings/deleteSighting")
-    public String deleteSightingsButton(){
+    @GetMapping("/yourSightings/{sightingId}/deleteSighting")
+    public String deleteSightingsButton(@PathVariable("sightingId") Long id, Model model){
+        Sighting sighting = sightingService.getSightingById(id);
+        model.addAttribute("sighting", sighting);
+        model.addAttribute("sightingId", sighting.getSightingId());
         return "yourSightings/deleteSighting";
     }
+
     @PostMapping("/{sightingId}/deleteSighting")
     public String deleteSighting(@ModelAttribute Sighting sighting, @PathVariable ("sightingId") Long sightingId, Authentication authentication, Model model){
         User currentUser = userService.findUserByEmail(authentication.getName());
         model.addAttribute("user", currentUser);
         model.addAttribute("sighting", sightingService.getSightingById(sightingId));
         model.addAttribute("sightingId", sightingId);
+        System.out.println("sighting service delete " + sightingId + " " + sighting.getSpeciesName());
         sightingService.deleteSighting(sightingId);
         return "redirect:/yourSightings";
     }
