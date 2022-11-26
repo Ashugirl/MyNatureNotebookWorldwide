@@ -98,6 +98,9 @@ public class SightingController {
     @GetMapping("/sightingPage/{sightingId}")
     public String getSpecificSighting(Model model, @PathVariable("sightingId") Long sightingId){
         Sighting sighting = sightingService.getSightingById(sightingId);
+        User user = sighting.getUser();
+        String userEmail = user.getEmail();
+        model.addAttribute("name", userEmail);
         model.addAttribute("user", sighting.getUser());
         model.addAttribute("speciesName", sighting.getSpeciesName());
         model.addAttribute("sighting", sighting);
@@ -128,7 +131,7 @@ public class SightingController {
 
         // returns all sightings by a specific user
     @GetMapping("/name/{name}")
-    public String getAllByUser(Model model, @PathVariable("name") String name, Sighting sighting){
+    public String getAllByUser(Model model, @PathVariable("name") String name){
         Optional<User> user = userService.getUserByUserName(name);
         List<Sighting> showAllByUser = sightingService.getAllByUser(user);
         model.addAttribute("sightings", showAllByUser);

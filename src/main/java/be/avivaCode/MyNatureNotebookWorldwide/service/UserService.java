@@ -6,6 +6,7 @@ import be.avivaCode.MyNatureNotebookWorldwide.dto.UserDto;
 import be.avivaCode.MyNatureNotebookWorldwide.repositories.RoleRepository;
 import be.avivaCode.MyNatureNotebookWorldwide.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -57,10 +58,11 @@ public class UserService implements iUserService {
         userRepository.save(user);
     }
 
-    public void deleteUser(UserDto userDto){
-        User user = userRepository.findByEmail(userDto.getEmail());
-        System.out.println("service layer delete method " + user);
-        userRepository.delete(user);
+    public void deleteUser(User user){
+//        User user = userRepository.findByEmail(userDto.getEmail());
+       System.out.println("SERVICE DELETE METHOD " + user);
+       userRepository.delete(user);
+
     }
     @Override
     public User findUserByEmail(String email) {

@@ -15,5 +15,5 @@ public interface iUserService {
 
         List<UserDto> findAllUsers();
 
-        void deleteUser(UserDto userDto);
+       // void deleteUser(UserDto userDto);
     }

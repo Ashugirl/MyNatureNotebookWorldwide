@@ -50,7 +50,14 @@
 <div class="container">
     <div class="row col-md-10">
         <h2><a th:href="@{/species/{species} (species=${sighting.speciesName})}" th:text = "${sighting.speciesName}">speciesName</a>
-        </h2><br>
+        </h2>
+      <!--  <div th:switch="${sighting.user.email}">
+                        <span th:case="currentUserEmail">
+                            <a th:href="@{/editSighting/{sightingId} (sightingId=${sighting.sightingId})}" type="button" class="btn btn-primary">Edit</a>
+                        </span>
+                        <span th:case="*">blabla</span>
+    </div>-->
+        <br>
     </div>
 </div><br>
     <div class="container text-left">

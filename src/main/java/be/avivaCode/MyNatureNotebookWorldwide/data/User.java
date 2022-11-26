@@ -29,8 +29,8 @@ public class User {
     )
     private List<Role> roles = new LinkedList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Sighting> sightings;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Sighting> sightings = new ArrayList<>();
 
 
     public User() {

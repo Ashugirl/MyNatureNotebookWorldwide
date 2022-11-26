@@ -13,8 +13,8 @@ public class Sighting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sightingId;
-    @ManyToOne
-    @JoinColumn(name = "user_id")//, nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(name = "user_id")
     private User user;
     @Column(nullable = false)
     private String speciesName;

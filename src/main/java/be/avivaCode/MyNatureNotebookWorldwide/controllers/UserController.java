@@ -70,9 +70,10 @@ public class UserController {
     }
 //TODO - figure out problem with BeanPropertyBindingResult errors when trying to delete
     @PostMapping("/profile/delete")
-    public String deleteUser(@Valid @ModelAttribute("user") UserDto userDto){
-        System.out.println("controller delete method " + userDto.getUserName() + " " + userDto.getEmail());
-        userService.deleteUser(userDto);
-        return "redirect:/index";
+    public String deleteUser(@Valid @ModelAttribute("user") User user, Authentication authentication){
+        user = userRepository.findByEmail(authentication.getName());
+        System.out.println("CONTROLLER DELETE METHOD " + user.getUserName() + " " + user.getEmail());
+        userService.deleteUser(user);
+        return "redirect:/logout";
     }
 }
