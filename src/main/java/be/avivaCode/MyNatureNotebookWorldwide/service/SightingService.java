@@ -120,18 +120,20 @@ public class SightingService {
     }
 
     public void editSighting(Sighting sighting) {
-        sightingRepository.findById(sighting.getSightingId())
+        Long sightingId = sighting.getSightingId();
+        sightingRepository.findById(sightingId)
                 .ifPresent(updatedSighting -> {
-                    updatedSighting.setSpeciesName(sighting.getSpeciesName());
-                    updatedSighting.setDateOfSighting(sighting.getDateOfSighting());
-                    updatedSighting.setTimeOfSighting(sighting.getTimeOfSighting());
-                    updatedSighting.setContinent(sighting.getContinent());
-                    updatedSighting.setCountry(sighting.getCountry());
-                    updatedSighting.setLocation(sighting.getLocation());
-                    updatedSighting.setLifer(sighting.getLifer());
-                    updatedSighting.setLocationHidden(sighting.getLocationHidden());
-                    updatedSighting.setKeepPrivate(sighting.getKeepPrivate());
-                    updatedSighting.setQuantity(sighting.getQuantity());
+                    updatedSighting.setSightingId(updatedSighting.getSightingId());
+                    updatedSighting.setSpeciesName(updatedSighting.getSpeciesName());
+                    updatedSighting.setDateOfSighting(updatedSighting.getDateOfSighting());
+                    updatedSighting.setTimeOfSighting(updatedSighting.getTimeOfSighting());
+                    updatedSighting.setContinent(updatedSighting.getContinent());
+                    updatedSighting.setCountry(updatedSighting.getCountry());
+                    updatedSighting.setLocation(updatedSighting.getLocation());
+                    updatedSighting.setLifer(updatedSighting.getLifer());
+                    updatedSighting.setLocationHidden(updatedSighting.getLocationHidden());
+                    updatedSighting.setKeepPrivate(updatedSighting.getKeepPrivate());
+                    updatedSighting.setQuantity(updatedSighting.getQuantity());
                     sightingRepository.save(updatedSighting);
                 });
                     sightingRepository.save(sighting);
