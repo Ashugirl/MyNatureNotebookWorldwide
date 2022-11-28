@@ -9,6 +9,7 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.spring5.ISpringTemplateEngine;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -26,6 +27,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -264,6 +266,10 @@ public BufferedImage getSightingImage(){
 }
 
 
-
-
+    public void saveImage(MultipartFile imageFile) throws Exception{
+        String folder = "/photos/";
+        byte[] bytes= imageFile.getBytes();
+        Path path = Paths.get(folder + imageFile.getOriginalFilename());
+        Files.write(path, bytes);
+    }
 }

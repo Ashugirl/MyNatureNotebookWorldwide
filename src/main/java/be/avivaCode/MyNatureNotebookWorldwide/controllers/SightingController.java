@@ -4,6 +4,7 @@ package be.avivaCode.MyNatureNotebookWorldwide.controllers;
 
 import be.avivaCode.MyNatureNotebookWorldwide.data.Sighting;
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
+import be.avivaCode.MyNatureNotebookWorldwide.repositories.SightingRepository;
 import be.avivaCode.MyNatureNotebookWorldwide.service.SightingService;
 import be.avivaCode.MyNatureNotebookWorldwide.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
@@ -26,12 +28,14 @@ public class SightingController {
     private SightingService sightingService;
     private UserService userService;
     private UploadController uploadController;
+    private SightingRepository sightingRepository;
 
 
     @Autowired
-    public SightingController(SightingService sightingService, UserService userService) {
+    public SightingController(SightingService sightingService, UserService userService, SightingRepository sightingRepository) {
             this.sightingService = sightingService;
             this.userService = userService;
+            this.sightingRepository = sightingRepository;
     }
 
     /******************* CRUD METHODS **********************/
@@ -209,6 +213,19 @@ public class SightingController {
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    }
+
+    @PostMapping("/uploadImage")
+    public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile){
+        String returnValue = "";
+        try {
+            sightingService.saveImage(imageFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error saving photo." + e);
+            returnValue = "error";
+        }
+        return returnValue;
     }
 
 }
