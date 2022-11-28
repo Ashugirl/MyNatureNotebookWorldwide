@@ -133,11 +133,11 @@
             <ol class="list-group list-group-flush">
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto">
-                        <div class="card text-bg-dark text-white">
-                            <img src="https://waarnemingen.be/media/photo/57273042.jpg" class="img-fluid" alt="...">
+                        <div class="card text-bg-dark text-white" th:each="photo: ${sighting.photos}">
+                            <img th:src="@{${'/photos/' + photo.fileName}}" alt="sighting photo"/>
+                          <!--  <img src="https://waarnemingen.be/media/photo/57273042.jpg" class="img-fluid" alt="...">-->
                             <div class="card-img-overlay d-flex flex-column justify-content-end">
                                  <p class="card-text"><small>&copy;<span th:text="${user.userName}">userName</span></small></p>
-                            </div>
                             </div>
                     </div>
                 </li>

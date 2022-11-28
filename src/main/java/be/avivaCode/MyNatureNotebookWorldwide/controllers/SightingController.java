@@ -2,6 +2,7 @@ package be.avivaCode.MyNatureNotebookWorldwide.controllers;
 
 //TODO - put methods in logical order
 
+import be.avivaCode.MyNatureNotebookWorldwide.data.Photo;
 import be.avivaCode.MyNatureNotebookWorldwide.data.Sighting;
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
 import be.avivaCode.MyNatureNotebookWorldwide.repositories.SightingRepository;
@@ -16,8 +17,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -49,11 +52,33 @@ public class SightingController {
     }
     // persists a sighting to the database
     @PostMapping("/addSighting/save")
-    public String addSighting(@ModelAttribute("sighting") Sighting sighting,
-                              Authentication authentication) {
-        sighting.setUser(userService.findUserByEmail(authentication.getName()));
-        sightingService.createSighting(sighting);
-        return "redirect:/addSighting?success";
+    public ModelAndView addSighting(@ModelAttribute("sighting") Sighting sighting, Long sightingId,
+                                    @RequestParam("imageFile") MultipartFile imageFile, Authentication authentication, Model model) {
+       ModelAndView modelAndView = new ModelAndView();
+       try {
+           sighting.setUser(userService.findUserByEmail(authentication.getName()));
+           sightingService.createSighting(sighting);
+       } catch (Exception e){
+           e.printStackTrace();
+           modelAndView.setViewName("/addSighting");
+           return modelAndView;
+       }
+       Photo photo = new Photo();
+       try {
+           photo.setFileName(imageFile.getOriginalFilename());
+           photo.setSighting(sightingService.getSightingById(sighting.getSightingId()));
+           sightingService.saveImage(imageFile, photo);
+           model.addAttribute("photo", photo);
+           model.addAttribute("sighting", sighting);
+           modelAndView.setViewName("redirect:/addSighting?success");
+       } catch (IOException e){
+           e.printStackTrace();
+           modelAndView.setViewName("/addSighting");
+           return modelAndView;
+       }
+       modelAndView.addObject("photo", photo);
+       modelAndView.addObject("sighting", sighting);
+        return modelAndView;
     }
 
     // returns all sightings by a specific user
@@ -117,6 +142,7 @@ public class SightingController {
         model.addAttribute("speciesName", sighting.getSpeciesName());
         model.addAttribute("sighting", sighting);
         model.addAttribute("sightingId", sighting.getSightingId());
+        model.addAttribute("photo", sighting.getPhotos());
         if(sighting.getLocationHidden() == true){
             sighting.setLocation("Location hidden");
         }
@@ -126,8 +152,8 @@ public class SightingController {
     // handler to get page to allow editing of sighting
     //TODO - figure out problem with speciesname autocomplete on species edit page
     @GetMapping("/editSighting/{sightingId}")
-    public String getEditSightingPage(@PathVariable("sightingId") Long id, Model model){
-        Sighting sighting = sightingService.getSightingById(id);
+    public String getEditSightingPage(@PathVariable("sightingId") Long sightingId, Model model){
+        Sighting sighting = sightingService.getSightingById(sightingId);
         model.addAttribute("sightingId", sighting.getSightingId());
         model.addAttribute("sighting", sighting);
         model.addAttribute("countryList", sightingService.getCountryList());
@@ -214,19 +240,20 @@ public class SightingController {
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
-
-    @PostMapping("/uploadImage")
-    public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile){
-        String returnValue = "";
-        try {
-            sightingService.saveImage(imageFile);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Error saving photo." + e);
-            returnValue = "error";
-        }
-        return returnValue;
-    }
+//
+//    @PostMapping("/uploadImage")
+//    public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile, Model model){
+//        model.addAttribute("sighting", new Sighting());
+//        String returnValue = "/addSighting";
+//        try {
+//            sightingService.saveImage(imageFile);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.out.println("Error saving photo." + e);
+//            returnValue = "error";
+//        }
+//        return returnValue;
+//    }
 
 }
 

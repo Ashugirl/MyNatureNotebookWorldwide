@@ -79,9 +79,10 @@
                     </div>
                     <div class="card-body">
                         <form method="post"
-                                role="form"
-                                th:action="@{/addSighting/save}"
-                                th:object="${sighting}">
+                              role="form"
+                              enctype="multipart/form-data"
+                              th:action="@{/addSighting/save}"
+                              th:object="${sighting}">
                             <div class="form-group mb-3">
                                 <label class="form-label">* Species name</label>
                                 <input class="form-control"
@@ -268,17 +269,22 @@
                                    th:if="${#fields.hasErrors('keepPrivate')}"></p>
                             </div>
                             </fieldset>
+                        <div class="col-md-8 mx-auto">
+                            <input id="Sighting_Id" type="hidden" name="sightingId" th:field="*{sightingId}"/>
+                                <input type="file" name="imageFile"/>
                             <div class="form-group">
                                 <button class="btn btn-primary" type="submit">Submit</button>
                             </div>
-                        </form>
-                        <div class="col-md-8 mx-auto">
-
-                            <form method="post" enctype="multipart/form-data" action="/uploadImage">
-                                <input type="file" name="imageFile">
-                                <input type="submit" value="uploadImage"/>
-
+                        </div>
                             </form>
+                        <!--    <h3>Upload image</h3>
+                            <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
+                            <form method="post" enctype="multipart/form-data" th:action="@{/upload}">
+                                <div class="form-group">
+                                    <input type="file" name="file" class="form-control-file">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Upload File</button>
+                            </form>-->
                             <!--<fieldset><legend>Upload Image</legend>
                             <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
                             <form method="post" th:action="@{/upload}" th:object="${sighting}" enctype="multipart/form-data">

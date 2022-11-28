@@ -1,7 +1,9 @@
 package be.avivaCode.MyNatureNotebookWorldwide.service;
 
+import be.avivaCode.MyNatureNotebookWorldwide.data.Photo;
 import be.avivaCode.MyNatureNotebookWorldwide.data.Sighting;
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
+import be.avivaCode.MyNatureNotebookWorldwide.repositories.PhotoRepository;
 import be.avivaCode.MyNatureNotebookWorldwide.repositories.SightingRepository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -33,13 +35,17 @@ import java.util.stream.Collectors;
 
 @Service
 public class SightingService {
-   SightingRepository sightingRepository;
+    private SightingRepository sightingRepository;
     private UserService userService;
+    private PhotoRepository photoRepository;
+    private PhotoService photoService;
 
     @Autowired
-    public SightingService(SightingRepository sightingRepository, UserService userService) {
+    public SightingService(SightingRepository sightingRepository, UserService userService, PhotoRepository photoRepository, PhotoService photoService) {
         this.sightingRepository = sightingRepository;
         this.userService = userService;
+        this.photoRepository = photoRepository;
+        this.photoService = photoService;
 
     }
 
@@ -250,26 +256,24 @@ public class SightingService {
         }
     }
 
-public BufferedImage getSightingImage(){
-        BufferedImage sightingImage = new BufferedImage(250, 250, 6);
-    try{
-        Path imgPath = Path.of(" ");
-        Files.createFile(imgPath);
-        sightingImage = ImageIO.read(new URL(""));
-        ImageIO.write(sightingImage, "jpg", new File(String.valueOf(imgPath)));
-    } catch (MalformedURLException e) {
-        e.printStackTrace();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-    return sightingImage;
-}
+//public BufferedImage getSightingImage(){
+//        BufferedImage sightingImage = new BufferedImage(250, 250, 6);
+//    try{
+//        Path imgPath = Path.of(" ");
+//        Files.createFile(imgPath);
+//        sightingImage = ImageIO.read(new URL(""));
+//        ImageIO.write(sightingImage, "jpg", new File(String.valueOf(imgPath)));
+//    } catch (MalformedURLException e) {
+//        e.printStackTrace();
+//    } catch (IOException e) {
+//        e.printStackTrace();
+//    }
+//    return sightingImage;
+//}
 
 
-    public void saveImage(MultipartFile imageFile) throws Exception{
-        String folder = "/photos/";
-        byte[] bytes= imageFile.getBytes();
-        Path path = Paths.get(folder + imageFile.getOriginalFilename());
-        Files.write(path, bytes);
+    public void saveImage(MultipartFile imageFile, Photo photo) throws IOException{
+        photoService.saveImage(imageFile, photo);
+        photoService.savePhoto(photo);
     }
 }

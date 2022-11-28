@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.awt.image.BufferedImage;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 public class Sighting {
@@ -52,6 +53,9 @@ public class Sighting {
     private Boolean lifer = false;
     private Boolean keepPrivate = false;
     private Boolean locationHidden = false;
+
+    @OneToMany(mappedBy = "sighting")
+    private List<Photo> photos;
 
 
 
@@ -237,6 +241,13 @@ public class Sighting {
         this.locationHidden = locationHidden;
     }
 
+    public List<Photo> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<Photo> photos) {
+        this.photos = photos;
+    }
 
     @Override
     public String toString() {

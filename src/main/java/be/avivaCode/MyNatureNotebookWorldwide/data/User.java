@@ -29,8 +29,20 @@ public class User {
     )
     private List<Role> roles = new LinkedList<>();
 
+    @OneToOne
+    @JoinColumn(name = "profile_photo_photo_id")
+    private Photo profilePhoto;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sighting> sightings = new ArrayList<>();
+
+    public Photo getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    public void setProfilePhoto(Photo profilePhoto) {
+        this.profilePhoto = profilePhoto;
+    }
 
 
     public User() {
