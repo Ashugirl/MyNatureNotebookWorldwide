@@ -160,7 +160,7 @@
                                         name="quantity"
                                         placeholder=""
                                         th:field="*{quantity}"
-                                        type="number" min="0"/>
+                                        type="number" min="1"/>
                                 <p th:errors = "*{quantity}" class="text-danger"
                                    th:if="${#fields.hasErrors('quantity')}"></p>
                             </div>
@@ -269,13 +269,19 @@
                                    th:if="${#fields.hasErrors('keepPrivate')}"></p>
                             </div>
                             </fieldset>
-                        <div class="col-md-8 mx-auto">
+                            <fieldset>
+                                <legend><i class="fa fa-camera"></i> Upload Photo and Submit Sighting</legend>
+                            <div class="form-group mb-3">
                             <input id="Sighting_Id" type="hidden" name="sightingId" th:field="*{sightingId}"/>
-                                <input type="file" name="imageFile"/>
-                            <div class="form-group">
+                                <div>
+                                <input type="file" name="imageFile"/><br><br>
+                                </div>
+                                <div style="align-right">
                                 <button class="btn btn-primary" type="submit">Submit</button>
+                                </div>
                             </div>
-                        </div>
+
+                            </fieldset>
                             </form>
                         <!--    <h3>Upload image</h3>
                             <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>

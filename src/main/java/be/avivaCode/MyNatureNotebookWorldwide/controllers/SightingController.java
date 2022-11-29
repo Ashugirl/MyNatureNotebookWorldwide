@@ -67,6 +67,7 @@ public class SightingController {
        try {
            photo.setFileName(imageFile.getOriginalFilename());
            photo.setSighting(sightingService.getSightingById(sighting.getSightingId()));
+           photo.setUser(sightingService.getSightingById(sighting.getSightingId()).getUser());
            sightingService.saveImage(imageFile, photo);
            model.addAttribute("photo", photo);
            model.addAttribute("sighting", sighting);
