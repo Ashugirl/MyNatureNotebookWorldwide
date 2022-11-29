@@ -29,9 +29,8 @@ public class User {
     )
     private List<Role> roles = new LinkedList<>();
 
-    @OneToMany
-    @JoinColumn(name = "profile_photo_photo_id")
-    private List<Photo> userPhotos;
+    @OneToMany (mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Photo> userPhotos = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sighting> sightings = new ArrayList<>();
@@ -40,7 +39,7 @@ public class User {
         return userPhotos;
     }
 
-    public void setProfilePhoto(List <Photo> userPhotos) {
+    public void setUserPhotos(List <Photo> userPhotos) {
         this.userPhotos = userPhotos;
     }
 

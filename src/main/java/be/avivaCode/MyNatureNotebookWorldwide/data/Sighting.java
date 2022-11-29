@@ -54,7 +54,7 @@ public class Sighting {
     private Boolean keepPrivate = false;
     private Boolean locationHidden = false;
 
-    @OneToMany(mappedBy = "sighting")
+    @OneToMany(mappedBy = "sighting", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Photo> photos;
 
 

@@ -60,7 +60,7 @@ public class SightingController {
            sightingService.createSighting(sighting);
        } catch (Exception e){
            e.printStackTrace();
-           modelAndView.setViewName("/addSighting");
+           modelAndView.setViewName("/addSighting?success");
            return modelAndView;
        }
        Photo photo = new Photo();
@@ -152,25 +152,59 @@ public class SightingController {
 
     // handler to get page to allow editing of sighting
     //TODO - figure out problem with speciesname autocomplete on species edit page
-    @GetMapping("/editSighting/{sightingId}")
-    public String getEditSightingPage(@PathVariable("sightingId") Long sightingId, Model model){
+    @GetMapping("/updateSighting/{sightingId}")
+    public String getUpdateSightingPage(@PathVariable("sightingId") Long sightingId, Model model){
         Sighting sighting = sightingService.getSightingById(sightingId);
         model.addAttribute("sightingId", sighting.getSightingId());
         model.addAttribute("sighting", sighting);
         model.addAttribute("countryList", sightingService.getCountryList());
         model.addAttribute("speciesName", sighting.getSpeciesName());
-        return "editSighting";
+        return "updateSighting";
     }
-    // updates sighting
-    @PostMapping("/editSighting/{sightingId}/save")
-    public String updateSighting(@Valid @ModelAttribute("sighting") Sighting sighting,
-                                 Authentication authentication, Model model,
-                                 @PathVariable ("sightingId")Long sightingId) {
-        sighting.setUser(userService.findUserByEmail(authentication.getName()));
-        model.addAttribute("sightingId", sightingId);
-        sightingService.editSighting(sighting);
-        return "redirect:/sightingPage/{sightingId}";
+
+    @PostMapping("/updateSighting/{sightingId}/save")
+    public ModelAndView updateSighting(@ModelAttribute("sighting") Sighting sighting, @PathVariable("sightingId") Long sightingId,
+                                    @RequestParam("imageFile") MultipartFile imageFile, Authentication authentication, Model model) {
+        ModelAndView modelAndView = new ModelAndView();
+        try {
+            sighting.setUser(userService.findUserByEmail(authentication.getName()));
+            model.addAttribute("sightingId", sightingId);
+            sightingService.createSighting(sighting);
+            modelAndView.setViewName("redirect:/updateSighting?success");
+        } catch (Exception e){
+            e.printStackTrace();
+            modelAndView.setViewName("redirect:/sightingPage/{sightingId}");
+            return modelAndView;
+        }
+        Photo photo = new Photo();
+        try {
+            photo.setFileName(imageFile.getOriginalFilename());
+            photo.setSighting(sightingService.getSightingById(sighting.getSightingId()));
+            photo.setUser(sightingService.getSightingById(sighting.getSightingId()).getUser());
+            sightingService.saveImage(imageFile, photo);
+            model.addAttribute("photo", photo);
+            model.addAttribute("sighting", sighting);
+            System.out.println("passing update sighting success");
+            modelAndView.setViewName("redirect:/sightingPage/{sightingId}");
+        } catch (IOException e){
+            e.printStackTrace();
+            modelAndView.setViewName("/updateSighting");
+            return modelAndView;
+        }
+        modelAndView.addObject("photo", photo);
+        modelAndView.addObject("sighting", sighting);
+        return modelAndView;
     }
+//    // updates sighting
+//    @PostMapping("/editSighting/{sightingId}/save")
+//    public String updateSighting(@Valid @ModelAttribute("sighting") Sighting sighting,
+//                                 Authentication authentication, Model model,
+//                                 @PathVariable ("sightingId")Long sightingId) {
+//        sighting.setUser(userService.findUserByEmail(authentication.getName()));
+//        model.addAttribute("sightingId", sightingId);
+//        sightingService.editSighting(sighting);
+//        return "redirect:/sightingPage/{sightingId}";
+//    }
     // handler for delete sighting button
     @GetMapping("/yourSightings/{sightingId}/deleteSighting")
     public String deleteSightingsButton(@PathVariable("sightingId") Long id, Model model){

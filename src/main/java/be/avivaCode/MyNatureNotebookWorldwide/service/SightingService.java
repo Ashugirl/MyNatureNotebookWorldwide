@@ -127,23 +127,23 @@ public class SightingService {
         return sightings;
     }
 
-    public void editSighting(Sighting sighting) {
-        Long sightingId = sighting.getSightingId();
-        sightingRepository.findById(sightingId)
-                .ifPresent(updatedSighting -> {
-                    updatedSighting.setSightingId(updatedSighting.getSightingId());
-                    updatedSighting.setSpeciesName(updatedSighting.getSpeciesName());
-                    updatedSighting.setDateOfSighting(updatedSighting.getDateOfSighting());
-                    updatedSighting.setTimeOfSighting(updatedSighting.getTimeOfSighting());
-                    updatedSighting.setContinent(updatedSighting.getContinent());
-                    updatedSighting.setCountry(updatedSighting.getCountry());
-                    updatedSighting.setLocation(updatedSighting.getLocation());
-                    updatedSighting.setLifer(updatedSighting.getLifer());
-                    updatedSighting.setLocationHidden(updatedSighting.getLocationHidden());
-                    updatedSighting.setKeepPrivate(updatedSighting.getKeepPrivate());
-                    updatedSighting.setQuantity(updatedSighting.getQuantity());
-                    sightingRepository.save(updatedSighting);
-                });
+    public void updateSighting(Long sightingId) {
+        Sighting sighting = sightingRepository.getReferenceById(sightingId);
+//        sightingRepository.findById(sightingId)
+//                .ifPresent(updatedSighting -> {
+//                    updatedSighting.setSightingId(updatedSighting.getSightingId());
+//                    updatedSighting.setSpeciesName(updatedSighting.getSpeciesName());
+//                    updatedSighting.setDateOfSighting(updatedSighting.getDateOfSighting());
+//                    updatedSighting.setTimeOfSighting(updatedSighting.getTimeOfSighting());
+//                    updatedSighting.setContinent(updatedSighting.getContinent());
+//                    updatedSighting.setCountry(updatedSighting.getCountry());
+//                    updatedSighting.setLocation(updatedSighting.getLocation());
+//                    updatedSighting.setLifer(updatedSighting.getLifer());
+//                    updatedSighting.setLocationHidden(updatedSighting.getLocationHidden());
+//                    updatedSighting.setKeepPrivate(updatedSighting.getKeepPrivate());
+//                    updatedSighting.setQuantity(updatedSighting.getQuantity());
+//                    sightingRepository.save(updatedSighting);
+//                });
                     sightingRepository.save(sighting);
     }
 
@@ -226,6 +226,7 @@ public class SightingService {
                             speciesMap.put(itisObject.get("scientificName").toString(),
                                     itisObject.get("commonNames").toString());
                         } catch (Exception e){
+                            e.printStackTrace();
                             System.out.println("Species not found. Please check spelling.");
                             }
                         speciesList = speciesMap.entrySet()
