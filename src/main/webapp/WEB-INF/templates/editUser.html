@@ -62,7 +62,7 @@
                 <form
                         method="post"
                         role="form"
-                        th:action="@{/editUser/save}"
+                        th:action="@{/editUser/{userId}/save $(userId={user.id})}"
                         th:object="${user}"
                 >
                     <input type="hidden" th:field="*{id}"/>
@@ -111,13 +111,12 @@
 
                     <div class="form-group mb-3">
                         <label class="form-label">Email</label>
-                        <input
-                                class="form-control"
+                        <input readonly
+                                class="form-control-plaintext"
                                 id="email"
                                 name="email"
-                                placeholder="Enter email address"
                                 th:field="*{email}"
-                                type="email"
+                                type="text"
                         />
                         <p th:errors = "*{email}" class="text-danger"
                            th:if="${#fields.hasErrors('email')}"></p>

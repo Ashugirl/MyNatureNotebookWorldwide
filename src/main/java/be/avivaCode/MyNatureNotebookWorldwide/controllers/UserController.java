@@ -33,38 +33,42 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String getUserProfilePage(Model model, Authentication authentication){
+    public String getUserProfilePage(Model model, Long id, Authentication authentication){
         User currentUser = userService.findUserByEmail(authentication.getName());
+        model.addAttribute("userId", currentUser.getId());
         model.addAttribute("user", currentUser);
         model.addAttribute("name", currentUser.getUserName());
         return "profile";
     }
-
-    @GetMapping("/yourPage")
-    public String getYourPage(Model model){
-        return "yourPage";
-    }
+//
+//    @GetMapping("/yourPage")
+//    public String getYourPage(Model model){
+//        return "yourPage";
+//    }
 
     // handler method to handle user update form request
-    @GetMapping("/editUser")
-    public String editUserForm(Model model){
+    @GetMapping("/editUser/{userId}")
+    public String editUserForm(Model model, @PathVariable("userId") Long id){
         // create model object to store form data
         UserDto user = new UserDto();
+        model.addAttribute("userId", user.getId());
         model.addAttribute("user", user);
         return "editUser";
     }
 
     // handler method to handle user update form submit request
-    @PostMapping("/editUser/save")
-    public String updateUser(@Valid @ModelAttribute("user") UserDto userDto){
+    @PostMapping("/editUser/{userId}/save")
+    public String updateUser(@Valid @ModelAttribute("user") UserDto userDto, @PathVariable("userId") Long id, Model model){
+        model.addAttribute("userId", userDto.getId());
         userService.updateUser(userDto);
         return "redirect:/editUser?success";
     }
 
     //TODO - figure out how to get a modal or other type of check before deleting
-    @GetMapping("/profile/deleteButton")
-    public String deleteUserOption(Model model){
+    @GetMapping("/profile/{userId}/deleteButton")
+    public String deleteUserOption(Model model, @PathVariable("userId") Long id){
         UserDto user = new UserDto();
+        model.addAttribute("userId", user.getId());
         model.addAttribute("user", user);
         return "profile/deleteButton";
     }
@@ -72,7 +76,7 @@ public class UserController {
     @PostMapping("/profile/delete")
     public String deleteUser(@Valid @ModelAttribute("user") User user, Authentication authentication){
         user = userRepository.findByEmail(authentication.getName());
-        System.out.println("CONTROLLER DELETE METHOD " + user.getUserName() + " " + user.getEmail());
+       // System.out.println("CONTROLLER DELETE METHOD " + user.getUserName() + " " + user.getEmail());
         userService.deleteUser(user);
         return "redirect:/logout";
     }
