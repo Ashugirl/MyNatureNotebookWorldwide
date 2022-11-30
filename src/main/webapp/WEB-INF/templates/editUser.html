@@ -62,21 +62,19 @@
                 <form
                         method="post"
                         role="form"
-                        th:action="@{/editUser/{userId}/save $(userId={user.id})}"
+                        th:action="@{/editUser/{userId}/save (userId=${user.id})}"
                         th:object="${user}"
                 >
                     <input type="hidden" th:field="*{id}"/>
 
                     <div class="form-group mb-3">
                         <label class="form-label">User Name</label>
-                        <input
-                                class="form-control"
+                        <input  class="form-control"
                                 id="userName"
                                 name="userName"
                                 placeholder="Enter user name"
                                 th:field="*{userName}"
-                                type="text"
-                        />
+                                type="text"/>
                         <p th:errors = "*{userName}" class="text-danger"
                            th:if="${#fields.hasErrors('userName')}"></p>
                     </div>

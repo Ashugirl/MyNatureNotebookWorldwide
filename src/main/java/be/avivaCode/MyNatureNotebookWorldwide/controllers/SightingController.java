@@ -6,12 +6,14 @@ import be.avivaCode.MyNatureNotebookWorldwide.data.Photo;
 import be.avivaCode.MyNatureNotebookWorldwide.data.Sighting;
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
 import be.avivaCode.MyNatureNotebookWorldwide.repositories.SightingRepository;
+import be.avivaCode.MyNatureNotebookWorldwide.service.PhotoService;
 import be.avivaCode.MyNatureNotebookWorldwide.service.SightingService;
 import be.avivaCode.MyNatureNotebookWorldwide.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -32,13 +34,16 @@ public class SightingController {
     private UserService userService;
     private UploadController uploadController;
     private SightingRepository sightingRepository;
+    private PhotoService photoService;
 
 
     @Autowired
-    public SightingController(SightingService sightingService, UserService userService, SightingRepository sightingRepository) {
+    public SightingController(SightingService sightingService, UserService userService, UploadController uploadController, SightingRepository sightingRepository, PhotoService photoService) {
             this.sightingService = sightingService;
             this.userService = userService;
             this.sightingRepository = sightingRepository;
+            this.uploadController = uploadController;
+            this.photoService = photoService;
     }
 
     /******************* CRUD METHODS **********************/
@@ -134,19 +139,28 @@ public class SightingController {
 
     // returns page with detailed information about a specific sighting
     @GetMapping("/sightingPage/{sightingId}")
-    public String getSpecificSighting(Model model, @PathVariable("sightingId") Long sightingId){
+    public String getSpecificSighting(Model model, @PathVariable("sightingId") Long sightingId, MultipartFile imageFile){
         Sighting sighting = sightingService.getSightingById(sightingId);
         User user = sighting.getUser();
         String userEmail = user.getEmail();
+        Photo photo = new Photo();
+        String placeHolderFileName = "photo_2022-11-30_16-53-15.jpg";
+        List<Photo> photos = sighting.getPhotos();
+        if(photos.isEmpty()){
+            photo.setFileName(placeHolderFileName);
+            photos.add(photo);
+        }
         model.addAttribute("name", userEmail);
         model.addAttribute("user", sighting.getUser());
         model.addAttribute("speciesName", sighting.getSpeciesName());
         model.addAttribute("sighting", sighting);
         model.addAttribute("sightingId", sighting.getSightingId());
-        model.addAttribute("photo", sighting.getPhotos());
+        model.addAttribute("photos", photos);
         if(sighting.getLocationHidden() == true){
             sighting.setLocation("Location hidden");
         }
+
+        System.out.println("photos " + photos.size());
         return "sightingPage";
     }
 
@@ -162,39 +176,76 @@ public class SightingController {
         return "updateSighting";
     }
 
+
     @PostMapping("/updateSighting/{sightingId}/save")
-    public ModelAndView updateSighting(@ModelAttribute("sighting") Sighting sighting, @PathVariable("sightingId") Long sightingId,
-                                    @RequestParam("imageFile") MultipartFile imageFile, Authentication authentication, Model model) {
+    public ModelAndView updateSighting(@Valid @ModelAttribute("sighting") Sighting sighting, @PathVariable("sightingId") Long sightingId,
+                                       @RequestParam("imageFile") MultipartFile imageFile, Authentication authentication, Model model) throws IOException {
         ModelAndView modelAndView = new ModelAndView();
-        try {
-            sighting.setUser(userService.findUserByEmail(authentication.getName()));
-            model.addAttribute("sightingId", sightingId);
-            sightingService.createSighting(sighting);
-            modelAndView.setViewName("redirect:/updateSighting?success");
-        } catch (Exception e){
-            e.printStackTrace();
-            modelAndView.setViewName("redirect:/sightingPage/{sightingId}");
-            return modelAndView;
-        }
         Photo photo = new Photo();
-        try {
-            photo.setFileName(imageFile.getOriginalFilename());
-            photo.setSighting(sightingService.getSightingById(sighting.getSightingId()));
-            photo.setUser(sightingService.getSightingById(sighting.getSightingId()).getUser());
-            sightingService.saveImage(imageFile, photo);
-            model.addAttribute("photo", photo);
+        sighting = sightingService.getSightingById(sightingId);
+            sighting.setUser(userService.findUserByEmail(authentication.getName()));
+            sighting.setSightingId(sightingId);
+            //sightingId=sighting.getSightingId();
+            model.addAttribute("sightingId", sighting.getSightingId());
             model.addAttribute("sighting", sighting);
-            System.out.println("passing update sighting success");
+            sightingService.updateSighting(sighting);
             modelAndView.setViewName("redirect:/sightingPage/{sightingId}");
-        } catch (IOException e){
-            e.printStackTrace();
-            modelAndView.setViewName("/updateSighting");
-            return modelAndView;
-        }
+            if(!imageFile.getOriginalFilename().isEmpty())
+            {
+                photo.setFileName(imageFile.getOriginalFilename());
+                photo.setSighting(sightingService.getSightingById(sighting.getSightingId()));
+                photo.setUser(sightingService.getSightingById(sighting.getSightingId()).getUser());
+                sightingService.saveImage(imageFile, photo);}
+                model.addAttribute("photo", photo);
+                model.addAttribute("sightingId", sighting.getSightingId());
+                model.addAttribute("sighting", sighting);
+            System.out.println("updated sighting " + sighting.getContinent());
+            modelAndView.setViewName("redirect:/sightingPage/{sightingId}");
         modelAndView.addObject("photo", photo);
         modelAndView.addObject("sighting", sighting);
+        sightingService.updateSighting(sighting);
         return modelAndView;
     }
+//
+//    @PostMapping("/updateSighting/{sightingId}/save")
+//    public ModelAndView updateSighting(@Valid @ModelAttribute("sighting") Sighting sighting, @PathVariable("sightingId") Long sightingId,
+//                                    @RequestParam("imageFile") MultipartFile imageFile, Authentication authentication, Model model) {
+//        ModelAndView modelAndView = new ModelAndView();
+//        try {
+//            sighting.setUser(userService.findUserByEmail(authentication.getName()));
+//            //sightingId=sighting.getSightingId();
+//            model.addAttribute("sightingId", sighting.getSightingId());
+//            model.addAttribute("sighting", sighting);
+//            sightingService.updateSighting(sighting);
+//            modelAndView.setViewName("redirect:/sightingPage/{sightingId}");
+//        } catch (Exception e){
+//            e.printStackTrace();
+//            modelAndView.setViewName("redirect:/sightingPage/{sightingId}");
+//            return modelAndView;
+//        }
+//        Photo photo = new Photo();
+//        try {
+//            if(!imageFile.getOriginalFilename().isEmpty())
+//            {
+//            photo.setFileName(imageFile.getOriginalFilename());
+//            photo.setSighting(sightingService.getSightingById(sighting.getSightingId()));
+//            photo.setUser(sightingService.getSightingById(sighting.getSightingId()).getUser());
+//            sightingService.saveImage(imageFile, photo);
+//            model.addAttribute("photo", photo);
+//            model.addAttribute("sightingId", sighting.getSightingId());
+//            model.addAttribute("sighting", sighting);}
+//            System.out.println("updated sighting " + sighting.getContinent());
+//            modelAndView.setViewName("redirect:/sightingPage/{sightingId}");
+//        } catch (IOException e){
+//            e.printStackTrace();
+//            modelAndView.setViewName("/updateSighting");
+//            return modelAndView;
+//        }
+//        modelAndView.addObject("photo", photo);
+//        modelAndView.addObject("sighting", sighting);
+//        sightingService.updateSighting(sighting);
+//        return modelAndView;
+//    }
 //    // updates sighting
 //    @PostMapping("/editSighting/{sightingId}/save")
 //    public String updateSighting(@Valid @ModelAttribute("sighting") Sighting sighting,

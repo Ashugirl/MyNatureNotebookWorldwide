@@ -7,10 +7,8 @@ import be.avivaCode.MyNatureNotebookWorldwide.service.SightingService;
 import be.avivaCode.MyNatureNotebookWorldwide.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,11 +46,17 @@ public class UserController {
 
     // handler method to handle user update form request
     @GetMapping("/editUser/{userId}")
-    public String editUserForm(Model model, @PathVariable("userId") Long id){
+    public String editUserForm(Model model, @PathVariable("userId") Long id, String email){
         // create model object to store form data
-        UserDto user = new UserDto();
+        User user = userRepository.getReferenceById(id);
         model.addAttribute("userId", user.getId());
         model.addAttribute("user", user);
+        model.addAttribute("userName", user.getUserName());
+        model.addAttribute("firstName", user.getFirstName());
+        model.addAttribute("lastName", user.getLastName());
+        model.addAttribute("email", user.getEmail());
+        model.addAttribute("password", user.getPassword());
+
         return "editUser";
     }
 
@@ -61,11 +65,11 @@ public class UserController {
     public String updateUser(@Valid @ModelAttribute("user") UserDto userDto, @PathVariable("userId") Long id, Model model){
         model.addAttribute("userId", userDto.getId());
         userService.updateUser(userDto);
-        return "redirect:/editUser?success";
+        return "redirect:/profile";
     }
 
     //TODO - figure out how to get a modal or other type of check before deleting
-    @GetMapping("/profile/{userId}/deleteButton")
+    @GetMapping("/profile/deleteButton")
     public String deleteUserOption(Model model, @PathVariable("userId") Long id){
         UserDto user = new UserDto();
         model.addAttribute("userId", user.getId());

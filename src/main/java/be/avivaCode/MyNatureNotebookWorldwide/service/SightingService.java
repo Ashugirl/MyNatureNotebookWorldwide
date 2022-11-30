@@ -127,24 +127,22 @@ public class SightingService {
         return sightings;
     }
 
-    public void updateSighting(Long sightingId) {
-        Sighting sighting = sightingRepository.getReferenceById(sightingId);
-//        sightingRepository.findById(sightingId)
-//                .ifPresent(updatedSighting -> {
-//                    updatedSighting.setSightingId(updatedSighting.getSightingId());
-//                    updatedSighting.setSpeciesName(updatedSighting.getSpeciesName());
-//                    updatedSighting.setDateOfSighting(updatedSighting.getDateOfSighting());
-//                    updatedSighting.setTimeOfSighting(updatedSighting.getTimeOfSighting());
-//                    updatedSighting.setContinent(updatedSighting.getContinent());
-//                    updatedSighting.setCountry(updatedSighting.getCountry());
-//                    updatedSighting.setLocation(updatedSighting.getLocation());
-//                    updatedSighting.setLifer(updatedSighting.getLifer());
-//                    updatedSighting.setLocationHidden(updatedSighting.getLocationHidden());
-//                    updatedSighting.setKeepPrivate(updatedSighting.getKeepPrivate());
-//                    updatedSighting.setQuantity(updatedSighting.getQuantity());
-//                    sightingRepository.save(updatedSighting);
-//                });
-                    sightingRepository.save(sighting);
+    public void updateSighting(Sighting sighting) {
+        Long sightingId = sighting.getSightingId();
+        sighting = sightingRepository.findById(sightingId).get();
+//        sighting.setSightingId(sighting.getSightingId());
+//        sighting.setSpeciesName(sighting.getSpeciesName());
+//        sighting.setDateOfSighting(sighting.getDateOfSighting());
+//        sighting.setTimeOfSighting(sighting.getTimeOfSighting());
+//        sighting.setContinent(sighting.getContinent());
+//        sighting.setCountry(sighting.getCountry());
+//        sighting.setLocation(sighting.getLocation());
+//        sighting.setLifer(sighting.getLifer());
+//        sighting.setLocationHidden(sighting.getLocationHidden());
+//        sighting.setKeepPrivate(sighting.getKeepPrivate());
+//        sighting.setQuantity(sighting.getQuantity());
+        sighting.setPhotos(sighting.getPhotos());
+        sightingRepository.save(sighting);
     }
 
     private ISpringTemplateEngine templateEngine(ITemplateResolver templateResolver) {
