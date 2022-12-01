@@ -17,19 +17,12 @@ import org.thymeleaf.spring5.ISpringTemplateEngine;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -127,22 +120,31 @@ public class SightingService {
         return sightings;
     }
 
-    public void updateSighting(Sighting sighting) {
-        Long sightingId = sighting.getSightingId();
-        sighting = sightingRepository.findById(sightingId).get();
+    public void updateSighting(Long sightingId) {
+    Optional<Sighting> sighting = sightingRepository.findById(sightingId);
+    Sighting updatedSighting;
+        if(sighting.isPresent()){
+            updatedSighting = sighting.get();
+            updatedSighting.setUser(sighting.get().getUser());
+            updatedSighting.setSightingId(sightingId);
+            updatedSighting.setContinent(sighting.get().getContinent());
+            updatedSighting.setCountry(sighting.get().getCountry());
+            sightingRepository.save(updatedSighting);
+        }
 //        sighting.setSightingId(sighting.getSightingId());
 //        sighting.setSpeciesName(sighting.getSpeciesName());
 //        sighting.setDateOfSighting(sighting.getDateOfSighting());
 //        sighting.setTimeOfSighting(sighting.getTimeOfSighting());
-//        sighting.setContinent(sighting.getContinent());
-//        sighting.setCountry(sighting.getCountry());
+
+
 //        sighting.setLocation(sighting.getLocation());
 //        sighting.setLifer(sighting.getLifer());
 //        sighting.setLocationHidden(sighting.getLocationHidden());
 //        sighting.setKeepPrivate(sighting.getKeepPrivate());
 //        sighting.setQuantity(sighting.getQuantity());
-        sighting.setPhotos(sighting.getPhotos());
-        sightingRepository.save(sighting);
+        //sighting.setPhotos(sighting.getPhotos());
+
+        sightingRepository.save(sighting.get());
     }
 
     private ISpringTemplateEngine templateEngine(ITemplateResolver templateResolver) {
@@ -274,5 +276,7 @@ public class SightingService {
     public void saveImage(MultipartFile imageFile, Photo photo) throws IOException{
         photoService.saveImage(imageFile, photo);
         photoService.savePhoto(photo);
+        System.out.println("ss imageFile name " + imageFile.getOriginalFilename());
+        System.out.println("ss photo path " + photo.getPath());
     }
 }

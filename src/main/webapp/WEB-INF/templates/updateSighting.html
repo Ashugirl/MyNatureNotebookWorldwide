@@ -83,8 +83,8 @@
                           enctype="multipart/form-data"
                           th:action="@{/updateSighting/{sightingId}/save (sightingId=${sighting.sightingId})}"
                           th:object="${sighting}">
-                        <input id="sightingId" type="hidden" name="sightingId" th:field="*{sightingId}"/>
-                        <input id="user" type="hidden" name="user" th:field="*{user}"/>
+                        <input type="hidden"  th:field="*{sightingId}"/>
+                        <input type="hidden" th:field="*{user}"/>
                         <div class="form-group mb-3">
                             <label class="form-label">* Species name</label>
                             <input class="form-control"

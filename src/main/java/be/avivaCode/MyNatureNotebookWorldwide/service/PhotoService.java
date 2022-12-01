@@ -33,7 +33,7 @@ public class PhotoService {
         Path path = null;
         System.out.println("absolute path " + absolutePath);
         photo.setPath(absolutePath + "/src/main/resources/static/photos/");
-        System.out.println("imagefile filename" + imageFile.getOriginalFilename());
+        System.out.println("imagefile filename " + imageFile.getOriginalFilename());
         byte[] bytes = imageFile.getBytes();
         path = Paths.get(photo.getPath() + imageFile.getOriginalFilename());
         System.out.println("Path at end of method " + path);

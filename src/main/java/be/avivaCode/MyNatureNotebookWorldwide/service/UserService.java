@@ -54,7 +54,6 @@ public class UserService implements iUserService {
         user.setUserName(userDto.getUserName());
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        System.out.println("service layer update method " + user);
         userRepository.save(user);
     }
 
