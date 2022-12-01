@@ -81,7 +81,7 @@
                     <form method="post"
                           role="form"
                           enctype="multipart/form-data"
-                          th:action="@{/updateSighting/{sightingId}/save (sightingId=${sighting.sightingId})}"
+                          th:action="@{/updateSighting/save}"
                           th:object="${sighting}">
                         <input type="hidden"  th:field="*{sightingId}"/>
                         <input type="hidden" th:field="*{user}"/>

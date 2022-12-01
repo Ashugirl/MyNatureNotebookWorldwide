@@ -27,16 +27,12 @@ public class PhotoService {
 
     public void saveImage(MultipartFile imageFile, Photo photo) throws IOException{
         Path currentPath = Paths.get(".");
-        String placeHolderFileName = "IMG_0214.jpeg";
-        System.out.println("current path " +currentPath);
+       // String placeHolderFileName = "IMG_0214.jpeg";
         Path absolutePath = currentPath.toAbsolutePath();
-        Path path = null;
         System.out.println("absolute path " + absolutePath);
         photo.setPath(absolutePath + "/src/main/resources/static/photos/");
-        System.out.println("imagefile filename " + imageFile.getOriginalFilename());
         byte[] bytes = imageFile.getBytes();
-        path = Paths.get(photo.getPath() + imageFile.getOriginalFilename());
-        System.out.println("Path at end of method " + path);
+        Path path= Paths.get(photo.getPath() + imageFile.getOriginalFilename());
         Files.write(path, bytes);
     }
 

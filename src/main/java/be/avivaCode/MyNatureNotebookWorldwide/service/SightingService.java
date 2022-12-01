@@ -51,7 +51,6 @@ public class SightingService {
     }
 
     public Sighting getSightingById(Long sightingId){
-        System.out.println(sightingRepository.findById(sightingId).get());
         return sightingRepository.findById(sightingId).get();
     }
 
@@ -120,31 +119,14 @@ public class SightingService {
         return sightings;
     }
 
-    public void updateSighting(Long sightingId) {
-    Optional<Sighting> sighting = sightingRepository.findById(sightingId);
-    Sighting updatedSighting;
-        if(sighting.isPresent()){
-            updatedSighting = sighting.get();
-            updatedSighting.setUser(sighting.get().getUser());
-            updatedSighting.setSightingId(sightingId);
-            updatedSighting.setContinent(sighting.get().getContinent());
-            updatedSighting.setCountry(sighting.get().getCountry());
-            sightingRepository.save(updatedSighting);
-        }
-//        sighting.setSightingId(sighting.getSightingId());
-//        sighting.setSpeciesName(sighting.getSpeciesName());
-//        sighting.setDateOfSighting(sighting.getDateOfSighting());
-//        sighting.setTimeOfSighting(sighting.getTimeOfSighting());
+    public void updateSighting(Sighting existingSighting) {
+            Sighting sighting = sightingRepository.findById(existingSighting.getSightingId()).get();
+            List<Photo> photoList = existingSighting.getPhotos();
+            if(photoList != null){
+            sighting.getPhotos().addAll(photoList);}
+            existingSighting.setPhotos(sighting.getPhotos());
+            sightingRepository.save(existingSighting);
 
-
-//        sighting.setLocation(sighting.getLocation());
-//        sighting.setLifer(sighting.getLifer());
-//        sighting.setLocationHidden(sighting.getLocationHidden());
-//        sighting.setKeepPrivate(sighting.getKeepPrivate());
-//        sighting.setQuantity(sighting.getQuantity());
-        //sighting.setPhotos(sighting.getPhotos());
-
-        sightingRepository.save(sighting.get());
     }
 
     private ISpringTemplateEngine templateEngine(ITemplateResolver templateResolver) {
@@ -257,26 +239,10 @@ public class SightingService {
         }
     }
 
-//public BufferedImage getSightingImage(){
-//        BufferedImage sightingImage = new BufferedImage(250, 250, 6);
-//    try{
-//        Path imgPath = Path.of(" ");
-//        Files.createFile(imgPath);
-//        sightingImage = ImageIO.read(new URL(""));
-//        ImageIO.write(sightingImage, "jpg", new File(String.valueOf(imgPath)));
-//    } catch (MalformedURLException e) {
-//        e.printStackTrace();
-//    } catch (IOException e) {
-//        e.printStackTrace();
-//    }
-//    return sightingImage;
-//}
-
 
     public void saveImage(MultipartFile imageFile, Photo photo) throws IOException{
-        photoService.saveImage(imageFile, photo);
         photoService.savePhoto(photo);
-        System.out.println("ss imageFile name " + imageFile.getOriginalFilename());
-        System.out.println("ss photo path " + photo.getPath());
+        photoService.saveImage(imageFile, photo);
+
     }
 }
