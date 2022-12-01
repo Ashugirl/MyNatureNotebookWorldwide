@@ -196,6 +196,7 @@ public class SightingController {
         sighting = sightingService.getSightingById(sightingId);
         User user = sighting.getUser();
         sighting.setUser(user);
+        System.out.println("sighting user" + user);
         sightingService.updateSighting(sighting.getSightingId());
         return "redirect:/updateSighting?success";
     }
