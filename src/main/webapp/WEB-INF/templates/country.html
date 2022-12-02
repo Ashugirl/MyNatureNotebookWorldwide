@@ -75,8 +75,8 @@
             <td th:switch="${sighting.user.email}">
                 <span th:case="currentUserEmail"><a th:href="@{/yourSightings}" th:text = "${sighting.user.userName}">user</a></span>
                 <span th:case="*"><a th:href="@{/name/{name} (name=${sighting.user.userName})}" th:text = "${sighting.user.userName}">user</a></span>
-            </td>            <td th:text="${#temporals.format(sighting.dateOfSighting, 'dd-MM-yyyy')}">dateOfSighting</td>
-            <td th:text="${#temporals.format(sighting.timeOfSighting, 'HH:mm')}">timeOfSighting</td>
+            </td>
+            <td><span th:text="${#temporals.format(sighting.dateOfSighting, 'dd-MM-yyyy HH:mm')}">dateOfSighting</span></td>
         </tr>
         </tbody>
     </table>

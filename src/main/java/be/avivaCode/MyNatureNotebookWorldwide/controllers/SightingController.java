@@ -11,6 +11,7 @@ import be.avivaCode.MyNatureNotebookWorldwide.service.SightingService;
 import be.avivaCode.MyNatureNotebookWorldwide.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.parameters.P;
@@ -227,11 +228,45 @@ public class SightingController {
 
     // handler method to handle home page request
     @GetMapping("/index")
-    public String index(Model model, Sighting sighting, String name){
+    public String index(Model model){
         List<Sighting> sightings = sightingService.getAllSightings();
-        model.addAttribute("sighting", sighting);
+        return findPaginated(1, "dateOfSighting",  "desc", model);
+    }
+//    @GetMapping("/index")
+//    public String index(Model model, Sighting sighting){
+//        List<Sighting> sightings = sightingService.getAllSightings();
+//        model.addAttribute("sighting", sighting);
+//        model.addAttribute("sightings", sightings);
+//        return "index";
+//    }
+    // handler to allow pagination
+    @GetMapping("/page/{pageNumber}")
+    public String findPaginated(@PathVariable(value = "pageNumber") int pageNumber,
+                                @RequestParam("sortByDate") String sortByDate,
+                                @RequestParam("sortDir") String sortDir,
+                                Model model){
+        int pageSize = 5;
+        Page<Sighting> page = sightingService.findPaginated(pageNumber, pageSize, sortByDate, sortDir);
+        List<Sighting> sightings = page.getContent();
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("sortByDate", sortByDate);
+//        model.addAttribute("sortByTime", sortByTime);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("desc") ? "asc" : "desc");
         model.addAttribute("sightings", sightings);
+        model.addAttribute("sighting", new Sighting());
         return "index";
+    }
+    @GetMapping("/sortBy")
+    public String sortByButton(Model model, Sighting sighting){
+        List<Sighting> sightingsDescending = sightingService.getAllSightings();
+        List<Sighting> sightingsAscending = sightingService.getAllSightingsOldestToNewest();
+        model.addAttribute("sighting", sighting);
+        model.addAttribute("descending", sightingsDescending);
+        model.addAttribute("ascending", sightingsAscending);
+        return "sortBy";
     }
     // handler method to handle search field request
     @RequestMapping(path = { "/", "/index", "/search"})
@@ -246,7 +281,7 @@ public class SightingController {
             List<Sighting> sightings = sightingService.getAllSightings();
             model.addAttribute("sighting", sighting);
             model.addAttribute("sightings", sightings);
-            return "index";
+            return findPaginated(1, "dateOfSighting",  "desc", model);
         }
     }
 

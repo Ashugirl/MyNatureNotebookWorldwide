@@ -10,6 +10,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
@@ -57,8 +61,24 @@ public class SightingService {
     //gets all sigthing from newest to oldest
     public List<Sighting> getAllSightings(){
         List<Sighting> allSightings = sightingRepository.findAll();
-        allSightings.sort(Comparator.comparing(Sighting::getDateOfSighting).thenComparing(Sighting::getTimeOfSighting).reversed());
+        allSightings.sort(Comparator.comparing(Sighting::getDateOfSighting));
         return allSightings;
+    }
+    //oldest to newest
+    public List<Sighting> getAllSightingsOldestToNewest(){
+        List<Sighting> allSightings = sightingRepository.findAll();
+        allSightings.sort(Comparator.comparing(Sighting::getDateOfSighting));
+        return allSightings;
+    }
+
+    public Page<Sighting> findPaginated(int pageNumber, int pageSize,
+                                       String sortByDate, String sortDirection){
+//      sortByDate = "dateSort";
+//      sortByTime = "timeSort";
+       Sort dateSorter = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())?
+               Sort.by(sortByDate).ascending(): Sort.by(sortByDate).descending();
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, dateSorter);
+        return this.sightingRepository.findAll(pageable);
     }
     @Cacheable("speciesNames")
     public List<Sighting> searchBySpecies(String speciesName){
@@ -75,7 +95,7 @@ public class SightingService {
         List<Sighting> sightings = new ArrayList<>();
         sightingRepository.findAllByUser(user)
               .forEach(sightings::add);
-        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).thenComparing(Sighting::getTimeOfSighting).reversed());
+        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
         return sightings;
     }
 
@@ -93,7 +113,7 @@ public class SightingService {
         List<Sighting> sightings = new ArrayList<>();
         sightingRepository.findAllByContinent(continent)
                 .forEach(sightings::add);
-        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).thenComparing(Sighting::getTimeOfSighting).reversed());
+        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
         return sightings;
     }
 
@@ -104,7 +124,7 @@ public class SightingService {
         System.out.println("Check if repo works " + sightingRepository.findAllBySpeciesName(speciesName));
         sightingRepository.findAllBySpeciesName(speciesName)
                 .forEach(sightings::add);
-        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).thenComparing(Sighting::getTimeOfSighting).reversed());
+        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
         return sightings;
     }
 
@@ -115,7 +135,7 @@ public class SightingService {
         System.out.println("check if repo works " +sightingRepository.findAllByCountry(country));
                 sightingRepository.findAllByCountry(country)
                         .forEach(sightings::add);
-        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).thenComparing(Sighting::getTimeOfSighting).reversed());
+        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
         return sightings;
     }
 

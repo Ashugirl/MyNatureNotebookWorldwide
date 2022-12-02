@@ -65,7 +65,6 @@
             <th>Country</th>
             <th>User Name</th>
             <th>Date</th>
-            <th>Time</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -77,8 +76,7 @@
             <td><a th:href="@{/continent/{continent} (continent=${sighting.continent})}" th:text = "${sighting.continent.displayValue}">continent</a></td>
             <td><a th:href="@{/country/{country} (country=${sighting.country})}" th:text = "${sighting.country}">country</a></td>
             <td><a th:href="@{/name/{name} (name=${sighting.user.userName})}" th:text = "${sighting.user.userName}">user</a></td>
-            <td th:text="${#temporals.format(sighting.dateOfSighting, 'dd-MM-yyyy')}">dateOfSighting</td>
-            <td th:text="${#temporals.format(sighting.timeOfSighting, 'HH:mm')}">timeOfSighting</td>
+            <td><span th:text="${#temporals.format(sighting.dateOfSighting, 'dd-MM-yyyy HH:mm')}">dateOfSighting</span></td>
             <td><a th:href="@{/updateSighting/{sightingId} (sightingId=${sighting.sightingId})}" type="button" class="btn btn-primary">Edit</a></td>
             <td><button type="submit" data-bs-toggle="modal" th:attr="data-bs-target='#deleteButton'+${sighting.sightingId}" class="btn btn-primary">Delete</button></td>
                 <div class="modal fade" th:attr="id='deleteButton'+${sighting.sightingId}" tabindex="-1" aria-labelledby="deleteButtonLabel" aria-hidden="true">
