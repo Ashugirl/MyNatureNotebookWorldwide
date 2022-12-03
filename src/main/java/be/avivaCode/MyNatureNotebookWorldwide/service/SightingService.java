@@ -27,6 +27,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -73,8 +75,6 @@ public class SightingService {
 
     public Page<Sighting> findPaginated(int pageNumber, int pageSize,
                                        String sortByDate, String sortDirection){
-//      sortByDate = "dateSort";
-//      sortByTime = "timeSort";
        Sort dateSorter = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())?
                Sort.by(sortByDate).ascending(): Sort.by(sortByDate).descending();
         Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, dateSorter);
@@ -83,8 +83,6 @@ public class SightingService {
     @Cacheable("speciesNames")
     public List<Sighting> searchBySpecies(String speciesName){
         if(speciesName != null){
-            System.out.println("service speciesName" + speciesName);
-            System.out.println("service return value " + sightingRepository.searchBySpecies(speciesName));
             return sightingRepository.searchBySpecies(speciesName);
         }
         return sightingRepository.findAll();
@@ -235,7 +233,6 @@ public class SightingService {
                                 .stream()
                                 .map(entry -> entry.getKey() + " - " + entry.getValue().replace("\"", "")
                                         .replace("[", "")
-
                                         .replace("]", "") )
                                 .sorted()
                                 .collect(Collectors.toList());

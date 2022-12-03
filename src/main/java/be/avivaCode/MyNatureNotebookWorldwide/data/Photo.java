@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 public class Photo {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long photoId;
     private String path;
     private String fileName;

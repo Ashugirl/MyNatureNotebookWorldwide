@@ -61,7 +61,7 @@
                 </li>
             </ul>
         </div>
-        <form class="d-flex" role="search" th:object="${sighting}", method="post">
+        <form class="d-flex" role="search" th:object="${sighting}" method="post">
             <input type="text" value="search" name="species" id="speciesName" th:field="*{speciesName}" placeholder="Search by species" aria-label="Search">
             <button class="btn btn-primary" type="submit">Search</button>
         </form>

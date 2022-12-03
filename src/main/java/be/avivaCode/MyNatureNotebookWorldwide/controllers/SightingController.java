@@ -27,6 +27,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
@@ -182,10 +185,13 @@ public class SightingController {
 
     private void hideLocation(Sighting sighting, Boolean locationHidden, Authentication authentication){
         User user = sighting.getUser();
-        if(locationHidden == true && !authentication.getName().equals(user.getEmail())){
+        if(authentication == null && locationHidden == true) {
             sighting.setLocation("Location is hidden.");
+            } else if (locationHidden == true && !authentication.getName().equals(user.getEmail())) {
+            sighting.setLocation("Location is hidden.");
+            } else{
+            sighting.setLocation(sighting.getLocation());
         }
-
     }
     // handler to get page to allow editing of sighting
     //TODO - figure out problem with speciesname autocomplete on species edit page
@@ -232,20 +238,14 @@ public class SightingController {
         List<Sighting> sightings = sightingService.getAllSightings();
         return findPaginated(1, "dateOfSighting",  "desc", model);
     }
-//    @GetMapping("/index")
-//    public String index(Model model, Sighting sighting){
-//        List<Sighting> sightings = sightingService.getAllSightings();
-//        model.addAttribute("sighting", sighting);
-//        model.addAttribute("sightings", sightings);
-//        return "index";
-//    }
+
     // handler to allow pagination
     @GetMapping("/page/{pageNumber}")
     public String findPaginated(@PathVariable(value = "pageNumber") int pageNumber,
                                 @RequestParam("sortByDate") String sortByDate,
                                 @RequestParam("sortDir") String sortDir,
                                 Model model){
-        int pageSize = 5;
+        int pageSize = 10;
         Page<Sighting> page = sightingService.findPaginated(pageNumber, pageSize, sortByDate, sortDir);
         List<Sighting> sightings = page.getContent();
         model.addAttribute("currentPage", pageNumber);
@@ -284,15 +284,6 @@ public class SightingController {
             return findPaginated(1, "dateOfSighting",  "desc", model);
         }
     }
-
-//
-//    private static String encodeValue(String value) {
-//        try {
-//            return URLEncoder.encode(value, StandardCharsets.UTF_8.toString()).replace("%20", "+");
-//        } catch (UnsupportedEncodingException ex) {
-//            throw new RuntimeException(ex.getCause());
-//        }
-//    }
 
     // returns the call to api ITIS database for form autocomplete
     @GetMapping("/speciesNameAutocomplete")

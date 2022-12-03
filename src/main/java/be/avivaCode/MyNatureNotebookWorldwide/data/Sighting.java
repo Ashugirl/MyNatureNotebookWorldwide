@@ -27,7 +27,7 @@ public class Sighting {
     String country;
     @Column
     private String location;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Column
     LocalDateTime dateOfSighting= LocalDateTime.now();
 //    @DateTimeFormat(pattern = "yyyy-MM-dd")

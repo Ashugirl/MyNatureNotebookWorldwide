@@ -27,7 +27,6 @@ public class PhotoService {
 
     public void saveImage(MultipartFile imageFile, Photo photo) throws IOException{
         Path currentPath = Paths.get(".");
-       // String placeHolderFileName = "IMG_0214.jpeg";
         Path absolutePath = currentPath.toAbsolutePath();
         System.out.println("absolute path " + absolutePath);
         photo.setPath(absolutePath + "/src/main/resources/static/photos/");
