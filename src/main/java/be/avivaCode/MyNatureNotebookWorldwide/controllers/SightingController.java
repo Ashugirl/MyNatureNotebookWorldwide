@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -239,6 +240,20 @@ public class SightingController {
         return findPaginated(1, "dateOfSighting",  "desc", model);
     }
 
+    @RequestMapping("/randomPhoto/{photoId}")
+    public String getRandomPhoto(Model model, @PathVariable ("photoId") Long photoId){
+        List<Photo> allPhotos = photoService.getAllPhotos();
+        Photo photo = photoService.getRandomImage();
+        model.addAttribute("photos", allPhotos);
+        model.addAttribute("photo", photo);
+        model.addAttribute("photoId", photo.getPhotoId());
+
+        System.out.println("photo id " + photo.getPhotoId() + " filename " + photo.getFileName());
+       // model.addAttribute("user", photo.getUser());
+       // model.addAttribute("fileName", photo.get().);
+        return "index";
+    }
+
     // handler to allow pagination
     @GetMapping("/page/{pageNumber}")
     public String findPaginated(@PathVariable(value = "pageNumber") int pageNumber,
@@ -299,20 +314,6 @@ public class SightingController {
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
-//
-//    @PostMapping("/uploadImage")
-//    public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile, Model model){
-//        model.addAttribute("sighting", new Sighting());
-//        String returnValue = "/addSighting";
-//        try {
-//            sightingService.saveImage(imageFile);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            System.out.println("Error saving photo." + e);
-//            returnValue = "error";
-//        }
-//        return returnValue;
-//    }
 
 }
 

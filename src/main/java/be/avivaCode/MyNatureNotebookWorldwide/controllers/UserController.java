@@ -31,13 +31,16 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String getUserProfilePage(Model model, Long id, Authentication authentication){
+    public String getUserProfilePage(Model model, Authentication authentication){
         User currentUser = userService.findUserByEmail(authentication.getName());
         model.addAttribute("userId", currentUser.getId());
         model.addAttribute("user", currentUser);
         model.addAttribute("name", currentUser.getUserName());
+        model.addAttribute("photos", currentUser.getUserPhotos());
         return "profile";
     }
+
+
 //
 //    @GetMapping("/yourPage")
 //    public String getYourPage(Model model){

@@ -35,13 +35,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sighting> sightings = new ArrayList<>();
 
-    public List<Photo> getUserPhotos() {
-        return userPhotos;
-    }
-
-    public void setUserPhotos(List <Photo> userPhotos) {
-        this.userPhotos = userPhotos;
-    }
 
 
     public User() {
@@ -128,5 +121,13 @@ public class User {
 
     public void setSightings(List<Sighting> sightings) {
         this.sightings = sightings;
+    }
+
+    public List<Photo> getUserPhotos() {
+        return userPhotos;
+    }
+
+    public void setUserPhotos(List <Photo> userPhotos) {
+        this.userPhotos = userPhotos;
     }
 }

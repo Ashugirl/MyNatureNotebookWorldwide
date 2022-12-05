@@ -19,7 +19,7 @@
 //import static org.mockito.Mockito.when;
 //@RunWith(MockitoJUnitRunner.class)
 //public class SightingServiceTests {
-//    private static User user1;
+//    private static User user1f;
 //    private static User user2;
 //    private static Sighting sighting1;
 //    private static Sighting sighting2;

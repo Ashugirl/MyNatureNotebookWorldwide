@@ -1,7 +1,9 @@
 package be.avivaCode.MyNatureNotebookWorldwide;
 
 
+import be.avivaCode.MyNatureNotebookWorldwide.data.Photo;
 import be.avivaCode.MyNatureNotebookWorldwide.security.PasswordEncoder;
+import be.avivaCode.MyNatureNotebookWorldwide.service.PhotoService;
 import be.avivaCode.MyNatureNotebookWorldwide.service.SightingService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -26,8 +28,12 @@ public class MyNatureNotebookWorldwideApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MyNatureNotebookWorldwideApplication.class, args);
 
-
-
+//		List<Photo> allPHotos = PhotoService.getAllPhotos();
+//		for(Photo p : allPHotos){
+//			System.out.println(p.getPhotoId() + " , " + p.getFileName());
+//		}
+//
+//		PhotoService.getRandomImage();
 
 
 	}
