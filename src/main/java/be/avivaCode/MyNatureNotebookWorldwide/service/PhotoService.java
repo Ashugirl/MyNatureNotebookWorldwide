@@ -7,10 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PhotoService {
@@ -35,4 +36,11 @@ public class PhotoService {
         Files.write(path, bytes);
     }
 
+    public Optional<Photo> getAPhotoById(Long id){
+        return photoRepository.findById(id);
+    }
+
+    public List<Photo> getAllPhotos(){
+       return  photoRepository.findAll();
+    }
 }
