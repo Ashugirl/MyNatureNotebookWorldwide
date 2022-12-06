@@ -78,42 +78,34 @@
         <thead class="table-dark">
         <tr>
           <td>
-              <div th:each="photo : ${photos}">
-                <div th:action="@{/randomPhoto/{photoId} (photoId = ${photo.photoId})}" th:object="*{photo}" method="get">     `
-                       <!-- <a th:href="@{/sightingPage/{sightingId} (sightingId = ${photo.sighting.sightingId})}" class="lightbox-gallery-image" tabindex="-1">-->
-                         <img class="img-thumbnail" th:src="@{${'/photos/' + photo.fileName}}" alt="sighting photo" width="300" height="300"/>
-                           <!-- <div class="card-img-overlay d-flex flex-column justify-content-end">
-                                <p class="card-text"><small>&copy;<span th:text="${user.userName}">userName</span></small></p>
-                            </div>-->
-                </div>
-             </div>
+          <figure class="app-ratio-box-4-3 lightbox-gallery">`
+              <div class="card text-bg-dark text-white">
+                         <img class="img-thumbnail" th:src="@{'/photos/' + ${photo.fileName}}" alt="sighting photo" width="400" height="400"/>
+              <div class="card-img-overlay d-flex flex-column justify-content-end">
+                  <p class="card-text"><small>&copy;<span th:text="${photo.user.userName}">userName</span></small></p>
+              </div>
+              </div>
+              </figure>
           </td>
-
-    <td><div th:each="photo : ${photos}">
-        <div id="userPhotos" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img class="img-thumbnail" th:src="@{${'/photos/masonBees.jpg'}}" alt="first slide">
-                </div>
-                <div class="carousel-item" th:each="photo : ${photos}">
-                    <img src="@{${'/photos/' + photo.filename}}" class="img-thumbnail" alt="second slide">
-                </div>
-                </div>
-        </div>
-    </div></td>
-
-    <td>
-        <figure class="app-ratio-box-4-3 lightbox-gallery">
-            <a href="https://waarnemingen.be/media/photo/52439504.jpg" class="lightbox-gallery-image" tabindex="-1">
-                <img class="img-thumbnail" th:src="@{'/photos/' + masonBee.jpg}" width="300" height="300"></a>
-        </figure>
-    </td>
-
             <td>
-                <figure class="app-ratio-box-4-3 lightbox-gallery">
-                    <a href="https://waarnemingen.be/media/photo/52439504.jpg" class="lightbox-gallery-image" tabindex="-1"><img class="img-thumbnail" src="https://waarnemingen.be/media/photo/52439504.jpg" width="300" height="300"></a>
+                <figure class="app-ratio-box-4-3 lightbox-gallery">`
+                    <div class="card text-bg-dark text-white">
+                        <img class="img-thumbnail" th:src="@{'/photos/' + ${photo2.fileName}}" alt="sighting photo" width="400" height="400"/>
+                        <div class="card-img-overlay d-flex flex-column justify-content-end">
+                            <p class="card-text"><small>&copy;<span th:text="${photo2.user.userName}">userName</span></small></p>
+                        </div>
+                    </div>
                 </figure>
-            </td>
+            </td><td>
+            <figure class="app-ratio-box-4-3 lightbox-gallery">`
+                <div class="card text-bg-dark text-white">
+                    <img class="img-thumbnail" th:src="@{'/photos/' + ${photo3.fileName}}" alt="sighting photo" width="400" height="400"/>
+                    <div class="card-img-overlay d-flex flex-column justify-content-end">
+                        <p class="card-text"><small>&copy;<span th:text="${photo3.user.userName}">userName</span></small></p>
+                    </div>
+                </div>
+            </figure>
+        </td>
         </tr>
         </thead>
     </table>

@@ -53,13 +53,7 @@ public class SightingController {
 
     /******************* CRUD METHODS **********************/
     // returns page with form to add a sighting
-    @GetMapping("/addSighting")
-    public String getAddSightingPage(Model model){
-        Sighting sighting = new Sighting();
-        model.addAttribute("sighting", sighting);
-        model.addAttribute("countryList", sightingService.getCountryList());
-        return "addSighting";
-    }
+
 
     @PostMapping("/addSighting/save")
     public String addSighting(@ModelAttribute("sighting") Sighting sighting,
@@ -194,15 +188,24 @@ public class SightingController {
             sighting.setLocation(sighting.getLocation());
         }
     }
+
+    @GetMapping("/addSighting")
+    public String getAddSightingPage(Model model){
+        Sighting sighting = new Sighting();
+        model.addAttribute("sighting", sighting);
+        model.addAttribute("countryList", sightingService.getCountryList());
+        return "addSighting";
+    }
     // handler to get page to allow editing of sighting
     //TODO - figure out problem with speciesname autocomplete on species edit page
     @GetMapping("/updateSighting/{sightingId}")
     public String getUpdateSightingPage(@PathVariable("sightingId") Long sightingId, Model model){
+        System.out.println("PEARL WUZ HERE "+sightingId);
         Sighting sighting = sightingService.getSightingById(sightingId);
-        model.addAttribute("sightingId", sighting.getSightingId());
+       // model.addAttribute("sightingId", sighting.getSightingId());
         model.addAttribute("sighting", sighting);
         model.addAttribute("countryList", sightingService.getCountryList());
-        model.addAttribute("speciesName", sighting.getSpeciesName());
+       // model.addAttribute("speciesName", sighting.getSpeciesName());
         return "updateSighting";
     }
 
@@ -237,22 +240,33 @@ public class SightingController {
     @GetMapping("/index")
     public String index(Model model){
         List<Sighting> sightings = sightingService.getAllSightings();
-        return findPaginated(1, "dateOfSighting",  "desc", model);
-    }
-
-    @RequestMapping("/randomPhoto/{photoId}")
-    public String getRandomPhoto(Model model, @PathVariable ("photoId") Long photoId){
         List<Photo> allPhotos = photoService.getAllPhotos();
         Photo photo = photoService.getRandomImage();
+        User user = photo.getUser();
         model.addAttribute("photos", allPhotos);
-        model.addAttribute("photo", photo);
-        model.addAttribute("photoId", photo.getPhotoId());
+        model.addAttribute("photo", photoService.getRandomImage());
+        model.addAttribute("photo2", photoService.getRandomImage());
+        model.addAttribute("photo3", photoService.getRandomImage());
+        model.addAttribute("photo4", photoService.getRandomImage());
+        model.addAttribute("photoUser", user);
+        return findPaginated(1, "dateOfSighting",  "desc", model);
 
-        System.out.println("photo id " + photo.getPhotoId() + " filename " + photo.getFileName());
-       // model.addAttribute("user", photo.getUser());
-       // model.addAttribute("fileName", photo.get().);
-        return "index";
     }
+
+//    @RequestMapping("/randomPhoto/{photoId}")
+//    public String getRandomPhoto(Model model, @PathVariable ("photoId") Long photoId){
+//        List<Photo> allPhotos = photoService.getAllPhotos();
+//        Photo photo = photoService.getRandomImage();
+//        model.addAttribute("photos", allPhotos);
+//        model.addAttribute("photo", photo);
+//        model.addAttribute("photoId", photo.getPhotoId());
+//
+//        System.out.println("photo id " + photo.getPhotoId() + " filename " + photo.getFileName());
+//        System.out.println("PEARL WAS HERE TOO");
+//       // model.addAttribute("user", photo.getUser());
+//       // model.addAttribute("fileName", photo.get().);
+//        return "index";
+//    }
 
     // handler to allow pagination
     @GetMapping("/page/{pageNumber}")
@@ -304,6 +318,7 @@ public class SightingController {
     @GetMapping("/speciesNameAutocomplete")
     @ResponseBody
     public List<String> speciesNameAutocomplete(@RequestParam(value = "term", required = false, defaultValue = "") String term){
+        System.out.println("aviva was here");
         List<String> suggestions = sightingService.getSearchedSpeciesNames(term);
         return suggestions;
     }

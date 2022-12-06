@@ -60,7 +60,8 @@ public class PhotoService {
         int max = allPhotos.size();
         int randomNumber = (int) (Math.random()*(max-min)) + min;
         Photo photo = allPhotos.get(randomNumber);
-        System.out.println("photo id = " + photo.getPhotoId() + " image file = " + photo.getFileName() );
+        User user = photo.getUser();
+       // System.out.println("photo id = " + photo.getPhotoId() + " image file = " + photo.getFileName() );
         return photo;
 
     }

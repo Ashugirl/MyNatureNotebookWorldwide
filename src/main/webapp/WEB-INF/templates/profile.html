@@ -120,12 +120,38 @@
                 </li>
             </ol>
         </div>
-        <br>
-        <br>
         <div class="col">
             <ol class="list-group list-group-flush">
+                <h4>Your photos</h4>
                 <li class="list-group-item d-flex justify-content-between align-items-start">
-                    <div class="ms-2 me-auto">
+                    <div class="card text-bg-dark text-white">
+
+                <!--    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        </div>
+                        <div class="carousel-inner">
+
+
+                            <div class="carousel-item active">
+                                <img th:src="@{'/photos/' + masonBee.jpg}" alt="user photo" class="d-block w-100">
+                            </div>
+                            <div class="carousel-item"  th:each="photo: ${user.userPhotos}">
+                                <img th:src="@{${'/photos/' + photo.fileName}}" class="d-block w-100" alt="user photo">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div></div>-->
+                  <div class="ms-2 me-auto">
                         <table class="table table-bordered table-hover">
                             <thead class="table-dark">
                             <tr>
@@ -137,10 +163,12 @@
                             </div>
                         </div>
                                 </td>
+
                             </tr>
                             </thead>
                         </table>
                         </div>
+                    </div>
                 </li>
             </ol>
         </div>
