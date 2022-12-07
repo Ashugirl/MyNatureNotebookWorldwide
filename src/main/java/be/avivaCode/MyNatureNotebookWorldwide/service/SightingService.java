@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.spring5.ISpringTemplateEngine;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -27,6 +28,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -139,8 +141,10 @@ public class SightingService {
 
     public void updateSighting(Sighting existingSighting) {
             Sighting sighting = sightingRepository.findById(existingSighting.getSightingId()).get();
+            //photo.setPath(photo.getPath());
             List<Photo> photoList = existingSighting.getPhotos();
             if(photoList != null){
+               // photoList.add(photo);
             sighting.getPhotos().addAll(photoList);}
             existingSighting.setPhotos(sighting.getPhotos());
             sightingRepository.save(existingSighting);
@@ -155,12 +159,6 @@ public class SightingService {
     }
 
 
-//
-//    public void hideLocation(Boolean locationHidden){
-//        if(sighting.getLocationHidden() == true){
-//            sighting.setLocation("Location hidden");
-//        }
-//    }
     public void deleteSighting(Long sightingId){
         sightingRepository.deleteById(sightingId);
     }
@@ -259,8 +257,8 @@ public class SightingService {
 
     public void saveImage(MultipartFile imageFile, Photo photo) throws IOException{
         photoService.savePhoto(photo);
-        System.out.println("SS saveImage " + photo.getPath());
         photoService.saveImage(imageFile, photo);
+        System.out.println("SS saveImage " + photo.getPath());
         System.out.println("SS saveImage " + imageFile.getOriginalFilename());
 
     }

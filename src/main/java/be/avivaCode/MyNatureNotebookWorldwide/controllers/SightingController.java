@@ -37,17 +37,15 @@ import java.util.*;
 public class SightingController {
     private SightingService sightingService;
     private UserService userService;
-    private UploadController uploadController;
     private SightingRepository sightingRepository;
     private PhotoService photoService;
 
 
     @Autowired
-    public SightingController(SightingService sightingService, UserService userService, UploadController uploadController, SightingRepository sightingRepository, PhotoService photoService) {
+    public SightingController(SightingService sightingService, UserService userService, SightingRepository sightingRepository, PhotoService photoService) {
             this.sightingService = sightingService;
             this.userService = userService;
             this.sightingRepository = sightingRepository;
-            this.uploadController = uploadController;
             this.photoService = photoService;
     }
 
@@ -62,22 +60,27 @@ public class SightingController {
         return "addSighting";
     }
 
+
     @PostMapping("/addSighting/save")
-    public String addSighting(@ModelAttribute("sighting") Sighting sighting,
+    public ModelAndView addSighting(@ModelAttribute("sighting") Sighting sighting,
                               @RequestParam("imageFile") MultipartFile imageFile, Authentication authentication, Model model) throws IOException {
         sighting.setUser(userService.findUserByEmail(authentication.getName()));
+        ModelAndView modelAndView = new ModelAndView();
         sightingService.createSighting(sighting);
         Photo photo = new Photo();
         if(!imageFile.isEmpty()){
             photo.setFileName(imageFile.getOriginalFilename());
-            photo.setPath(photo.getPath());
             photo.setSighting(sightingService.getSightingById(sighting.getSightingId()));
             photo.setUser(sightingService.getSightingById(sighting.getSightingId()).getUser());
             sightingService.saveImage(imageFile, photo);
             model.addAttribute("photo", photo);
             model.addAttribute("sighting", sighting);
+            photo.setPath(photoService.getAPhotoById(photo.getPhotoId()).get().getPath());
+            model.addAttribute("path", photo.getPath());
+            System.out.println("controller addSighting " + photo.getPath());
+            modelAndView.setViewName("redirect:/addSighting?success");
         }
-        return "redirect:/addSighting?success";
+        return modelAndView;
 
     }
 //    // persists a sighting to the database
@@ -176,7 +179,10 @@ public class SightingController {
         model.addAttribute("sighting", sighting);
         model.addAttribute("user", sighting.getUser());
         if(!sighting.getPhotos().isEmpty()) {
-            model.addAttribute("photos", sighting.getPhotos());
+            List<Photo> photos = sighting.getPhotos();
+            model.addAttribute("photos", photos);
+            System.out.println("sightingpage " + sighting.getPhotos().get(0).getFileName());
+            System.out.println("sightingpage " + sighting.getPhotos().get(0).getPath());
         } else{
             String placeholder = "photo_2022-11-30_16-53-15.jpg";
             Photo photo = new Photo();
@@ -202,7 +208,6 @@ public class SightingController {
     //TODO - figure out problem with speciesname autocomplete on species edit page
     @GetMapping("/updateSighting/{sightingId}")
     public String getUpdateSightingPage(@PathVariable("sightingId") Long sightingId, Model model){
-        System.out.println("PEARL WUZ HERE "+sightingId);
         Sighting sighting = sightingService.getSightingById(sightingId);
         model.addAttribute("sighting", sighting);
         model.addAttribute("countryList", sightingService.getCountryList());
@@ -210,8 +215,19 @@ public class SightingController {
     }
 
     @PostMapping("/updateSighting/save")
-    public String updateSighting(@Valid @ModelAttribute("sighting") Sighting sighting){
+    public String updateSighting(@Valid @ModelAttribute("sighting") Sighting sighting, @RequestParam MultipartFile imageFile, Model model) throws IOException {
         sightingService.updateSighting(sighting);
+        Photo photo = new Photo();
+        if(!imageFile.isEmpty()){
+            photo.setFileName(imageFile.getOriginalFilename());
+            photo.setPath(photo.getPath());
+            System.out.println("update sighting photo get path " + photo.getPath());
+            photo.setSighting(sightingService.getSightingById(sighting.getSightingId()));
+            photo.setUser(sightingService.getSightingById(sighting.getSightingId()).getUser());
+            sightingService.saveImage(imageFile, photo);
+            model.addAttribute("photo", photo);
+            model.addAttribute("sighting", sighting);
+        }
         return "redirect:/yourSightings";
     }
     // handler for delete sighting button

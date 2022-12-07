@@ -33,7 +33,6 @@ public class PhotoService {
     public void saveImage(MultipartFile imageFile, Photo photo) throws IOException{
         Path currentPath = Paths.get(".");
         Path absolutePath = currentPath.toAbsolutePath();
-        System.out.println("absolute path " + absolutePath);
         photo.setPath(absolutePath + "/src/main/resources/static/photos/");
         byte[] bytes = imageFile.getBytes();
         Path path= Paths.get(photo.getPath() + imageFile.getOriginalFilename());
@@ -61,8 +60,10 @@ public class PhotoService {
         int randomNumber = (int) (Math.random()*(max-min)) + min;
         Photo photo = allPhotos.get(randomNumber);
         User user = photo.getUser();
-       // System.out.println("photo id = " + photo.getPhotoId() + " image file = " + photo.getFileName() );
         return photo;
 
+    }
+    public void deletePhoto(Long photoId){
+        photoRepository.deleteById(photoId);
     }
 }
