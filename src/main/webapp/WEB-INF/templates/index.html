@@ -15,6 +15,7 @@
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js" integrity="sha256-xLD7nhI62fcsEZK2/v8LsBcb4lG7dgULkuXoXB/j91c=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="style.css">
 
     <script defer type="text/javascript">
     console.log("hi");
@@ -78,32 +79,38 @@
         <thead class="table-dark">
         <tr>
           <td>
-          <figure class="app-ratio-box-4-3 lightbox-gallery">`
+          <figure class="app-ratio-box-4-3 lightbox-gallery">`<a th:href="@{/sightingPage/{sightingId} (sightingId=${photo.sighting.sightingId})}">
               <div class="card text-bg-dark text-white">
-                         <img class="img-thumbnail" th:src="@{'/photos/' + ${photo.fileName}}" alt="sighting photo" width="400" height="400"/>
+
+                  <img class="img-thumbnail" th:src="@{'/photos/' + ${photo.fileName}}" alt="sighting photo" width="400" height="400"/>
+
               <div class="card-img-overlay d-flex flex-column justify-content-end">
                   <p class="card-text"><small>&copy;<span th:text="${photo.user.userName}">userName</span></small></p>
               </div>
-              </div>
+              </div></a>
               </figure>
           </td>
             <td>
                 <figure class="app-ratio-box-4-3 lightbox-gallery">`
+                    <a th:href="@{/sightingPage/{sightingId} (sightingId=${photo2.sighting.sightingId})}">
                     <div class="card text-bg-dark text-white">
                         <img class="img-thumbnail" th:src="@{'/photos/' + ${photo2.fileName}}" alt="sighting photo" width="400" height="400"/>
                         <div class="card-img-overlay d-flex flex-column justify-content-end">
                             <p class="card-text"><small>&copy;<span th:text="${photo2.user.userName}">userName</span></small></p>
                         </div>
                     </div>
+                    </a>
                 </figure>
             </td><td>
             <figure class="app-ratio-box-4-3 lightbox-gallery">`
+                <a th:href="@{/sightingPage/{sightingId} (sightingId=${photo3.sighting.sightingId})}">
                 <div class="card text-bg-dark text-white">
                     <img class="img-thumbnail" th:src="@{'/photos/' + ${photo3.fileName}}" alt="sighting photo" width="400" height="400"/>
                     <div class="card-img-overlay d-flex flex-column justify-content-end">
                         <p class="card-text"><small>&copy;<span th:text="${photo3.user.userName}">userName</span></small></p>
                     </div>
                 </div>
+                </a>
             </figure>
         </td>
         </tr>

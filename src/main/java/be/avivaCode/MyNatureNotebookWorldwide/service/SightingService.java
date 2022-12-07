@@ -259,7 +259,9 @@ public class SightingService {
 
     public void saveImage(MultipartFile imageFile, Photo photo) throws IOException{
         photoService.savePhoto(photo);
+        System.out.println("SS saveImage " + photo.getPath());
         photoService.saveImage(imageFile, photo);
+        System.out.println("SS saveImage " + imageFile.getOriginalFilename());
 
     }
 }

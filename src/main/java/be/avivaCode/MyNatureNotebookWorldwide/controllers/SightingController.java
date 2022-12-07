@@ -54,6 +54,13 @@ public class SightingController {
     /******************* CRUD METHODS **********************/
     // returns page with form to add a sighting
 
+    @GetMapping("/addSighting")
+    public String getAddSightingPage(Model model){
+        Sighting sighting = new Sighting();
+        model.addAttribute("sighting", sighting);
+        model.addAttribute("countryList", sightingService.getCountryList());
+        return "addSighting";
+    }
 
     @PostMapping("/addSighting/save")
     public String addSighting(@ModelAttribute("sighting") Sighting sighting,
@@ -63,6 +70,7 @@ public class SightingController {
         Photo photo = new Photo();
         if(!imageFile.isEmpty()){
             photo.setFileName(imageFile.getOriginalFilename());
+            photo.setPath(photo.getPath());
             photo.setSighting(sightingService.getSightingById(sighting.getSightingId()));
             photo.setUser(sightingService.getSightingById(sighting.getSightingId()).getUser());
             sightingService.saveImage(imageFile, photo);
@@ -72,7 +80,7 @@ public class SightingController {
         return "redirect:/addSighting?success";
 
     }
-    // persists a sighting to the database
+//    // persists a sighting to the database
 //    @PostMapping("/addSighting/save")
 //    public ModelAndView addSighting(@ModelAttribute("sighting") Sighting sighting, Long sightingId,
 //                                    @RequestParam("imageFile") MultipartFile imageFile, Authentication authentication, Model model) {
@@ -189,23 +197,15 @@ public class SightingController {
         }
     }
 
-    @GetMapping("/addSighting")
-    public String getAddSightingPage(Model model){
-        Sighting sighting = new Sighting();
-        model.addAttribute("sighting", sighting);
-        model.addAttribute("countryList", sightingService.getCountryList());
-        return "addSighting";
-    }
+
     // handler to get page to allow editing of sighting
     //TODO - figure out problem with speciesname autocomplete on species edit page
     @GetMapping("/updateSighting/{sightingId}")
     public String getUpdateSightingPage(@PathVariable("sightingId") Long sightingId, Model model){
         System.out.println("PEARL WUZ HERE "+sightingId);
         Sighting sighting = sightingService.getSightingById(sightingId);
-       // model.addAttribute("sightingId", sighting.getSightingId());
         model.addAttribute("sighting", sighting);
         model.addAttribute("countryList", sightingService.getCountryList());
-       // model.addAttribute("speciesName", sighting.getSpeciesName());
         return "updateSighting";
     }
 
@@ -229,7 +229,6 @@ public class SightingController {
         model.addAttribute("user", currentUser);
         model.addAttribute("sighting", sightingService.getSightingById(sightingId));
         model.addAttribute("sightingId", sightingId);
-        System.out.println("sighting service delete " + sightingId + " " + sighting.getSpeciesName());
         sightingService.deleteSighting(sightingId);
         return "redirect:/yourSightings";
     }
@@ -237,12 +236,13 @@ public class SightingController {
     /******************* HANDLER METHODS FOR HTML **********************/
 
     // handler method to handle home page request
-    @GetMapping("/index")
+    @GetMapping(path = {"/index", "/"})
     public String index(Model model){
         List<Sighting> sightings = sightingService.getAllSightings();
         List<Photo> allPhotos = photoService.getAllPhotos();
         Photo photo = photoService.getRandomImage();
         User user = photo.getUser();
+        model.addAttribute("sightingId", photo.getSighting().getSightingId());
         model.addAttribute("photos", allPhotos);
         model.addAttribute("photo", photoService.getRandomImage());
         model.addAttribute("photo2", photoService.getRandomImage());
@@ -252,21 +252,6 @@ public class SightingController {
         return findPaginated(1, "dateOfSighting",  "desc", model);
 
     }
-
-//    @RequestMapping("/randomPhoto/{photoId}")
-//    public String getRandomPhoto(Model model, @PathVariable ("photoId") Long photoId){
-//        List<Photo> allPhotos = photoService.getAllPhotos();
-//        Photo photo = photoService.getRandomImage();
-//        model.addAttribute("photos", allPhotos);
-//        model.addAttribute("photo", photo);
-//        model.addAttribute("photoId", photo.getPhotoId());
-//
-//        System.out.println("photo id " + photo.getPhotoId() + " filename " + photo.getFileName());
-//        System.out.println("PEARL WAS HERE TOO");
-//       // model.addAttribute("user", photo.getUser());
-//       // model.addAttribute("fileName", photo.get().);
-//        return "index";
-//    }
 
     // handler to allow pagination
     @GetMapping("/page/{pageNumber}")
@@ -281,7 +266,6 @@ public class SightingController {
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("sortByDate", sortByDate);
-//        model.addAttribute("sortByTime", sortByTime);
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("desc") ? "asc" : "desc");
         model.addAttribute("sightings", sightings);
