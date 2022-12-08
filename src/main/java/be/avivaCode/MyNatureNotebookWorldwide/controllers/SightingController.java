@@ -47,6 +47,7 @@ public class SightingController {
             this.userService = userService;
             this.sightingRepository = sightingRepository;
             this.photoService = photoService;
+
     }
 
     /******************* CRUD METHODS **********************/
@@ -62,10 +63,9 @@ public class SightingController {
 
 
     @PostMapping("/addSighting/save")
-    public ModelAndView addSighting(@ModelAttribute("sighting") Sighting sighting,
+    public String addSighting(@ModelAttribute("sighting") Sighting sighting,
                               @RequestParam("imageFile") MultipartFile imageFile, Authentication authentication, Model model) throws IOException {
         sighting.setUser(userService.findUserByEmail(authentication.getName()));
-        ModelAndView modelAndView = new ModelAndView();
         sightingService.createSighting(sighting);
         Photo photo = new Photo();
         if(!imageFile.isEmpty()){
@@ -75,12 +75,9 @@ public class SightingController {
             sightingService.saveImage(imageFile, photo);
             model.addAttribute("photo", photo);
             model.addAttribute("sighting", sighting);
-            photo.setPath(photoService.getAPhotoById(photo.getPhotoId()).get().getPath());
-            model.addAttribute("path", photo.getPath());
-            System.out.println("controller addSighting " + photo.getPath());
-            modelAndView.setViewName("redirect:/addSighting?success");
+            return "redirect:/addSighting?success";
         }
-        return modelAndView;
+        return "redirect:/addSighting?success";
 
     }
 //    // persists a sighting to the database
@@ -181,13 +178,18 @@ public class SightingController {
         if(!sighting.getPhotos().isEmpty()) {
             List<Photo> photos = sighting.getPhotos();
             model.addAttribute("photos", photos);
-            System.out.println("sightingpage " + sighting.getPhotos().get(0).getFileName());
-            System.out.println("sightingpage " + sighting.getPhotos().get(0).getPath());
+            for(Photo photo : photos){
+                model.addAttribute("photo", photo.getFileName());
+           }
         } else{
-            String placeholder = "photo_2022-11-30_16-53-15.jpg";
+            String placeholder = "placeholder.jpg";
             Photo photo = new Photo();
             photo.setFileName(placeholder);
             sighting.getPhotos().add(photo);
+            User user = new User();
+            String userName = "My Nature Notebook Worldwide";
+            user.setUserName(userName);
+            model.addAttribute("user", user);
         }
         return "sightingPage";
     }
@@ -255,16 +257,7 @@ public class SightingController {
     @GetMapping(path = {"/index", "/"})
     public String index(Model model){
         List<Sighting> sightings = sightingService.getAllSightings();
-        List<Photo> allPhotos = photoService.getAllPhotos();
-        Photo photo = photoService.getRandomImage();
-        User user = photo.getUser();
-        model.addAttribute("sightingId", photo.getSighting().getSightingId());
-        model.addAttribute("photos", allPhotos);
-        model.addAttribute("photo", photoService.getRandomImage());
-        model.addAttribute("photo2", photoService.getRandomImage());
-        model.addAttribute("photo3", photoService.getRandomImage());
-        model.addAttribute("photo4", photoService.getRandomImage());
-        model.addAttribute("photoUser", user);
+
         return findPaginated(1, "dateOfSighting",  "desc", model);
 
     }
@@ -278,6 +271,16 @@ public class SightingController {
         int pageSize = 10;
         Page<Sighting> page = sightingService.findPaginated(pageNumber, pageSize, sortByDate, sortDir);
         List<Sighting> sightings = page.getContent();
+        List<Photo> allPhotos = photoService.getAllPhotos();
+        Photo photo = photoService.getRandomImage();
+        User user = photo.getUser();
+        model.addAttribute("sightingId", photo.getSighting().getSightingId());
+        model.addAttribute("photos", allPhotos);
+        model.addAttribute("photo", photoService.getRandomImage());
+        model.addAttribute("photo2", photoService.getRandomImage());
+        model.addAttribute("photo3", photoService.getRandomImage());
+        model.addAttribute("photo4", photoService.getRandomImage());
+        model.addAttribute("photoUser", user);
         model.addAttribute("currentPage", pageNumber);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());

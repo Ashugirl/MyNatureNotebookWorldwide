@@ -1,5 +1,7 @@
 package be.avivaCode.MyNatureNotebookWorldwide.controllers;
 
+import be.avivaCode.MyNatureNotebookWorldwide.data.Photo;
+import be.avivaCode.MyNatureNotebookWorldwide.data.Sighting;
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
 import be.avivaCode.MyNatureNotebookWorldwide.dto.UserDto;
 import be.avivaCode.MyNatureNotebookWorldwide.repositories.UserRepository;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -33,19 +37,17 @@ public class UserController {
     @GetMapping("/profile")
     public String getUserProfilePage(Model model, Authentication authentication){
         User currentUser = userService.findUserByEmail(authentication.getName());
+        List<Photo> photos = currentUser.getUserPhotos();
         model.addAttribute("userId", currentUser.getId());
         model.addAttribute("user", currentUser);
         model.addAttribute("name", currentUser.getUserName());
-        model.addAttribute("photos", currentUser.getUserPhotos());
+        model.addAttribute("photos", photos);
+        for(Photo photo: photos){
+           model.addAttribute("sighting", photo.getSighting());
+        }
         return "profile";
     }
 
-
-//
-//    @GetMapping("/yourPage")
-//    public String getYourPage(Model model){
-//        return "yourPage";
-//    }
 
     // handler method to handle user update form request
     @GetMapping("/editUser/{userId}")
@@ -59,7 +61,6 @@ public class UserController {
         model.addAttribute("lastName", user.getLastName());
         model.addAttribute("email", user.getEmail());
         model.addAttribute("password", user.getPassword());
-
         return "editUser";
     }
 
@@ -71,7 +72,6 @@ public class UserController {
         return "redirect:/profile";
     }
 
-    //TODO - figure out how to get a modal or other type of check before deleting
     @GetMapping("/profile/deleteButton")
     public String deleteUserOption(Model model, @PathVariable("userId") Long id){
         UserDto user = new UserDto();
@@ -79,12 +79,21 @@ public class UserController {
         model.addAttribute("user", user);
         return "profile/deleteButton";
     }
-//TODO - figure out problem with BeanPropertyBindingResult errors when trying to delete
     @PostMapping("/profile/delete")
     public String deleteUser(@Valid @ModelAttribute("user") User user, Authentication authentication){
         user = userRepository.findByEmail(authentication.getName());
-       // System.out.println("CONTROLLER DELETE METHOD " + user.getUserName() + " " + user.getEmail());
         userService.deleteUser(user);
         return "redirect:/logout";
+    }
+    @GetMapping("/profile/{userId}/lifeList")
+    public String userLifeList(@PathVariable("userId") Long id, Model model){
+        Optional<User> user = userService.getUserById(id);
+        List<Sighting> lifeList = sightingService.getAllLifersForUser(user);
+        model.addAttribute("lifeList", lifeList);
+        for(Sighting s : lifeList){
+            LocalDateTime dateTime = s.getDateOfSighting();
+            model.addAttribute("dateOfSighting", dateTime);
+        }
+        return "profile";
     }
 }

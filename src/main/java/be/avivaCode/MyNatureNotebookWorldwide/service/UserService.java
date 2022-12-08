@@ -58,11 +58,9 @@ public class UserService implements iUserService {
     }
 
     public void deleteUser(User user){
-//        User user = userRepository.findByEmail(userDto.getEmail());
-       System.out.println("SERVICE DELETE METHOD " + user);
        userRepository.delete(user);
-
     }
+
     @Override
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
@@ -97,68 +95,4 @@ public class UserService implements iUserService {
         return userRepository.findUserByUserName(userName);
     }
 
-
-//    public void update(Optional<User> updateUser) {
-//        userRepository.findById(updateUser.getId())
-//                .ifPresent(user1 -> {
-//                    user1.setUserName(updateUser.getUserName());
-//
-//                    user1.setEmail(updateUser.getEmail());
-//                    user1.setPassword(updateUser.getPassword());
-//
-//                    userRepository.save(user1);
-//                });
-//
-//
-//    }
-
-
-//
-//    public User createUser(User user){
-//        if(user.isPasswordsMatch()){
-//            return userRepository.save(user);
-//        } else{
-//            throw new RuntimeException("Passwords don't match.");
-//        }}
-//
-//    public User getUserById(Long id){
-//        User user = userRepository.findById(id).get();
-//        return user;
-//    }
-//
-//    public User getUserByUserName(String userName){
-//        Optional<User> user = userRepository.findUserByUserName(userName);
-//        if(user.isPresent()){
-//            return user.get();
-//        }
-//        return null;
-//    }
-//
-//    public User getCurrentUser(Long userId) {
-//        Optional user = userRepository.findById(userId);
-//        if (user.isPresent()) {
-//            return (User) user.get();
-//        }
-//        return null;
-//    }
-//
-//
-//    public void updateUser(User user){
-//        userRepository.findById(user.getUserId())
-//                .ifPresent(updatedUser -> {
-//                    updatedUser.setEmail(user.getEmail());
-//                    updatedUser.setPassword(user.getPassword());
-//                    updatedUser.setPasswordCheck(user.getPasswordCheck());
-//
-//                    userRepository.save(updatedUser);
-//                });
-//    }
-//
-//    public void deleteUser(Long userId){
-//        userRepository.deleteById(userId);
-//    }
-//
-//    public User authenticateUser(String userName, String password){
-//        return userRepository.findUserByUserNameAndPassword(userName, password).orElse(null);
-//    }
-}
+    }

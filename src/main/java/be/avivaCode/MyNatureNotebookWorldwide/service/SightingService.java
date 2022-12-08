@@ -98,15 +98,15 @@ public class SightingService {
         sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
         return sightings;
     }
-
-//    // returns all sightings of a species from newest to oldest
-//    public List<Sighting> getAllBySpeciesName(String speciesName){
-//        List<Sighting> sightings = new ArrayList<>();
-//         sightingRepository.findAllBySpeciesName(speciesName)
-//                 .forEach(sightings::add);
-//        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).thenComparing(Sighting::getTimeOfSighting).reversed());
-//        return sightings;
-//    }
+    // returns a user's life list.
+    public List<Sighting> getAllLifersForUser(Optional<User> user){
+        List<Sighting> sightings = new ArrayList<>();
+        sightingRepository.findAllByUser(user)
+                .stream().filter(sighting -> sighting.getLifer()==true)
+                .forEach(sightings::add);
+        sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
+        return sightings;
+    }
 
     // returns all sightings from a continent from newest to oldest
     public List<Sighting> getAllByContinent(Sighting.Continent continent){
@@ -120,8 +120,6 @@ public class SightingService {
     // returns all sightings of a species from newest to oldest
     public List<Sighting> getAllBySpeciesName(String speciesName){
         List<Sighting> sightings = new ArrayList<>();
-        System.out.println("passing service " + speciesName);
-        System.out.println("Check if repo works " + sightingRepository.findAllBySpeciesName(speciesName));
         sightingRepository.findAllBySpeciesName(speciesName)
                 .forEach(sightings::add);
         sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
@@ -131,9 +129,7 @@ public class SightingService {
     // returns all sightings from a country from newest to oldest
     public List<Sighting> getAllByCountry(String country){
         List<Sighting> sightings = new ArrayList<>();
-        System.out.println("passing service " + country);
-        System.out.println("check if repo works " +sightingRepository.findAllByCountry(country));
-                sightingRepository.findAllByCountry(country)
+        sightingRepository.findAllByCountry(country)
                         .forEach(sightings::add);
         sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
         return sightings;
@@ -141,10 +137,8 @@ public class SightingService {
 
     public void updateSighting(Sighting existingSighting) {
             Sighting sighting = sightingRepository.findById(existingSighting.getSightingId()).get();
-            //photo.setPath(photo.getPath());
             List<Photo> photoList = existingSighting.getPhotos();
             if(photoList != null){
-               // photoList.add(photo);
             sighting.getPhotos().addAll(photoList);}
             existingSighting.setPhotos(sighting.getPhotos());
             sightingRepository.save(existingSighting);
@@ -215,11 +209,6 @@ public class SightingService {
                 if (itisTerms.listIterator().hasNext()) {
                     for (int i = 0; i < itisTerms.size(); i++) {
                         itisObject = (JSONObject) itisTerms.get(i);
-                        //System.out.println(itisObject.keySet());
-                        //scientificNames.add(i, itisObject.get("scientificName").toString());
-                        //System.out.println(itisObject.get("commonNames").toString());
-                        //.out.println(itisObject.get("scientificName"));
-                        //commonNames.add(i, itisObject.get("commonNames").toString());
                         try {
                             speciesMap.put(itisObject.get("scientificName").toString(),
                                     itisObject.get("commonNames").toString());

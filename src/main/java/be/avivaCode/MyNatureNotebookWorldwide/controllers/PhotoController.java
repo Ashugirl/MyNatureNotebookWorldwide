@@ -27,39 +27,52 @@ public class PhotoController {
         this.userService = userService;
         this.sightingService = sightingService;
     }
-//
-//    // handler for delete sighting button
-//    @GetMapping("/yourSightings/{sightingId}/deleteSighting")
-//    public String deleteSightingsButton(@PathVariable("sightingId") Long id, Model model){
-//        Sighting sighting = sightingService.getSightingById(id);
-//        model.addAttribute("sighting", sighting);
-//        model.addAttribute("sightingId", sighting.getSightingId());
-//        return "yourSightings/deleteSighting";
-//    }
-    @GetMapping("/sightingPage/{sightingId}/deletePhoto")
-    public String deletePhotoButton(@PathVariable Long sightingId, @PathVariable Long photoId, Model model, Authentication authentication) {
-        List<Photo> photos = sightingService.getSightingById(sightingId).getPhotos();
-        User sightingUser = sightingService.getSightingById(sightingId).getUser();
-        User currentUser;
-       if(authentication != null){
-            currentUser = userService.findUserByEmail(authentication.getName());
-            if (currentUser.equals(sightingUser) && !photos.isEmpty()) {
-                Photo photo = photoService.getAPhotoById(photoId).get();
-                model.addAttribute("photos", photos);
-                model.addAttribute("photo", photo);
-                model.addAttribute("photoId", photo.getPhotoId());
-                return "sightingPage/{sightingId}/deletePhoto";}
-        } return "sightingPage/{sightingId}";
+
+    @GetMapping("/sightingPage/{sightingId}/uploadPhoto")
+    public String uploadPhotoButton(@PathVariable Long sightingId, Model model, Authentication authentication){
+        return "sightingPage/" + sightingId;
     }
+
+//
+////    // handler for delete photo button
+//    @GetMapping("/sightingPage/{sightingId}/deletePhoto")
+//    public String deletePhotoButton(@PathVariable Long sightingId, @PathVariable Long photoId, Model model, Authentication authentication) {
+//        List<Photo> photos = sightingService.getSightingById(sightingId).getPhotos();
+//        User sightingUser = sightingService.getSightingById(sightingId).getUser();
+//        model.addAttribute("sightingUser", sightingUser);
+//        User currentUser;
+//       if(authentication != null){
+//            currentUser = userService.findUserByEmail(authentication.getName());
+//           System.out.println("currentUser " + currentUser);
+//           System.out.println("sightingUser " + sightingUser);
+//            model.addAttribute("currentUser", currentUser);
+//            if (currentUser.equals(sightingUser) && !photos.isEmpty()) {
+//                Photo photo = photoService.getAPhotoById(photoId).get();
+//                model.addAttribute("photos", photos);
+//                model.addAttribute("photo", photo);
+//                model.addAttribute("photoId", photo.getPhotoId());
+//                return "sightingPage/{sightingId}/deletePhoto";}
+//        } return "sightingPage/{sightingId}";
+//    }
+   // deletes photo
     @PostMapping("{photoId}/deletePhoto")
-    public String deletePhoto(@PathVariable Long photoId, @ModelAttribute Photo photo, Sighting sighting,  Model model){
-        photo = photoService.getAPhotoById(photoId).get();
-        sighting = photo.getSighting();
+    public String deletePhoto(@PathVariable Long photoId, Model model, Authentication authentication){
+        Photo photo = photoService.getAPhotoById(photoId).get();
+        Sighting sighting = photo.getSighting();
+        User currentUser;
+        User sightingOwner = sighting.getUser();
         System.out.println("delete photo " + sighting);
+        model.addAttribute("sightingOwner", sightingOwner);
         model.addAttribute("sightingId", sighting.getSightingId());
         model.addAttribute("photoId", photoId);
         model.addAttribute("photo", photoService.getAPhotoById(photoId));
-        photoService.deletePhoto(photoId);
+
+        if(authentication != null){
+            currentUser = userService.findUserByEmail(authentication.getName());
+            model.addAttribute("currentUser", currentUser);
+            if(currentUser.equals(sightingOwner)){
+            photoService.deletePhoto(photoId);
+        }}
         return "redirect:/sightingPage/" + sighting.getSightingId();
     }
 }
