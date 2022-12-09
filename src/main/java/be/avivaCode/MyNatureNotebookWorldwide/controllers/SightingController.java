@@ -194,6 +194,20 @@ public class SightingController {
         return "sightingPage";
     }
 
+
+//    @RequestMapping(value = {"/sightingPage/{sightingId}/{speciesName}/addToWishList", "/species/{speciesName}/addToWishList"})
+//    public String addSpeciesToWishList(@PathVariable("sightingId") Long id, @PathVariable("speciesName") String speciesName,
+//                                       Model model, Authentication authentication){
+//        User currentUser = userService.findUserByEmail(authentication.getName());
+//        model.addAttribute("currentUser", currentUser);
+//        Sighting sighting = sightingService.getSightingById(id);
+//        model.addAttribute("sightingId", sighting.getSightingId());
+//        model.addAttribute("speciesName",  sighting.getSpeciesName());
+//        List<String> userWishList = currentUser.getWishList();
+//        userWishList.add(speciesName);
+//        return "redirect:/profile";
+//    }
+
     private void hideLocation(Sighting sighting, Boolean locationHidden, Authentication authentication){
         User user = sighting.getUser();
         if(authentication == null && locationHidden == true) {
@@ -223,7 +237,6 @@ public class SightingController {
         if(!imageFile.isEmpty()){
             photo.setFileName(imageFile.getOriginalFilename());
             photo.setPath(photo.getPath());
-            System.out.println("update sighting photo get path " + photo.getPath());
             photo.setSighting(sightingService.getSightingById(sighting.getSightingId()));
             photo.setUser(sightingService.getSightingById(sighting.getSightingId()).getUser());
             sightingService.saveImage(imageFile, photo);
@@ -321,7 +334,6 @@ public class SightingController {
     @GetMapping("/speciesNameAutocomplete")
     @ResponseBody
     public List<String> speciesNameAutocomplete(@RequestParam(value = "term", required = false, defaultValue = "") String term){
-        System.out.println("aviva was here");
         List<String> suggestions = sightingService.getSearchedSpeciesNames(term);
         return suggestions;
     }

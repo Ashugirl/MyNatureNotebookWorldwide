@@ -45,6 +45,14 @@ public class UserController {
         for(Photo photo: photos){
            model.addAttribute("sighting", photo.getSighting());
         }
+        List<Sighting> lifers = sightingService.getAllLifersForUser(Optional.of(currentUser));
+        model.addAttribute("lifers", lifers);
+        for(Sighting s : lifers){
+            LocalDateTime dateTime = s.getDateOfSighting();
+            model.addAttribute("s", s);
+            model.addAttribute("dateOfSighting", dateTime);
+            System.out.println("controller " + s);
+        }
         return "profile";
     }
 
@@ -85,15 +93,19 @@ public class UserController {
         userService.deleteUser(user);
         return "redirect:/logout";
     }
-    @GetMapping("/profile/{userId}/lifeList")
-    public String userLifeList(@PathVariable("userId") Long id, Model model){
-        Optional<User> user = userService.getUserById(id);
-        List<Sighting> lifeList = sightingService.getAllLifersForUser(user);
-        model.addAttribute("lifeList", lifeList);
-        for(Sighting s : lifeList){
+    @GetMapping("/profile/lifeList")
+    public String userLifeList(@PathVariable("userId") Long id, Model model, User user, Authentication authentication){
+        user = userRepository.findByEmail(authentication.getName());
+        List<Sighting> lifers = sightingService.getAllLifersForUser(Optional.ofNullable(user));
+        model.addAttribute("lifers", lifers);
+        for(Sighting s : lifers){
             LocalDateTime dateTime = s.getDateOfSighting();
+            model.addAttribute("sighting", s);
             model.addAttribute("dateOfSighting", dateTime);
+            System.out.println("controller " + s);
         }
         return "profile";
     }
+
+//    @GetMapping("/profile/wishlist")
 }

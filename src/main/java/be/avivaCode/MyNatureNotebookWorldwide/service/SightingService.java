@@ -104,10 +104,18 @@ public class SightingService {
         sightingRepository.findAllByUser(user)
                 .stream().filter(sighting -> sighting.getLifer()==true)
                 .forEach(sightings::add);
+        System.out.println("SS GET LIFERS " + sightings);
         sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
         return sightings;
     }
 
+    public void addToUserWishList(String speciesName){
+        User user = new User();
+        List<String> userWishList = user.getWishList();
+        Sighting sighting = new Sighting();
+        speciesName = sighting.getSpeciesName();
+        userWishList.add(speciesName);
+    }
     // returns all sightings from a continent from newest to oldest
     public List<Sighting> getAllByContinent(Sighting.Continent continent){
         List<Sighting> sightings = new ArrayList<>();

@@ -1,5 +1,7 @@
 package be.avivaCode.MyNatureNotebookWorldwide.data;
 
+import be.avivaCode.MyNatureNotebookWorldwide.service.StringToListConverter;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -35,7 +37,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sighting> sightings = new ArrayList<>();
 
-
+    @Convert(converter = StringToListConverter.class)
+    private List<String> wishList = new ArrayList<>();
 
     public User() {
     }
@@ -129,5 +132,13 @@ public class User {
 
     public void setUserPhotos(List <Photo> userPhotos) {
         this.userPhotos = userPhotos;
+    }
+
+    public List<String> getWishList() {
+        return wishList;
+    }
+
+    public void setWishList(List<String> wishList) {
+        this.wishList = wishList;
     }
 }
