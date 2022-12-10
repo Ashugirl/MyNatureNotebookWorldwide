@@ -1,7 +1,6 @@
 package be.avivaCode.MyNatureNotebookWorldwide.data;
 
 import be.avivaCode.MyNatureNotebookWorldwide.service.StringToListConverter;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.LinkedList;

@@ -1,14 +1,14 @@
 INSERT INTO users (firstName, lastName, userName, email, password)
-VALUES ('Joe', 'Smith', 'happyJoe', 'happyJoe@gmail.com', '$2a$10$sbnm1oKTKZuujwjfE2YEPeGHTCoALAngP7iB4bjK2UvwsSVREC.CC');
+VALUES ('Jo', 'Bakker', 'JoBakker', 'Jo1985@gmail.com', '$2a$10$sbnm1oKTKZuujwjfE2YEPeGHTCoALAngP7iB4bjK2UvwsSVREC.CC');
 
 INSERT INTO users (firstName, lastName, userName, email, password)
-VALUES ('Samantha', 'Starling', 'AStarIsBorn', 'star@gmail.com', '$2a$10$brkZMwQsPZCZXWwP5XGdOORhlgy5.k.cRA/izDmRj35kZVoMnphy.');
+VALUES ('Sarah', 'Stephens', 'PNW-NatureLover', 'sarahs@gmail.com', '$2a$10$brkZMwQsPZCZXWwP5XGdOORhlgy5.k.cRA/izDmRj35kZVoMnphy.');
 
 INSERT INTO users (firstName, lastName, userName, email, password)
-VALUES ('Edith', 'Flunk', 'flunky', 'flunk@gmail.com', '$2a$10$brkZMwQsPZCZXWwP5XGdOORhlgy5.k.cRA/izDmRj35kZVoMnphy.');
+VALUES ('Virginia', 'Matthews', 'VeeMatt', 'veematt@gmail.com', '$2a$10$brkZMwQsPZCZXWwP5XGdOORhlgy5.k.cRA/izDmRj35kZVoMnphy.');
 
 INSERT INTO users (firstName, lastName, userName, email, password)
-VALUES ('Charles', 'Irving', 'irv', 'chirv@gmail.com', '$2a$10$brkZMwQsPZCZXWwP5XGdOORhlgy5.k.cRA/izDmRj35kZVoMnphy.');
+VALUES ('Charles', 'Irving', 'CharlieIrv', 'chirv@gmail.com', '$2a$10$brkZMwQsPZCZXWwP5XGdOORhlgy5.k.cRA/izDmRj35kZVoMnphy.');
 
 INSERT INTO sighting (sightingId, speciesName, continent, country, location, dateOfSighting, quantity, classOfAnimal, sex, lifeStage,
 deceased, behaviour, locationHidden, keepPrivate, lifer, notes, user_id)
@@ -16,7 +16,7 @@ VALUES (default, 'Neophoca cinerea - Australian Sealion', 'OCEANIA', 'Australia'
 15, 'MAMMAL', NULL,NULL, 0, 'basking', 0 ,0, 1, 'large group at beach', 1);
 
 INSERT INTO photo (photoId, fileName, path, sighting_sighting_id, user_id)
-VALUES (default, '2187373322_569fbb7157_o.jpg',
+VALUES (default, 'AusSeaLions.jpg',
 '/Users/avivashuman/IdeaProjects/MyNatureNotebookWorldwide/src/main/resources/static/photos/', 1, 1);
 
 
@@ -33,7 +33,7 @@ VALUES (default, 'aus_fur_seal.jpg',
 INSERT INTO sighting (sightingId, speciesName, continent, country, location, dateOfSighting, quantity, classOfAnimal, sex, lifeStage,
 deceased, behaviour, locationHidden, keepPrivate, lifer, notes, user_id)
 VALUES (default, 'Gymnorhina tibicen - Australian Magpie', 'OCEANIA', 'Australia', 'Sydney Botanical Gardens', '2022-11-17 11:15',
-1, 'BIRD', NULL, 'ADULT', 0, '', 0 ,0, 1, '', 1);
+1, 'BIRD', NULL, 'ADULT', 0, '', 0 ,1, 1, '', 1);
 
 INSERT INTO photo (photoId, fileName, path, sighting_sighting_id, user_id)
 VALUES (default, 'aus_magpie.jpg',
@@ -147,9 +147,13 @@ VALUES (default, 'Corvus monedula - Eurasian Jackdaw', 'EUROPE', 'Netherlands', 
 1, 'BIRD', NULL,'JUVENILE', 0, 'just fledged', 0 ,0, 0, 'fledged onto my windowsill', 4);
 
 INSERT INTO photo (photoId, fileName, path, sighting_sighting_id, user_id)
-VALUES (default, 'jackdaw.jpg',
+VALUES (default, 'jackdaw_fledgeling.jpg',
 '/Users/avivashuman/IdeaProjects/MyNatureNotebookWorldwide/src/main/resources/static/photos/', 14, 4);
 
+
+INSERT INTO photo (photoId, fileName, path, sighting_sighting_id, user_id)
+VALUES (default, 'Jackdaw_fledge.jpg',
+'/Users/avivashuman/IdeaProjects/MyNatureNotebookWorldwide/src/main/resources/static/photos/', 14, 4);
 
 INSERT INTO sighting (sightingId, speciesName, continent, country, location, dateOfSighting, quantity, classOfAnimal, sex, lifeStage,
 deceased, behaviour, locationHidden, keepPrivate, lifer, notes, user_id)
@@ -220,7 +224,7 @@ VALUES (default, 'Ardea cinerea - Grey Heron', 'EUROPE', 'Netherlands', 'Amsterd
 1, 'BIRD', NULL,'ADULT', 0, '', 0 ,0, 0 , '', 4);
 
 INSERT INTO photo (photoId, fileName, path, sighting_sighting_id, user_id)
-VALUES (default, 'greyHeron.jpg',
+VALUES (default, 'grey_heron.jpg',
 '/Users/avivashuman/IdeaProjects/MyNatureNotebookWorldwide/src/main/resources/static/photos/', 21, 4);
 
 INSERT INTO sighting (sightingId, speciesName, continent, country, location, dateOfSighting, quantity, classOfAnimal, sex, lifeStage,
@@ -275,11 +279,11 @@ VALUES (default, 'cormorant.jpg',
 
 INSERT INTO sighting (sightingId, speciesName, continent, country, location, dateOfSighting, quantity, classOfAnimal, sex, lifeStage,
 deceased, behaviour, locationHidden, keepPrivate, lifer, notes, user_id)
-VALUES (default, 'Volucella inops - null', 'EUROPE', 'Belgium', 'Dendermonde', '2022-06-17 16:23',
+VALUES (default, 'Eristalis tenax - drone fly', 'EUROPE', 'Belgium', 'Dendermonde', '2022-06-17 16:23',
 1, 'INVERTEBRATE', NULL,NULL, 0, '', 0 ,0, 1, 'in my garden', 4);
 
 INSERT INTO photo (photoId, fileName, path, sighting_sighting_id, user_id)
-VALUES (default, 'hornetMimicHover.jpeg',
+VALUES (default, 'drone_fly.jpg',
 '/Users/avivashuman/IdeaProjects/MyNatureNotebookWorldwide/src/main/resources/static/photos/', 27, 4);
 
 
@@ -319,17 +323,21 @@ VALUES (default, 'Pteropus poliocephalus - Gray-headed Flying Fox', 'OCEANIA', '
 50, 'MAMMAL', NULL,NULL, 0, '', 0 ,0, 1, 'large group in trees', 1);
 
 INSERT INTO photo (photoId, fileName, path, sighting_sighting_id, user_id)
-VALUES (default, 'flying_foxes_tree.jpg',
+VALUES (default, 'flying_foxes1.jpg',
 '/Users/avivashuman/IdeaProjects/MyNatureNotebookWorldwide/src/main/resources/static/photos/', 31, 1);
 
 
 INSERT INTO sighting (sightingId, speciesName, continent, country, location, dateOfSighting, quantity, classOfAnimal, sex, lifeStage,
 deceased, behaviour, locationHidden, keepPrivate, lifer, notes, user_id)
-VALUES (default, 'Cormobates leucophaea - White-throated Treecreeper', 'OCEANIA', 'Australia', 'Blue Mountains', '2021-12-24 14:45',
-1, 'BIRD', NULL,'ADULT', 0, 'foraging on tree', 0 ,0, 1, '', 1);
+VALUES (default, 'Merops ornatus - Rainbow Bee-eater', 'OCEANIA', 'Australia', 'Uluru', '2021-11-24 14:45',
+1, 'BIRD', NULL,'ADULT', 0, '', 0 ,0, 1, '', 1);
 
 INSERT INTO photo (photoId, fileName, path, sighting_sighting_id, user_id)
-VALUES (default, 'w-t-treecreeper.jpg',
+VALUES (default, 'rainbowBeeEater.jpg',
+'/Users/avivashuman/IdeaProjects/MyNatureNotebookWorldwide/src/main/resources/static/photos/', 32, 1);
+
+INSERT INTO photo (photoId, fileName, path, sighting_sighting_id, user_id)
+VALUES (default, 'RB_bee-eater.jpg',
 '/Users/avivashuman/IdeaProjects/MyNatureNotebookWorldwide/src/main/resources/static/photos/', 32, 1);
 
 

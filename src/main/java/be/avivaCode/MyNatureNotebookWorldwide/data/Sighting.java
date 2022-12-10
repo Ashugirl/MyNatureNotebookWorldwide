@@ -1,12 +1,8 @@
 package be.avivaCode.MyNatureNotebookWorldwide.data;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
-import java.awt.image.BufferedImage;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -16,7 +12,6 @@ public class Sighting {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long sightingId;
     @ManyToOne(fetch = FetchType.LAZY)
-    //@JoinColumn(name = "user_id")
     private User user;
     @Column(nullable = false)
     private String speciesName;
@@ -30,24 +25,18 @@ public class Sighting {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Column
     LocalDateTime dateOfSighting= LocalDateTime.now();
-//    @DateTimeFormat(pattern = "yyyy-MM-dd")
-//    @Column
-//    LocalDate dateOfSighting= LocalDate.now();
-//    @DateTimeFormat(pattern = "HH:mm")
-//    @Column
-//    LocalTime timeOfSighting= LocalTime.of(00,00);
     @Column
-    private int quantity;
+    private int quantity = 1;
     @Enumerated(EnumType.STRING)
-    @Column(name = "classOfAnimal", nullable = true)
+    @Column(name = "classOfAnimal")
     private TaxonomicClass taxonomicClass;
     @Enumerated(EnumType.STRING)
-    @Column(nullable = true)
+    @Column
     private LifeStage lifeStage;
     @Column
     private Boolean deceased;
     @Enumerated(EnumType.STRING)
-    @Column(nullable = true)
+    @Column
     private Sex sex;
     @Column
     private String behaviour;
@@ -155,14 +144,6 @@ public class Sighting {
     public void setDateOfSighting(LocalDateTime dateOfSighting) {
         this.dateOfSighting = dateOfSighting;
     }
-
-//    public LocalTime getTimeOfSighting() {
-//        return timeOfSighting;
-//    }
-//
-//    public void setTimeOfSighting(LocalTime timeOfSighting) {
-//        this.timeOfSighting = timeOfSighting;
-//    }
 
     public int getQuantity() {
         return quantity;
@@ -285,7 +266,7 @@ public class Sighting {
         SOUTH_AMERICA("South America");
 
         private final String displayValue;
-        private Continent(String displayValue){
+        Continent(String displayValue){
             this.displayValue = displayValue;
         }
 
@@ -301,7 +282,7 @@ public class Sighting {
 
         private final String displayValue;
 
-        private LifeStage(String displayValue){
+        LifeStage(String displayValue){
             this.displayValue = displayValue;
         }
 
@@ -326,7 +307,7 @@ public class Sighting {
 
         private final String displayValue;
 
-        private TaxonomicClass(String displayValue){
+        TaxonomicClass(String displayValue){
             this.displayValue = displayValue;
         }
 
@@ -342,7 +323,7 @@ public class Sighting {
 
         private final String displayValue;
 
-        private Sex(String displayValue){
+        Sex(String displayValue){
             this.displayValue = displayValue;
         }
 

@@ -120,12 +120,7 @@
                            th:if="${#fields.hasErrors('password')}"></p>
                     </div>
                     <fieldset>
-                        <legend>Upload Profile Pic and Register</legend>
                         <div class="form-group mb-3">
-                            <input id="userId" type="hidden" name="userId" th:field="*{id}"/>
-                            <div>
-                                <input type="file" name="imageFile"/><br><br>
-                            </div>
                             <div style="align-right">
                                 <button class="btn btn-primary" type="submit">Submit</button>
                             </div>
@@ -133,7 +128,6 @@
 
                     </fieldset>
                     <div class="form-group">
-                        <button class="btn btn-primary" type="submit">Register</button>
                         <span>Already registered? <a th:href="@{/login}">Login here</a></span>
                     </div>
                 </form>

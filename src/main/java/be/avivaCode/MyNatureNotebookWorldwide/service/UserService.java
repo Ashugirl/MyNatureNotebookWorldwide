@@ -1,7 +1,6 @@
 package be.avivaCode.MyNatureNotebookWorldwide.service;
 
 import be.avivaCode.MyNatureNotebookWorldwide.data.Role;
-import be.avivaCode.MyNatureNotebookWorldwide.data.Sighting;
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
 import be.avivaCode.MyNatureNotebookWorldwide.dto.UserDto;
 import be.avivaCode.MyNatureNotebookWorldwide.repositories.RoleRepository;
@@ -9,8 +8,6 @@ import be.avivaCode.MyNatureNotebookWorldwide.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;

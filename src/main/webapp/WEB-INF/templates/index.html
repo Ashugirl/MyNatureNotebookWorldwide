@@ -77,7 +77,11 @@
                   <img class="img-thumbnail" th:src="@{'/photos/' + ${photo.fileName}}" alt="sighting photo" width="400" height="400"/>
 
               <div class="card-img-overlay d-flex flex-column justify-content-end">
-                  <p class="card-text"><small>&copy;<span th:text="${photo.user.userName}">userName</span></small></p>
+                  <p class="card-text">
+                      <small><span th:text="${photo.sighting.speciesName}"}>speciesName</span><br>
+                          &copy;<span th:text="${photo.user.userName}">userName</span><br>
+                          <span th:text="${#temporals.format(photo.sightingDate, 'dd-MM-yyyy HH:mm')}">dateOfSighting</span></small>
+                  </p>
               </div>
               </div></a>
               </figure>
@@ -88,18 +92,25 @@
                     <div class="card text-bg-dark text-white">
                         <img class="img-thumbnail" th:src="@{'/photos/' + ${photo2.fileName}}" alt="sighting photo" width="400" height="400"/>
                         <div class="card-img-overlay d-flex flex-column justify-content-end">
-                            <p class="card-text"><small>&copy;<span th:text="${photo2.user.userName}">userName</span></small></p>
-                        </div>
+                            <p class="card-text">
+                                <small><span th:text="${photo2.sighting.speciesName}"}>speciesName</span><br>
+                                    &copy;<span th:text="${photo2.user.userName}">userName</span><br>
+                                    <span th:text="${#temporals.format(photo2.sightingDate, 'dd-MM-yyyy HH:mm')}">dateOfSighting</span></small>
+                            </p>                        </div>
                     </div>
                     </a>
                 </figure>
             </td><td>
-            <figure class="app-ratio-box-4-3 lightbox-gallery">`
+            <figure class="app-ratio-box-4-3 lightbox-gallery">
                 <a th:href="@{/sightingPage/{sightingId} (sightingId=${photo3.sighting.sightingId})}">
                 <div class="card text-bg-dark text-white">
                     <img class="img-thumbnail" th:src="@{'/photos/' + ${photo3.fileName}}" alt="sighting photo" width="400" height="400"/>
                     <div class="card-img-overlay d-flex flex-column justify-content-end">
-                        <p class="card-text"><small>&copy;<span th:text="${photo3.user.userName}">userName</span></small></p>
+                        <p class="card-text">
+                            <small><span th:text="${photo3.sighting.speciesName}"}>speciesName</span><br>
+                                &copy;<span th:text="${photo3.user.userName}">userName</span><br>
+                                <span th:text="${#temporals.format(photo3.sightingDate, 'dd-MM-yyyy HH:mm')}">dateOfSighting</span></small>
+                        </p>
                     </div>
                 </div>
                 </a>
@@ -133,14 +144,8 @@
             <td><a th:href="@{/species/{speciesName} (speciesName=${sighting.speciesName})}" th:text = "${sighting.speciesName}">speciesName</a></td>
             <td><a th:href="@{/continent/{continent} (continent=${sighting.continent})}" th:text ="${sighting.continent.displayValue}">continent</a></td>
             <td><a th:href="@{/country/{country} (country=${sighting.country})}" th:text = "${sighting.country}">country</a></td>
-            <!-- switch case brings current user to own sighting page -->
-            <!--<td th:switch="${sighting.user.email}">
-                <span th:case="currentUserEmail"><a th:href="@{/yourSightings}" th:text = "${sighting.user.userName}">user</a></span>
-                <span th:case="*"><a th:href="@{/name/{name} (name=${sighting.user.userName})}" th:text = "${sighting.user.userName}">user</a></span>
-            </td>-->
             <td><a th:href="@{/name/{name} (name=${sighting.user.userName})}" th:text="${sighting.user.userName}">user</a></td>
             <td><span th:text="${#temporals.format(sighting.dateOfSighting, 'dd-MM-yyyy HH:mm')}">dateOfSighting</span></td>
-            <!--<td th:text="${#temporals.format(sighting.timeOfSighting, 'HH:mm')}">timeOfSighting</td>-->
         </tr>
         </tbody>
     </table>

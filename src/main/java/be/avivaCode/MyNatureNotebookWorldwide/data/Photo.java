@@ -1,6 +1,7 @@
 package be.avivaCode.MyNatureNotebookWorldwide.data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class Photo {
@@ -9,6 +10,7 @@ public class Photo {
     private Long photoId;
     private String path;
     private String fileName;
+    private LocalDateTime sightingDate;
 
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -60,5 +62,15 @@ public class Photo {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public LocalDateTime getSightingDate() {
+        Sighting sighting = getSighting();
+        sightingDate=sighting.getDateOfSighting();
+        return sightingDate;
+    }
+
+    public void setSightingDate(LocalDateTime sightingDate) {
+        this.sightingDate = sightingDate;
     }
 }

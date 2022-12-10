@@ -71,11 +71,7 @@
             <td><a th:href="@{/species/{species} (species=${sighting.speciesName})}" th:text = "${sighting.speciesName}">speciesName</a></td>
             <td><a th:href="@{/continent/{continent} (continent=${sighting.continent})}" th:text = "${sighting.continent.displayValue}">continent</a></td>
             <td><a th:href="@{/country/{country} (country=${sighting.country})}" th:text = "${sighting.country}">country</a></td>
-            <!-- switch case brings current user to own sighting page -->
-            <td th:switch="${sighting.user.email}">
-                <span th:case="currentUserEmail"><a th:href="@{/yourSightings}" th:text = "${sighting.user.userName}">user</a></span>
-                <span th:case="*"><a th:href="@{/name/{name} (name=${sighting.user.userName})}" th:text = "${sighting.user.userName}">user</a></span>
-            </td>
+            <td><a th:href="@{/name/{name} (name=${sighting.user.userName})}" th:text="${sighting.user.userName}">user</a></td>
             <td><span th:text="${#temporals.format(sighting.dateOfSighting, 'dd-MM-yyyy HH:mm')}">dateOfSighting</span></td>
         </tr>
         </tbody>

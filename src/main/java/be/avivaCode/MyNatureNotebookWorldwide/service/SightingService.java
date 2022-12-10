@@ -16,36 +16,27 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 import org.thymeleaf.spring5.ISpringTemplateEngine;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templateresolver.ITemplateResolver;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class SightingService {
     private SightingRepository sightingRepository;
-    private UserService userService;
-    private PhotoRepository photoRepository;
     private PhotoService photoService;
 
     @Autowired
-    public SightingService(SightingRepository sightingRepository, UserService userService, PhotoRepository photoRepository, PhotoService photoService) {
+    public SightingService(SightingRepository sightingRepository, PhotoService photoService) {
         this.sightingRepository = sightingRepository;
-        this.userService = userService;
-        this.photoRepository = photoRepository;
         this.photoService = photoService;
 
     }
@@ -62,11 +53,14 @@ public class SightingService {
         return sightingRepository.findById(sightingId).get();
     }
 
-    //gets all sigthing from newest to oldest
+    //gets all sighting from newest to oldest
     public List<Sighting> getAllSightings(){
         List<Sighting> allSightings = sightingRepository.findAll();
-        allSightings.sort(Comparator.comparing(Sighting::getDateOfSighting));
-        return allSightings;
+        List filteredList = allSightings.stream()
+                .filter(sighting -> sighting.getKeepPrivate()==false)
+                .collect(Collectors.toList());
+                filteredList.sort(Comparator.comparing(Sighting::getDateOfSighting));
+        return filteredList;
     }
     //oldest to newest
     public List<Sighting> getAllSightingsOldestToNewest(){
@@ -104,18 +98,10 @@ public class SightingService {
         sightingRepository.findAllByUser(user)
                 .stream().filter(sighting -> sighting.getLifer()==true)
                 .forEach(sightings::add);
-        System.out.println("SS GET LIFERS " + sightings);
         sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
         return sightings;
     }
 
-    public void addToUserWishList(String speciesName){
-        User user = new User();
-        List<String> userWishList = user.getWishList();
-        Sighting sighting = new Sighting();
-        speciesName = sighting.getSpeciesName();
-        userWishList.add(speciesName);
-    }
     // returns all sightings from a continent from newest to oldest
     public List<Sighting> getAllByContinent(Sighting.Continent continent){
         List<Sighting> sightings = new ArrayList<>();
@@ -165,7 +151,7 @@ public class SightingService {
         sightingRepository.deleteById(sightingId);
     }
 
-    // gets a list of countries from for dropdown list on form
+    // gets a list of countries for dropdown list on form
     public List<String> getCountryList() {
         String[] countryCodes = Locale.getISOCountries();
         List<String> countryList;
@@ -187,7 +173,6 @@ public class SightingService {
         Map<String, String> speciesMap = new HashMap<>();
         List<String> speciesList = new ArrayList<>();
         try {
-            //System.out.println("Enter a species");
             String baseUrl = "https://www.itis.gov/ITISWebService/jsonservice/getITISTermsFromCommonName?srchKey=";
             //trims and appends user query to URL
             String encodeQuery = encodeValue(query.trim());
@@ -237,8 +222,6 @@ public class SightingService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
             return speciesList;
     }
 
@@ -251,12 +234,8 @@ public class SightingService {
         }
     }
 
-
     public void saveImage(MultipartFile imageFile, Photo photo) throws IOException{
         photoService.savePhoto(photo);
         photoService.saveImage(imageFile, photo);
-        System.out.println("SS saveImage " + photo.getPath());
-        System.out.println("SS saveImage " + imageFile.getOriginalFilename());
-
     }
 }
