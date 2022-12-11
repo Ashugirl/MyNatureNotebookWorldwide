@@ -82,7 +82,7 @@
                                 <input class="form-control"
                                         id="speciesName"
                                         name="speciesName"
-                                        placeholder="Enter Species Name"
+                                        placeholder="Start typing a species name..."
                                         th:field="*{speciesName}"
                                         type="text"/>
                                 <p th:errors = "*{speciesName}" class="text-danger"
@@ -220,7 +220,7 @@
                                            th:field="*{lifer}"/>
                                     <p th:errors = "*{lifer}" class="text-danger"
                                        th:if="${#fields.hasErrors('lifer')}"></p>
-                                    <button type="button" class="btn btn-primary btn-sm rounded-pill" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="If this is your first time seeing this species you can say it's a 'lifer!">
+                                    <button type="button" class="btn btn-primary btn-sm rounded-pill" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="If this is your first time seeing this species you can say it's a 'lifer'!">
                                         ?
                                     </button>
                                 </div>

@@ -270,9 +270,15 @@ public class SightingController {
     public String home(Model model, Sighting sighting, @Param("species") String speciesName) {
         if (speciesName != null) {
             List<Sighting> sightings = sightingService.searchBySpecies(speciesName);
+            List<Sighting> publicList = new ArrayList<>();
+            for (Sighting s : sightings) {
+                if (!s.getKeepPrivate()) {
+                    publicList.add(s);
+                }
+            }
             model.addAttribute("species", speciesName);
             model.addAttribute("sighting", sighting);
-            model.addAttribute("sightings", sightings);
+            model.addAttribute("sightings", publicList);
             return "species";
         } else {
             List<Sighting> sightings = sightingService.getAllSightings();

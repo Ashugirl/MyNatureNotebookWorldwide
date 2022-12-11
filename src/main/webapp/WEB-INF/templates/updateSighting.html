@@ -2,13 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add a Sighting</title>
+    <title>Update a Sighting</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
     <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css}"><link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css}">
     <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+
     <!-- jquery cdns for autocomplete field -->
 
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
@@ -213,7 +217,6 @@
                             <legend><i class="fa fa-check"></i> Other options </legend>
                             <div class="sub-opt">
                                 <label class="sub-label" for="lifer">   Mark as "lifer"
-                                    <i title="If this is your first time seeing this species you can say it's a 'lifer'.'."class="fa fa-question-circle" style="font-size:24px;color:blue"></i>
                                 </label>
                                 <input type="checkbox"
                                        id="lifer"
@@ -221,24 +224,33 @@
                                        th:field="*{lifer}"/>
                                 <p th:errors = "*{lifer}" class="text-danger"
                                    th:if="${#fields.hasErrors('lifer')}"></p>
+                                <button type="button" class="btn btn-primary btn-sm rounded-pill" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="If this is your first time seeing this species you can say it's a 'lifer'!">
+                                    ?
+                                </button>
                             </div>
                             <div class="sub-opt">
-                                <label class="sub-label" for="locationHidden"> Hide location <i title="If the species is vulnerable or endangered, you may want to hide the exact location to keep disturbance to a minimum."class="fa fa-question-circle" style="font-size:24px;color:blue"></i></label>
+                                <label class="sub-label" for="locationHidden"> Hide location </label>
                                 <input type="checkbox"
                                        id="locationHidden"
                                        name="options"
                                        th:field="*{locationHidden}"/>
                                 <p th:errors = "*{locationHidden}" class="text-danger"
                                    th:if="${#fields.hasErrors('locationHidden')}"></p>
+                                <button type="button" class="btn btn-primary btn-sm rounded-pill" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="If the species is vulnerable or endangered, you may want to hide the exact location to keep disturbance to a minimum.">
+                                    ?
+                                </button>
                             </div>
                             <div class="sub-opt">
-                                <label class="sub-label" for="keepPrivate"> Keep private <i title="This will make the sighting visible only to you."class="fa fa-question-circle" style="font-size:24px;color:blue"></i></label>
+                                <label class="sub-label" for="keepPrivate"> Keep private </label>
                                 <input type="checkbox"
                                        id="keepPrivate"
                                        name="options"
                                        th:field="*{keepPrivate}"/>
                                 <p th:errors = "*{keepPrivate}" class="text-danger"
                                    th:if="${#fields.hasErrors('keepPrivate')}"></p>
+                                <button type="button" class="btn btn-primary btn-sm rounded-pill" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="This will make the sighting visible only to you.">
+                                    ?
+                                </button>
                             </div>
                             <div class="form-group mb-3">
                                 <label class="form-label">Notes</label>
@@ -272,6 +284,9 @@
     </div>
 </div>
 </div>
-
+<script>
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+</script>
 </body>
 </html>

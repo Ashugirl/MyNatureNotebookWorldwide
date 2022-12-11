@@ -55,10 +55,10 @@
             </ul>
         </div>
         <form class="d-flex" role="search" th:object="${sighting}" method="post">
-            <input type="text" value="search" name="species" id="speciesName" th:field="*{speciesName}" placeholder="Search by species" aria-label="Search">
+            <input type="text" class="input-large search-query" value="search" name="species" id="speciesName" th:field="*{speciesName}" placeholder="Try typing a species name" aria-label="Search">
             <button class="btn btn-primary" type="submit">Search</button>
-        </form>
-    </div>
+            </form>
+        </div>
 </nav>
 <br />
 
@@ -158,28 +158,10 @@
             <li class="page-item"><a class="page-link"th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1} + '?sortByDate=' + ${sortByDate} +'&sortDir=' + ${sortDir}}">Next</a></li>
         </ul>
     </nav>
-    <!--<div th:if="${totalPages >1}">
-        <div class="row col-sm-10">
-            <div class="col-sm-2">
-                Total Rows: [[${totalItems}]]
-            </div>
-            <div class="col-sm-1">
-                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-                    <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i} + '?sortByDate=' + ${sortByDate}  + '&sortDir=' + ${sortDir}}" >[[${i}]]</a>
-                <span th:unless="${currentPage != i}">[[${i}]]</span>&nbsp; &nbsp;
-                </span>
-            </div>
-            <div class="col-sm-1">
-                <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1} + '?sortByDate=' + ${sortByDate} +'&sortDir=' + ${sortDir}}">Next</a>
-                <span th:unless="${currentPage < totalPages}">Next</span>
-            </div>
-            <div class="col-sm-1">
-            <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages} + '?sortByDate=' + ${sortByDate} + '&sortDir=' + ${sortDir}}">Last</a>
-            <span th:unless="${currentPage < totalPages}">Last</span>
-            </div>
-        </div>
-    </div>-->
+
 </div>
 
+<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 </body>
 </html>
