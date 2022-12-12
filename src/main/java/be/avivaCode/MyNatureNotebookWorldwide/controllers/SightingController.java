@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -145,6 +146,7 @@ public class SightingController {
         Sighting sighting = sightingService.getSightingById(sightingId);
         hideLocation(sighting, sighting.getLocationHidden(), authentication);
         model.addAttribute("sighting", sighting);
+       // model.addAttribute("dateOfSighting", sighting.getDateOfSighting());
         model.addAttribute("user", sighting.getUser());
         if(!sighting.getPhotos().isEmpty()) {
             List<Photo> photos = sighting.getPhotos();
@@ -159,6 +161,8 @@ public class SightingController {
             sighting.getPhotos().add(photo);
             User user = new User();
             String userName = "My Nature Notebook Worldwide";
+            sighting.setDateOfSighting(null);
+            sighting.setSpeciesName(null);
             user.setUserName(userName);
             model.addAttribute("user", user);
         }

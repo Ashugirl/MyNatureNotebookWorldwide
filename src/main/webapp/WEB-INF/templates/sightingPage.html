@@ -134,7 +134,7 @@
                                 <p class="card-text">
                                     <small><span th:text="${sighting.speciesName}"}>speciesName</span><br>
                                         &copy;<span th:text="${user.userName}">userName</span><br>
-                                        <span th:text="${#temporals.format(photo.sightingDate, 'dd-MM-yyyy HH:mm')}">dateOfSighting</span></small>
+                                        <span th:text="${#temporals.format(sighting.dateOfSighting, 'dd-MM-yyyy HH:mm')}">dateOfSighting</span></small>
                                 </p>
                             </div>
                         </div>
