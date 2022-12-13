@@ -147,17 +147,9 @@
                                     Your Wish List
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li>Orcinus orca - Killer Whale</li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>Meles meles - European Badger</li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>Coracias garrulus - European Roller</li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>Fratercula arctica - Atlantic Puffin</li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>Vulpes lagopus - Arctic Fox</li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>Lynx lynx - Eurasian Lynx</li>
+                                    <div th:each="speciesName : ${wishList}"></div>
+                                    <li><p th:text="${speciesName}">speciesName</p>
+                                    </li>
                                     <li><hr class="dropdown-divider"></li>
                                 </ul>
                             </div>

@@ -292,6 +292,23 @@ public class SightingController {
         }
     }
 
+
+//    // handler method to add species to wishlist
+//    @PostMapping("/species/{speciesName}/addToWishList")
+//    public String addSpeciesToWishList(Model model, @PathVariable("speciesName") String speciesName, Authentication authentication, Sighting sighting){
+//        User user = userService.findUserByEmail(authentication.getName());
+//        speciesName = sighting.getSpeciesName();
+//        userService.addSpeciesToWishList(user, speciesName);
+//        List<String> wishList = user.getWishList();
+//        System.out.println("SC " + speciesName);
+//        System.out.println("SC " + user.getUserName());
+//        System.out.println("SC " + wishList.toString());
+//        model.addAttribute("speciesName", speciesName);
+//        model.addAttribute("user", user);
+//        model.addAttribute("wishList", wishList);
+//        return "redirect:/species/{speciesName}";
+//
+//    }
     // returns the call to api ITIS database for form autocomplete
     @GetMapping("/speciesNameAutocomplete")
     @ResponseBody

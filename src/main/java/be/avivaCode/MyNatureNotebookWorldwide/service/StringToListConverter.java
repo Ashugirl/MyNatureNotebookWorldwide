@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+// to allow a non-entity list as field in user class
 @Converter
 public class StringToListConverter implements AttributeConverter<List<String>, String> {
 

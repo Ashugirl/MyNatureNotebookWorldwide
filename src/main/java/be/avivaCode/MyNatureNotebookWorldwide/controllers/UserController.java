@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -109,5 +110,30 @@ public class UserController {
         }
         return "profile";
     }
+    @GetMapping("/profile/wishList")
+    public String userWishList(Model model, UserDto userDto){
+        User user = userService.findUserByEmail(userDto.getEmail());
+        List<String> wishList = user.getWishList();
+        model.addAttribute("wishlist", wishList);
+        for(String s : wishList){
+            model.addAttribute("speciesName", s);
+        }
+        return "profile";
+    }
 
+    @PostMapping("/species/{speciesName}/addToWishList")
+    public String saveToWishList(Model model, @PathVariable("speciesName") String speciesName, UserDto userDto){
+        User user = userService.findUserByEmail(userDto.getEmail());
+        model.addAttribute("user", user);
+        List<String> wishList = user.getWishList();
+        model.addAttribute("wishList", wishList);
+        wishList.add(speciesName);
+        user.setWishList(wishList);
+        System.out.println("UC " + user.getUserName());
+        System.out.println("UC " + wishList.toString());
+        userService.saveUser(userDto);
+
+        return "redirect:/profile";
+
+    }
 }

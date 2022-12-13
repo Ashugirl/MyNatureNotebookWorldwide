@@ -42,6 +42,7 @@ public class SpringSecurity {
                     .antMatchers("/addSighting").authenticated()
                     .antMatchers("/yourSightings").authenticated()
                     .antMatchers("/profile").authenticated()
+                    .antMatchers("/species/**/addToWishList").authenticated()
                     .and()
                     .formLogin(
                             form -> form

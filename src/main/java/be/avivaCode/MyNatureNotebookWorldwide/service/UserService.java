@@ -1,13 +1,16 @@
 package be.avivaCode.MyNatureNotebookWorldwide.service;
 
 import be.avivaCode.MyNatureNotebookWorldwide.data.Role;
+import be.avivaCode.MyNatureNotebookWorldwide.data.Sighting;
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
 import be.avivaCode.MyNatureNotebookWorldwide.dto.UserDto;
 import be.avivaCode.MyNatureNotebookWorldwide.repositories.RoleRepository;
 import be.avivaCode.MyNatureNotebookWorldwide.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -18,14 +21,16 @@ public class UserService implements iUserService {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
+    private SightingService sightingService;
 
     public UserService(){
     }
     @Autowired
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, SightingService sightingService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.sightingService = sightingService;
     }
 
 
@@ -85,6 +90,12 @@ public class UserService implements iUserService {
         return roleRepository.save(role);
     }
 
+//    public UserDto getCurrentUserByAuthentication(Authentication authentication){
+//        User user = userRepository.findByEmail(authentication.getName());
+//
+//
+//    }
+
     public Optional<User> getUserById(Long id){
         return userRepository.findById(id);
     }
@@ -93,5 +104,25 @@ public class UserService implements iUserService {
         return userRepository.findUserByUserName(userName);
     }
 
+    public void addSpeciesToWishList(Long id){
+        User user = userRepository.getReferenceById(id);
+        List<String> wishList = user.getWishList();
+        Sighting sighting = new Sighting();
+        String speciesName = sighting.getSpeciesName();
+        wishList.add(speciesName);
+        user.setWishList(wishList);
+    }
+
+
+
+//    public void addSpeciesToWishList(UserDto userDto,  String speciesName){
+//        User user = userRepository.findByEmail(userDto.getEmail());
+//        List<Sighting> sightings = sightingService.getAllBySpeciesName(speciesName);
+//        List<String> wishList = user.getWishList();
+//        wishList.add(speciesName);
+//        user.setWishList(wishList);
+//        System.out.println("userService " + user.getUserName());
+//        System.out.println("userService " + user.getWishList().toString());
+//    }
 
     }
