@@ -44,11 +44,16 @@ public class UserController {
         List<Photo> photos = currentUser.getUserPhotos();
         photos.sort(Comparator.comparing(Photo::getSightingDate).reversed());
         List<Sighting> lifers = sightingService.getAllLifersForUser(Optional.of(currentUser));
+        List<String> wishList = currentUser.getWishList();
         model.addAttribute("userId", currentUser.getId());
         model.addAttribute("user", currentUser);
         model.addAttribute("name", currentUser.getUserName());
         model.addAttribute("photos", photos);
         model.addAttribute("lifers", lifers);
+        model.addAttribute("wishList", wishList);
+        for(String wish: wishList){
+            model.addAttribute("speciesName", wish);
+        }
         for(Sighting s : lifers){
             LocalDateTime dateTime = s.getDateOfSighting();
             model.addAttribute("s", s);
@@ -111,19 +116,26 @@ public class UserController {
         return "profile";
     }
     @GetMapping("/profile/wishList")
-    public String userWishList(Model model, UserDto userDto){
-        User user = userService.findUserByEmail(userDto.getEmail());
+    public String userWishList(Model model, Authentication authentication){
+        User user = userRepository.findByEmail(authentication.getName());
         List<String> wishList = user.getWishList();
         model.addAttribute("wishlist", wishList);
+
         for(String s : wishList){
             model.addAttribute("speciesName", s);
+            List<Sighting> sightings = sightingService.getAllBySpeciesName(s);
+            for(Sighting sighting : sightings){
+                model.addAttribute("sighting", sighting);
+            }
+            model.addAttribute("sightings", sightings);
+            System.out.println(sightings.toString());
         }
         return "profile";
     }
 
     @PostMapping("/species/{speciesName}/addToWishList")
-    public String saveToWishList(Model model, @PathVariable("speciesName") String speciesName, UserDto userDto){
-        User user = userService.findUserByEmail(userDto.getEmail());
+    public String saveToWishList(Model model, @PathVariable("speciesName") String speciesName, Authentication authentication){
+        User user = userService.findUserByEmail(authentication.getName());
         model.addAttribute("user", user);
         List<String> wishList = user.getWishList();
         model.addAttribute("wishList", wishList);
@@ -131,9 +143,9 @@ public class UserController {
         user.setWishList(wishList);
         System.out.println("UC " + user.getUserName());
         System.out.println("UC " + wishList.toString());
-        userService.saveUser(userDto);
+        userRepository.save(user);
 
-        return "redirect:/profile";
+        return "profile";
 
     }
 }

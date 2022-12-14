@@ -115,6 +115,7 @@ public class UserService implements iUserService {
 
 
 
+
 //    public void addSpeciesToWishList(UserDto userDto,  String speciesName){
 //        User user = userRepository.findByEmail(userDto.getEmail());
 //        List<Sighting> sightings = sightingService.getAllBySpeciesName(speciesName);
