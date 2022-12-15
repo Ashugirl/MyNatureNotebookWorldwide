@@ -51,7 +51,7 @@
 
 <div class="container">
   <div class="row col-md-10">
-    <h2>All Sightings of <span th:text="${sighting.speciesName}">speciesName</span></h2>
+    <h2>All Sightings of <span th:text="${sighting.speciesName}">speciesName</span>
       <form method="post" role="form" th:action="@{{speciesName}/addToWishList (speciesName = ${sighting.speciesName})}" th:object="${user}"><button type="submit" class="btn btn-outline-primary">Add Species to Wishlist</button></form></h2>
 
   </div>

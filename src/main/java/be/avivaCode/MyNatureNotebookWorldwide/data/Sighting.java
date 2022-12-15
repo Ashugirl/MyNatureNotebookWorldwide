@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Sighting {
@@ -234,6 +235,19 @@ public class Sighting {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Sighting)) return false;
+        Sighting sighting = (Sighting) o;
+        return quantity == sighting.quantity && Objects.equals(sightingId, sighting.sightingId) && Objects.equals(user, sighting.user) && Objects.equals(speciesName, sighting.speciesName) && continent == sighting.continent && Objects.equals(country, sighting.country) && Objects.equals(location, sighting.location) && Objects.equals(dateOfSighting, sighting.dateOfSighting) && taxonomicClass == sighting.taxonomicClass && lifeStage == sighting.lifeStage && Objects.equals(deceased, sighting.deceased) && sex == sighting.sex && Objects.equals(behaviour, sighting.behaviour) && Objects.equals(notes, sighting.notes) && Objects.equals(lifer, sighting.lifer) && Objects.equals(keepPrivate, sighting.keepPrivate) && Objects.equals(locationHidden, sighting.locationHidden) && Objects.equals(photos, sighting.photos);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sightingId, user, speciesName, continent, country, location, dateOfSighting, quantity, taxonomicClass, lifeStage, deceased, sex, behaviour, notes, lifer, keepPrivate, locationHidden, photos);
+    }
+
+    @Override
     public String toString() {
         return "Sighting{" +
                 "sightingId=" + sightingId +
@@ -254,6 +268,8 @@ public class Sighting {
                 ", isPrivate=" + keepPrivate +
                 ", isLocationHidden=" + locationHidden +
                 '}';
+
+
     }
 
     public enum Continent {

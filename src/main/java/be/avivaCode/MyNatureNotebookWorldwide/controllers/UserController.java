@@ -2,24 +2,21 @@ package be.avivaCode.MyNatureNotebookWorldwide.controllers;
 
 import be.avivaCode.MyNatureNotebookWorldwide.data.Photo;
 import be.avivaCode.MyNatureNotebookWorldwide.data.Sighting;
+import be.avivaCode.MyNatureNotebookWorldwide.data.Species;
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
 import be.avivaCode.MyNatureNotebookWorldwide.dto.UserDto;
 import be.avivaCode.MyNatureNotebookWorldwide.repositories.UserRepository;
-import be.avivaCode.MyNatureNotebookWorldwide.service.PhotoService;
 import be.avivaCode.MyNatureNotebookWorldwide.service.SightingService;
 import be.avivaCode.MyNatureNotebookWorldwide.service.UserService;
+import org.hibernate.event.spi.SaveOrUpdateEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -40,19 +37,20 @@ public class UserController {
 
     @GetMapping("/profile")
     public String getUserProfilePage(Model model, Authentication authentication){
+        String returnValue;
         User currentUser = userService.findUserByEmail(authentication.getName());
         List<Photo> photos = currentUser.getUserPhotos();
         photos.sort(Comparator.comparing(Photo::getSightingDate).reversed());
         List<Sighting> lifers = sightingService.getAllLifersForUser(Optional.of(currentUser));
-        List<String> wishList = currentUser.getWishList();
+        List<Species> wishList = currentUser.getWishList();
         model.addAttribute("userId", currentUser.getId());
         model.addAttribute("user", currentUser);
         model.addAttribute("name", currentUser.getUserName());
         model.addAttribute("photos", photos);
         model.addAttribute("lifers", lifers);
         model.addAttribute("wishList", wishList);
-        for(String wish: wishList){
-            model.addAttribute("speciesName", wish);
+        for(Species species: wishList){
+            model.addAttribute("speciesName", species);
         }
         for(Sighting s : lifers){
             LocalDateTime dateTime = s.getDateOfSighting();
@@ -118,34 +116,55 @@ public class UserController {
     @GetMapping("/profile/wishList")
     public String userWishList(Model model, Authentication authentication){
         User user = userRepository.findByEmail(authentication.getName());
-        List<String> wishList = user.getWishList();
+        List<Species> wishList = user.getWishList();
         model.addAttribute("wishlist", wishList);
 
-        for(String s : wishList){
+        for(Species s : wishList) {
             model.addAttribute("speciesName", s);
-            List<Sighting> sightings = sightingService.getAllBySpeciesName(s);
-            for(Sighting sighting : sightings){
+            List<Sighting> sightings = sightingService.getAllBySpeciesName(s.getName());
+            for (Sighting sighting : sightings) {
                 model.addAttribute("sighting", sighting);
             }
-            model.addAttribute("sightings", sightings);
-            System.out.println(sightings.toString());
         }
-        return "profile";
+        return "species/{speciesName}";
     }
 
-    @PostMapping("/species/{speciesName}/addToWishList")
-    public String saveToWishList(Model model, @PathVariable("speciesName") String speciesName, Authentication authentication){
-        User user = userService.findUserByEmail(authentication.getName());
-        model.addAttribute("user", user);
-        List<String> wishList = user.getWishList();
-        model.addAttribute("wishList", wishList);
-        wishList.add(speciesName);
-        user.setWishList(wishList);
-        System.out.println("UC " + user.getUserName());
-        System.out.println("UC " + wishList.toString());
-        userRepository.save(user);
+//    @PostMapping("/species/{speciesName}/addToWishList")
+//    public String saveToWishList(Model model, @PathVariable("speciesName") String speciesName, Authentication authentication){
+//        User user = userService.findUserByEmail(authentication.getName());
+//        model.addAttribute("user", user);
+//        List<String> wishList = user.getWishList();
+//        model.addAttribute("wishList", wishList);
+//        wishList.add(speciesName);
+//        user.setWishList(wishList);
+//        userRepository.save(user);
+//        return "profile";
+//    }
 
-        return "profile";
-
-    }
+//    @GetMapping("sightingPage/{sightingId}/addToWishList")
+//    public String addToWishList(Model model, @PathVariable ("sightingId") Long sightingId){
+//        Sighting sighting = sightingService.getSightingById(sightingId);
+//        model.addAttribute("sighting", sighting);
+//        model.addAttribute("sightingId", sighting.getSightingId());
+//        System.out.println("BLORPBLORPBLORPBLORP");
+//        return "sightingPage/{sightingId}";
+//    }
+//
+//
+//    @PostMapping("/addToWishList")
+//    public String saveToWishList(Model model,  Authentication authentication){
+//        User user = userService.findUserByEmail(authentication.getName());
+//        model.addAttribute("user", user);
+//        List<Species> wishList = user.getWishList();
+//        model.addAttribute("wishList", wishList);
+//        Sighting sighting = new Sighting();
+//        Species species = new Species(sighting.getSpeciesName());
+//        String speciesName = sighting.getSpeciesName();
+//        model.addAttribute("speciesName", speciesName);
+//        wishList.add(species);
+//        user.setWishList(wishList);
+//        userRepository.save(user);
+//        System.out.println("BLEEPBLEEPBLEEPBLEEP");
+//        return "profile";
+//    }
 }

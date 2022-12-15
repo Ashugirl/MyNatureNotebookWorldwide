@@ -146,6 +146,7 @@ public class SightingController {
         Sighting sighting = sightingService.getSightingById(sightingId);
         hideLocation(sighting, sighting.getLocationHidden(), authentication);
         model.addAttribute("sighting", sighting);
+        model.addAttribute("speciesName", sighting.getSpeciesName());
        // model.addAttribute("dateOfSighting", sighting.getDateOfSighting());
         model.addAttribute("user", sighting.getUser());
         if(!sighting.getPhotos().isEmpty()) {

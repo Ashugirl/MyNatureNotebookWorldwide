@@ -50,7 +50,7 @@
 <div class="container">
     <div class="row col-md-10">
         <h2><a th:href="@{/species/{species} (species=${sighting.speciesName})}" th:text = "${sighting.speciesName}">speciesName  </a>
-            <button type="button" class="btn btn-outline-primary">Add Species to Wishlist</button></h2>
+            <form method="post" role="form" th:action="@{{speciesName}/addToWishList (speciesName = ${sighting.speciesName})}" th:object="${user}"><button type="submit" class="btn btn-outline-primary">Add Species to Wishlist</button></form></h2>
         <br>
     </div>
 

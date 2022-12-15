@@ -2,6 +2,7 @@ package be.avivaCode.MyNatureNotebookWorldwide.service;
 
 import be.avivaCode.MyNatureNotebookWorldwide.data.Role;
 import be.avivaCode.MyNatureNotebookWorldwide.data.Sighting;
+import be.avivaCode.MyNatureNotebookWorldwide.data.Species;
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
 import be.avivaCode.MyNatureNotebookWorldwide.dto.UserDto;
 import be.avivaCode.MyNatureNotebookWorldwide.repositories.RoleRepository;
@@ -106,11 +107,13 @@ public class UserService implements iUserService {
 
     public void addSpeciesToWishList(Long id){
         User user = userRepository.getReferenceById(id);
-        List<String> wishList = user.getWishList();
+        List<Species> wishList = user.getWishList();
         Sighting sighting = new Sighting();
         String speciesName = sighting.getSpeciesName();
-        wishList.add(speciesName);
+        Species species = new Species(speciesName);
+        wishList.add(species);
         user.setWishList(wishList);
+        userRepository.save(user);
     }
 
 

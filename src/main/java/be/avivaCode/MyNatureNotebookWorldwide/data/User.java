@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -37,8 +38,10 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sighting> sightings = new ArrayList<>();
 
-    @Convert(converter = StringToListConverter.class)
-    private List<String> wishList = new ArrayList<>();
+    //@Convert(converter = StringToListConverter.class)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Species> wishList = new ArrayList<>();
+
 
     public User() {
     }
@@ -134,11 +137,40 @@ public class User {
         this.userPhotos = userPhotos;
     }
 
-    public List<String> getWishList() {
+    public List<Species> getWishList() {
         return wishList;
     }
 
-    public void setWishList(List<String> wishList) {
+    public void setWishList(List<Species> wishList) {
         this.wishList = wishList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(userName, user.userName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles) && Objects.equals(userPhotos, user.userPhotos) && Objects.equals(sightings, user.sightings) && Objects.equals(wishList, user.wishList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, userName, email, password, roles, userPhotos, sightings, wishList);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
+                ", userPhotos=" + userPhotos +
+                ", sightings=" + sightings +
+                ", wishList=" + wishList +
+                '}';
     }
 }
