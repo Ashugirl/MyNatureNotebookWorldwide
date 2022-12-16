@@ -169,7 +169,6 @@ public class User {
                 ", password='" + password + '\'' +
                 ", roles=" + roles +
                 ", userPhotos=" + userPhotos +
-                ", sightings=" + sightings +
                 ", wishList=" + wishList +
                 '}';
     }

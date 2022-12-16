@@ -50,6 +50,11 @@
 <br /><br />
 
 <div class="container">
+  <div th:if="${param.success}">
+    <div class="alert alert-info">
+      You have successfully added this species to your wish list!
+    </div>
+  </div>
   <div class="row col-md-10">
     <h2>All Sightings of <span th:text="${sighting.speciesName}">speciesName</span>
       <form method="post" role="form" th:action="@{{speciesName}/addToWishList (speciesName = ${sighting.speciesName})}" th:object="${user}"><button type="submit" class="btn btn-outline-primary">Add Species to Wishlist</button></form></h2>

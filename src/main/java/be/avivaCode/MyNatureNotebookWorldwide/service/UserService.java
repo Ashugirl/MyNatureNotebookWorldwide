@@ -105,28 +105,6 @@ public class UserService implements iUserService {
         return userRepository.findUserByUserName(userName);
     }
 
-    public void addSpeciesToWishList(Long id){
-        User user = userRepository.getReferenceById(id);
-        List<Species> wishList = user.getWishList();
-        Sighting sighting = new Sighting();
-        String speciesName = sighting.getSpeciesName();
-        Species species = new Species(speciesName);
-        wishList.add(species);
-        user.setWishList(wishList);
-        userRepository.save(user);
-    }
 
-
-
-
-//    public void addSpeciesToWishList(UserDto userDto,  String speciesName){
-//        User user = userRepository.findByEmail(userDto.getEmail());
-//        List<Sighting> sightings = sightingService.getAllBySpeciesName(speciesName);
-//        List<String> wishList = user.getWishList();
-//        wishList.add(speciesName);
-//        user.setWishList(wishList);
-//        System.out.println("userService " + user.getUserName());
-//        System.out.println("userService " + user.getWishList().toString());
-//    }
 
     }

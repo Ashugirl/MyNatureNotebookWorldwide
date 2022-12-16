@@ -48,10 +48,14 @@
 </nav>
 <br />
 <div class="container">
+    <div th:if="${param.success}">
+        <div class="alert alert-info">
+            You have successfully added this species to your wish list!
+        </div>
+    </div>
     <div class="row col-md-10">
         <h2><a th:href="@{/species/{species} (species=${sighting.speciesName})}" th:text = "${sighting.speciesName}">speciesName  </a>
-            <form method="post" role="form" th:action="@{{speciesName}/addToWishList (speciesName = ${sighting.speciesName})}" th:object="${user}"><button type="submit" class="btn btn-outline-primary">Add Species to Wishlist</button></form></h2>
-        <br>
+            <form method="post" role="form" th:action="@{/sightingPage/{sightingId}/addToWishList/{speciesName} (sightingId = ${sighting.sightingId}, speciesName = ${sighting.speciesName})}" th:object="${user}"><button type="submit" class="btn btn-outline-primary">Add Species to Wishlist</button></form></h2>
     </div>
 
 </div><br>

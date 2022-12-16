@@ -11,6 +11,7 @@ import be.avivaCode.MyNatureNotebookWorldwide.service.UserService;
 import org.hibernate.event.spi.SaveOrUpdateEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +51,8 @@ public class UserController {
         model.addAttribute("lifers", lifers);
         model.addAttribute("wishList", wishList);
         for(Species species: wishList){
-            model.addAttribute("speciesName", species);
+            model.addAttribute("species", species);
+            model.addAttribute("name", species.getName());
         }
         for(Sighting s : lifers){
             LocalDateTime dateTime = s.getDateOfSighting();
@@ -113,44 +115,37 @@ public class UserController {
         }
         return "profile";
     }
-    @GetMapping("/profile/wishList")
-    public String userWishList(Model model, Authentication authentication){
-        User user = userRepository.findByEmail(authentication.getName());
-        List<Species> wishList = user.getWishList();
-        model.addAttribute("wishlist", wishList);
 
-        for(Species s : wishList) {
-            model.addAttribute("speciesName", s);
-            List<Sighting> sightings = sightingService.getAllBySpeciesName(s.getName());
-            for (Sighting sighting : sightings) {
-                model.addAttribute("sighting", sighting);
-            }
-        }
-        return "species/{speciesName}";
+    //maps addToWishList button to species.html
+    @PostMapping("/species/{speciesName}/addToWishList")
+    public String saveToWishList(Model model, @PathVariable("speciesName") String speciesName, Authentication authentication){
+        User user = userService.findUserByEmail(authentication.getName());
+        model.addAttribute("user", user);
+        List<Species> wishList = user.getWishList();
+        Species species = new Species(speciesName);
+        wishList.add(species);
+        user.setWishList(wishList);
+        userRepository.save(user);
+        return "redirect:/species/{speciesName}?success";
     }
 
-//    @PostMapping("/species/{speciesName}/addToWishList")
-//    public String saveToWishList(Model model, @PathVariable("speciesName") String speciesName, Authentication authentication){
-//        User user = userService.findUserByEmail(authentication.getName());
-//        model.addAttribute("user", user);
-//        List<String> wishList = user.getWishList();
-//        model.addAttribute("wishList", wishList);
-//        wishList.add(speciesName);
-//        user.setWishList(wishList);
-//        userRepository.save(user);
-//        return "profile";
-//    }
+    // maps addToWishList button to sightingPage.html
+    @PostMapping("/sightingPage/{sightingId}/addToWishList/{speciesName}")
+    public String addToWishList(Model model, @PathVariable Long sightingId, Authentication authentication){
+        User user = userService.findUserByEmail(authentication.getName());
+        model.addAttribute("user", user);
+        List<Species> wishList = user.getWishList();
+        Sighting sighting = sightingService.getSightingById(sightingId);
+        Species species = new Species(sighting.getSpeciesName());
+        model.addAttribute("species", species);
+        model.addAttribute("speciesName", sighting.getSpeciesName());
+        wishList.add(species);
+        user.setWishList(wishList);
+        userRepository.save(user);
+        return "redirect:/sightingPage/{sightingId}?success";
+    }
 
-//    @GetMapping("sightingPage/{sightingId}/addToWishList")
-//    public String addToWishList(Model model, @PathVariable ("sightingId") Long sightingId){
-//        Sighting sighting = sightingService.getSightingById(sightingId);
-//        model.addAttribute("sighting", sighting);
-//        model.addAttribute("sightingId", sighting.getSightingId());
-//        System.out.println("BLORPBLORPBLORPBLORP");
-//        return "sightingPage/{sightingId}";
-//    }
-//
-//
+
 //    @PostMapping("/addToWishList")
 //    public String saveToWishList(Model model,  Authentication authentication){
 //        User user = userService.findUserByEmail(authentication.getName());

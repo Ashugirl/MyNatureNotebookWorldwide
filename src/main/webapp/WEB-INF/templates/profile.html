@@ -149,11 +149,10 @@
                                 <ul class="dropdown-menu">
                                     <div th:each="speciesName : ${wishList}">
                                     <li>
-<!--                                        <a th:href="@{/species/{speciesName} (speciesName = ${sighting.speciesName})}" >-->
-                                        <div
-                                        th:text="${speciesName}">speciesName
+                                        <a th:href="@{/species/{speciesName} (speciesName = ${species.name})}" >
+                                        <div th:text="${speciesName}">speciesName
                                         </div>
-<!--                                        </a>-->
+                                        </a>
                                     </li>
                                     <li><hr class="dropdown-divider"></li>
                                     </div>

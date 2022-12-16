@@ -2,6 +2,7 @@ package be.avivaCode.MyNatureNotebookWorldwide.controllers;
 
 import be.avivaCode.MyNatureNotebookWorldwide.data.Photo;
 import be.avivaCode.MyNatureNotebookWorldwide.data.Sighting;
+import be.avivaCode.MyNatureNotebookWorldwide.data.Species;
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
 import be.avivaCode.MyNatureNotebookWorldwide.repositories.SightingRepository;
 import be.avivaCode.MyNatureNotebookWorldwide.service.PhotoService;
@@ -86,6 +87,7 @@ public class SightingController {
     // returns all sightings of a specific species
     @GetMapping("/species/{speciesName}")
     public String getAllBySpeciesName(Model model, @PathVariable("speciesName") String speciesName, Sighting sighting) {
+        System.out.println("HIHIHIHIHIHIHIHIHIHIHi");
         List<Sighting> showAllBySpecies = sightingService.getAllBySpeciesName(speciesName);
         List<Sighting> publicList = new ArrayList<>();
         for (Sighting s : showAllBySpecies) {
@@ -146,7 +148,9 @@ public class SightingController {
         Sighting sighting = sightingService.getSightingById(sightingId);
         hideLocation(sighting, sighting.getLocationHidden(), authentication);
         model.addAttribute("sighting", sighting);
-        model.addAttribute("speciesName", sighting.getSpeciesName());
+        Species species = new Species(sighting.getSpeciesName());
+        model.addAttribute("species", species);
+        model.addAttribute("name", species.getName());
        // model.addAttribute("dateOfSighting", sighting.getDateOfSighting());
         model.addAttribute("user", sighting.getUser());
         if(!sighting.getPhotos().isEmpty()) {
