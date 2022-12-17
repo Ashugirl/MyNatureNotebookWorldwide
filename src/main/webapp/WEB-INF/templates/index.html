@@ -11,6 +11,7 @@
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
 
+
     <!-- jquery cdns for autocomplete field -->
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js" integrity="sha256-xLD7nhI62fcsEZK2/v8LsBcb4lG7dgULkuXoXB/j91c=" crossorigin="anonymous"></script>
@@ -134,33 +135,33 @@
     <table class="table table-bordered table-hover">
         <thead class="table-dark">
         <tr>
-            <th>ID</th>
-            <th>Species</th>
-            <th>Continent</th>
-            <th>Country</th>
-            <th>User Name</th>
-            <th><a style="text-decoration: none; color: white" th:href="@{'/page/' + ${currentPage} + '?sortByDate=dateOfSighting&sortDir=' + ${reverseSortDir}}">Date & Time</a>
+            <th><a style="color: white" th:href="@{'/page/' + ${currentPage} + '?sortField=sightingId&sortDir=' + ${reverseSortDir}}">ID</a></th>
+            <th><a style="color: white" th:href="@{'/page/' + ${currentPage} + '?sortField=speciesName&sortDir=' + ${reverseSortDir}}">Species</a></th>
+            <th><a style="color: white" th:href="@{'/page/' + ${currentPage} + '?sortField=continent&sortDir=' + ${reverseSortDir}}">Continent</a></th>
+            <th><a style="color: white" th:href="@{'/page/' + ${currentPage} + '?sortField=country&sortDir=' + ${reverseSortDir}}">Country</a></th>
+            <th><a style="color: white" th:href="@{'/page/' + ${currentPage} + '?sortField=user.userName&sortDir=' + ${reverseSortDir}}">User Name</a></th>
+            <th><a style="color: white" th:href="@{'/page/' + ${currentPage} + '?sortField=dateOfSighting&sortDir=' + ${reverseSortDir}}">Date & Time</a></th>
 
         </tr>
         </thead>
         <tbody>
         <tr th:each = "sighting : ${sightings}">
-            <td><a style="text-decoration: none; color: black" th:href="@{/sightingPage/{sightingId} (sightingId=${sighting.sightingId})}" th:text="${sighting.sightingId}">sightingId</a></td>
-            <td><a style="text-decoration: none; color: black"th:href="@{/species/{speciesName} (speciesName=${sighting.speciesName})}" th:text = "${sighting.speciesName}">speciesName</a></td>
-            <td><a style="text-decoration: none; color: black"th:href="@{/continent/{continent} (continent=${sighting.continent})}" th:text ="${sighting.continent.displayValue}">continent</a></td>
-            <td><a style="text-decoration: none; color: black"th:href="@{/country/{country} (country=${sighting.country})}" th:text = "${sighting.country}">country</a></td>
-            <td><a style="text-decoration: none; color: black"th:href="@{/name/{name} (name=${sighting.user.userName})}" th:text="${sighting.user.userName}">user</a></td>
+            <td><a th:href="@{/sightingPage/{sightingId} (sightingId=${sighting.sightingId})}" th:text="${sighting.sightingId}">sightingId</a></td>
+            <td><a th:href="@{/species/{speciesName} (speciesName=${sighting.speciesName})}" th:text = "${sighting.speciesName}">speciesName</a></td>
+            <td><a th:href="@{/continent/{continent} (continent=${sighting.continent})}" th:text ="${sighting.continent.displayValue}">continent</a></td>
+            <td><a th:href="@{/country/{country} (country=${sighting.country})}" th:text = "${sighting.country}">country</a></td>
+            <td><a th:href="@{/name/{name} (name=${sighting.user.userName})}" th:text="${sighting.user.userName}">user</a></td>
             <td><span th:text="${#temporals.format(sighting.dateOfSighting, 'dd-MM-yyyy HH:mm')}">dateOfSighting</span></td>
         </tr>
         </tbody>
     </table>
     <nav aria-label="Page navigation">
         <ul class="pagination">
-            <li class="page-item"><a style="text-decoration: none; color: black" class="page-link" tabindex="-1" th:if="${currentPage > 1}" th:href="@{'/page/' + ${currentPage - 1} + '?sortByDate=' + ${sortByDate}  + '&sortDir=' + ${sortDir}}">Previous</a></li>
+            <li class="page-item"><a class="page-link" tabindex="-1" th:if="${currentPage > 1}" th:href="@{'/page/' + ${currentPage - 1} + '?sortField=' + ${sortField}  + '&sortDir=' + ${sortDir}}">Previous</a></li>
             <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-            <li class="page-item"><a style="text-decoration: none; color: black" class="page-link" th:if="${currentPage != i}" th:href="@{'/page/' + ${i} + '?sortByDate=' + ${sortByDate}  + '&sortDir=' + ${sortDir}}" >[[${i}]]</a><li style="text-decoration: none; color: black" class="page-link" th:unless="${currentPage != i}">[[${i}]]</li>&nbsp; &nbsp;</li>
+            <li class="page-item"><a class="page-link" th:if="${currentPage != i}" th:href="@{'/page/' + ${i} + '?sortField=' + ${sortField}  + '&sortDir=' + ${sortDir}}" >[[${i}]]</a><li  class="page-link" th:unless="${currentPage != i}">[[${i}]]</li>&nbsp; &nbsp;</li>
             </span>
-            <li class="page-item"><a style="text-decoration: none; color: black" class="page-link"th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1} + '?sortByDate=' + ${sortByDate} +'&sortDir=' + ${sortDir}}">Next</a></li>
+            <li class="page-item"><a class="page-link"th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} +'&sortDir=' + ${sortDir}}">Next</a></li>
         </ul>
     </nav>
 

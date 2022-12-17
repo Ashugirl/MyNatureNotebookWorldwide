@@ -87,7 +87,6 @@ public class SightingController {
     // returns all sightings of a specific species
     @GetMapping("/species/{speciesName}")
     public String getAllBySpeciesName(Model model, @PathVariable("speciesName") String speciesName, Sighting sighting) {
-        System.out.println("HIHIHIHIHIHIHIHIHIHIHi");
         List<Sighting> showAllBySpecies = sightingService.getAllBySpeciesName(speciesName);
         List<Sighting> publicList = new ArrayList<>();
         for (Sighting s : showAllBySpecies) {
@@ -190,8 +189,6 @@ public class SightingController {
     @GetMapping("/updateSighting/{sightingId}")
     public String getUpdateSightingPage(@PathVariable("sightingId") Long sightingId, Model model){
         Sighting sighting = sightingService.getSightingById(sightingId);
-        String speciesName = sighting.getSpeciesName();
-        model.addAttribute("speciesName", speciesName);
         model.addAttribute("sighting", sighting);
         model.addAttribute("countryList", sightingService.getCountryList());
         return "updateSighting";
@@ -199,6 +196,8 @@ public class SightingController {
 
     @PostMapping("/updateSighting/save")
     public String updateSighting(@Valid @ModelAttribute("sighting") Sighting sighting, @RequestParam MultipartFile imageFile, Model model) throws IOException {
+        String speciesName = sighting.getSpeciesName();
+        model.addAttribute("speciesName", speciesName);
         sightingService.updateSighting(sighting);
         Photo photo = new Photo();
         if(!imageFile.isEmpty()){
@@ -236,15 +235,16 @@ public class SightingController {
     // handler to allow pagination
     @GetMapping("/page/{pageNumber}")
     public String findPaginated(@PathVariable(value = "pageNumber") int pageNumber,
-                                @RequestParam("sortByDate") String sortByDate,
+                                @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDir") String sortDir,
                                 Model model){
         int pageSize = 10;
-        Page<Sighting> page = sightingService.findPaginated(pageNumber, pageSize, sortByDate, sortDir);
+        Page<Sighting> page = sightingService.findPaginated(pageNumber, pageSize, sortField, sortDir);
         List<Sighting> sightings = page.getContent();
         List<Sighting> publicList = new ArrayList<>();
         for (Sighting s : sightings) {
             if (!s.getKeepPrivate()) {
+                model.addAttribute("name", s.getUser().getUserName());
                 publicList.add(s);
             }
         }
@@ -267,11 +267,10 @@ public class SightingController {
         model.addAttribute("photo1", photo1);
         model.addAttribute("photo2", photo2);
         model.addAttribute("photo3", photo3);
-//        model.addAttribute("photo4", photoService.getRandomImage());
         model.addAttribute("currentPage", pageNumber);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("sortByDate", sortByDate);
+        model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("desc") ? "asc" : "desc");
         model.addAttribute("sightings", publicList);

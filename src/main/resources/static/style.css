@@ -1,19 +1,19 @@
-
-img {
-    float: left;
-    height 100px;
-    object-fit: cover;
-    color: red;
+a:link {
+  text-decoration: none;
+  color: green;
 }
 
-.box{
-    display: none;
-    width: 100%;
+a:visited {
+  text-decoration: none;
+    color: green;
 }
 
-a:hover + .box,.box:hover{
-    display: block;
-    position: relative;
-    z-index: 100;
+a:hover {
+  text-decoration: underline;
+    color: green;
 }
 
+a:active {
+   text-decoration: underline;
+     color: green;
+}
