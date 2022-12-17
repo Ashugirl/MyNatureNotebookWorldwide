@@ -190,6 +190,8 @@ public class SightingController {
     @GetMapping("/updateSighting/{sightingId}")
     public String getUpdateSightingPage(@PathVariable("sightingId") Long sightingId, Model model){
         Sighting sighting = sightingService.getSightingById(sightingId);
+        String speciesName = sighting.getSpeciesName();
+        model.addAttribute("speciesName", speciesName);
         model.addAttribute("sighting", sighting);
         model.addAttribute("countryList", sightingService.getCountryList());
         return "updateSighting";
@@ -247,13 +249,25 @@ public class SightingController {
             }
         }
         List<Photo> allPhotos = photoService.getAllPhotos();
-        Photo photo = photoService.getRandomImage();
-        model.addAttribute("sightingId", photo.getSighting().getSightingId());
+        Photo photo1 = photoService.getRandomImage1();
+        Photo photo2 = photoService.getRandomImage2();
+        Photo photo3 = photoService.getRandomImage3();
+        Photo photo = new Photo();
+        if (photo.equals(photo1)) {
+            model.addAttribute("sightingId", photo1.getSighting().getSightingId());
+            model.addAttribute("speciesName", photo1.getSighting().getSpeciesName());
+        } else if (photo.equals(photo2)) {
+            model.addAttribute("sightingId", photo2.getSighting().getSightingId());
+            model.addAttribute("speciesName", photo2.getSighting().getSpeciesName());
+        } else if (photo.equals(photo3)) {
+            model.addAttribute("sightingId", photo3.getSighting().getSightingId());
+            model.addAttribute("speciesName", photo3.getSighting().getSpeciesName());
+        }
         model.addAttribute("photos", allPhotos);
-        model.addAttribute("photo", photoService.getRandomImage());
-        model.addAttribute("photo2", photoService.getRandomImage());
-        model.addAttribute("photo3", photoService.getRandomImage());
-        model.addAttribute("photo4", photoService.getRandomImage());
+        model.addAttribute("photo1", photo1);
+        model.addAttribute("photo2", photo2);
+        model.addAttribute("photo3", photo3);
+//        model.addAttribute("photo4", photoService.getRandomImage());
         model.addAttribute("currentPage", pageNumber);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
@@ -261,7 +275,6 @@ public class SightingController {
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("desc") ? "asc" : "desc");
         model.addAttribute("sightings", publicList);
-        model.addAttribute("speciesName", photo.getSighting().getSpeciesName());
         model.addAttribute("sighting", new Sighting());
         return "index";
     }

@@ -23,37 +23,81 @@ public class PhotoService {
         this.photoRepository = photoRepository;
     }
 
-    public void savePhoto(Photo photo){
+    public void savePhoto(Photo photo) {
         photoRepository.save(photo);
     }
 
-    public void saveImage(MultipartFile imageFile, Photo photo) throws IOException{
+    public void saveImage(MultipartFile imageFile, Photo photo) throws IOException {
         Path currentPath = Paths.get(".");
         Path absolutePath = currentPath.toAbsolutePath();
         photo.setPath(absolutePath + "/src/main/resources/static/photos/");
         byte[] bytes = imageFile.getBytes();
-        Path path= Paths.get(photo.getPath() + imageFile.getOriginalFilename());
+        Path path = Paths.get(photo.getPath() + imageFile.getOriginalFilename());
         Files.write(path, bytes);
     }
 
-    public  List<Photo> getAllPhotos(){
-       return  photoRepository.findAll();
+    public List<Photo> getAllPhotos() {
+        return photoRepository.findAll();
     }
 
-    public Photo getRandomImage(){
+    public Photo getRandomImage1() {
         List<Photo> allPhotos = photoRepository.findAll();
         List<Photo> publicPhotos = new ArrayList<>();
+        Photo photo = new Photo();
         for (Photo p : allPhotos) {
             if (!p.getSighting().getKeepPrivate()) {
                 publicPhotos.add(p);
             }
         }
+        List<Photo> firstThird = new ArrayList<>(publicPhotos.subList(0, publicPhotos.size() / 3));
         int min = 1;
-        int max = publicPhotos.size();
-        int randomNumber = (int) (Math.random()*(max-min)) + min;
-        Photo photo = publicPhotos.get(randomNumber);
+        int max = firstThird.size();
+        System.out.println("frst third size " + max);
+        for (Photo p : firstThird) {
+            int randomNumber = (int) (Math.random() * (max - min)) + min;
+            photo = firstThird.get(randomNumber);
+        }
         return photo;
-
     }
 
+    public Photo getRandomImage2() {
+        List<Photo> allPhotos = photoRepository.findAll();
+        List<Photo> publicPhotos = new ArrayList<>();
+        Photo photo = new Photo();
+        for (Photo p : allPhotos) {
+            if (!p.getSighting().getKeepPrivate()) {
+                publicPhotos.add(p);
+            }
+        }
+        List<Photo> secondThird= new ArrayList<>(publicPhotos.subList(publicPhotos.size() / 3, (publicPhotos.size()/3)*2));
+        int min = 1;
+        int max = secondThird.size();
+        System.out.println("second third size " + secondThird.size());
+        System.out.println();
+        for (Photo p : secondThird) {
+            int randomNumber = (int) (Math.random() * (max - min)) + min;
+            photo = secondThird.get(randomNumber);
+        }
+        return photo;
+    }
+
+    public Photo getRandomImage3() {
+        List<Photo> allPhotos = photoRepository.findAll();
+        List<Photo> publicPhotos = new ArrayList<>();
+        Photo photo = new Photo();
+        for (Photo p : allPhotos) {
+            if (!p.getSighting().getKeepPrivate()) {
+                publicPhotos.add(p);
+            }
+        }
+        List<Photo> lastThird = new ArrayList<>(publicPhotos.subList((publicPhotos.size()/3)*2, publicPhotos.size()));
+        int min = 1;
+        int max = lastThird.size();
+        System.out.println("last third size " + max);
+        for (Photo p : lastThird) {
+            int randomNumber = (int) (Math.random() * (max - min)) + min;
+            photo = lastThird.get(randomNumber);
+        }
+        return photo;
+    }
 }

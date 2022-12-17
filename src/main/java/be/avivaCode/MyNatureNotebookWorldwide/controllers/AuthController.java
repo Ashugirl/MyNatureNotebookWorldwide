@@ -3,6 +3,7 @@ package be.avivaCode.MyNatureNotebookWorldwide.controllers;
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
 import be.avivaCode.MyNatureNotebookWorldwide.dto.UserDto;
 import be.avivaCode.MyNatureNotebookWorldwide.service.UserService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -54,7 +55,12 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login(Authentication authentication, Model model) {
+        if(authentication!=null){
+            User user = userService.findUserByEmail(authentication.getName());
+            model.addAttribute("user", user);
+            return "profile";
+        }
         return "login";
     }
 
