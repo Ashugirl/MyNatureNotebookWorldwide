@@ -1,14 +1,11 @@
 package be.avivaCode.MyNatureNotebookWorldwide.service;
 
 import be.avivaCode.MyNatureNotebookWorldwide.data.Role;
-import be.avivaCode.MyNatureNotebookWorldwide.data.Sighting;
-import be.avivaCode.MyNatureNotebookWorldwide.data.Species;
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
 import be.avivaCode.MyNatureNotebookWorldwide.dto.UserDto;
-import be.avivaCode.MyNatureNotebookWorldwide.repositories.RoleRepository;
-import be.avivaCode.MyNatureNotebookWorldwide.repositories.UserRepository;
+import be.avivaCode.MyNatureNotebookWorldwide.service.repositories.RoleRepository;
+import be.avivaCode.MyNatureNotebookWorldwide.service.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

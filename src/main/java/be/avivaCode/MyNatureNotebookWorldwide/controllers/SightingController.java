@@ -4,7 +4,6 @@ import be.avivaCode.MyNatureNotebookWorldwide.data.Photo;
 import be.avivaCode.MyNatureNotebookWorldwide.data.Sighting;
 import be.avivaCode.MyNatureNotebookWorldwide.data.Species;
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
-import be.avivaCode.MyNatureNotebookWorldwide.repositories.SightingRepository;
 import be.avivaCode.MyNatureNotebookWorldwide.service.PhotoService;
 import be.avivaCode.MyNatureNotebookWorldwide.service.SightingService;
 import be.avivaCode.MyNatureNotebookWorldwide.service.UserService;
@@ -20,9 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 public class SightingController {
@@ -287,7 +284,7 @@ public class SightingController {
         return "sortBy";
     }
     // handler method to handle search field request
-    @RequestMapping(path = { "/", "/index", "/search"})
+    @RequestMapping(path = { "/", "/index", "/search", "/page"})
     public String home(Model model, Sighting sighting, @Param("species") String speciesName) {
         if (speciesName != null) {
             List<Sighting> sightings = sightingService.searchBySpecies(speciesName);

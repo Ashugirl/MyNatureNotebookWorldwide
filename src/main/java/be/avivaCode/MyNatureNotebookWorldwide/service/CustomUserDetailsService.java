@@ -1,7 +1,7 @@
 package be.avivaCode.MyNatureNotebookWorldwide.service;
 
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
-import be.avivaCode.MyNatureNotebookWorldwide.repositories.UserRepository;
+import be.avivaCode.MyNatureNotebookWorldwide.service.repositories.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,4 +1,4 @@
-package be.avivaCode.MyNatureNotebookWorldwide.repositories;
+package be.avivaCode.MyNatureNotebookWorldwide.service.repositories;
 
 import be.avivaCode.MyNatureNotebookWorldwide.data.Photo;
 import org.springframework.data.jpa.repository.JpaRepository;
