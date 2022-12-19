@@ -26,6 +26,11 @@ public class PhotoService {
         photoRepository.save(photo);
     }
 
+    public Photo getPhotoById(Long photoId){
+        Photo photo = photoRepository.findById(photoId).get();
+         return photo;
+    }
+
     public void saveImage(MultipartFile imageFile, Photo photo) throws IOException {
         Path currentPath = Paths.get(".");
         Path absolutePath = currentPath.toAbsolutePath();
@@ -94,5 +99,8 @@ public class PhotoService {
             photo = lastThird.get(randomNumber);
         }
         return photo;
+    }
+    public void deletePhotoById(Long photoId){
+        photoRepository.deleteById(photoId);
     }
 }

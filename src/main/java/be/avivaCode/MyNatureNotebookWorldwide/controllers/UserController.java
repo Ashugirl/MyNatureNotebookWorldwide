@@ -5,6 +5,7 @@ import be.avivaCode.MyNatureNotebookWorldwide.data.Sighting;
 import be.avivaCode.MyNatureNotebookWorldwide.data.Species;
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
 import be.avivaCode.MyNatureNotebookWorldwide.dto.UserDto;
+import be.avivaCode.MyNatureNotebookWorldwide.service.PhotoService;
 import be.avivaCode.MyNatureNotebookWorldwide.service.repositories.UserRepository;
 import be.avivaCode.MyNatureNotebookWorldwide.service.SightingService;
 import be.avivaCode.MyNatureNotebookWorldwide.service.UserService;
@@ -25,12 +26,14 @@ public class UserController {
     private UserService userService;
     private SightingService sightingService;
     private UserRepository userRepository;
+    private PhotoService photoService;
 
     @Autowired
-    public UserController(UserService userService, SightingService sightingService, UserRepository userRepository) {
+    public UserController(UserService userService, SightingService sightingService, UserRepository userRepository, PhotoService photoService) {
         this.userService = userService;
         this.sightingService = sightingService;
         this.userRepository = userRepository;
+        this.photoService = photoService;
 
     }
 
@@ -142,8 +145,25 @@ public class UserController {
         userRepository.save(user);
         return "redirect:/sightingPage/{sightingId}?success";
     }
+//    @GetMapping("/profile/deletePhotoButton")
+//    public String deletePhotoOption(Model model, User user){
+//        List<Photo> photos = user.getUserPhotos();
+//        for(Photo photo : photos){
+//        model.addAttribute("photo", photo);
+//        model.addAttribute("user", user);}
+//        return "profile/deletePhoto";
+//    }
 
 
+    @PostMapping("{photoId}/deletePhoto")
+    public String deletePhoto(@PathVariable("photoId") Long photoId,  Model model, Photo photo){
+        photo = photoService.getPhotoById(photoId);
+        model.addAttribute("photo", photo);
+        model.addAttribute("photoId", photoId);
+        photoService.deletePhotoById(photoId);
+        return "redirect:/profile";
+
+    }
 //    @PostMapping("/addToWishList")
 //    public String saveToWishList(Model model,  Authentication authentication){
 //        User user = userService.findUserByEmail(authentication.getName());

@@ -9,6 +9,7 @@
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/style.css}"/>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -54,7 +55,7 @@
         </div>
     </div>
     <div class="row col-md-10">
-        <h2><a style="text-decoration: none; color: black" th:href="@{/species/{species} (species=${sighting.speciesName})}" th:text = "${sighting.speciesName}">speciesName  </a>
+        <h2><a th:href="@{/species/{species} (species=${sighting.speciesName})}" th:text = "${sighting.speciesName}">speciesName  </a>
             <form method="post" role="form" th:action="@{/sightingPage/{sightingId}/addToWishList/{speciesName} (sightingId = ${sighting.sightingId}, speciesName = ${sighting.speciesName})}" th:object="${user}"><button type="submit" class="btn btn-outline-dark">Add Species to Wishlist</button></form></h2>
     </div>
 
@@ -66,19 +67,19 @@
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto">
                         <div class="fw-bold">User</div>
-                        <a style="text-decoration: none; color: black" th:href="@{/name/{userName} (userName=${user.userName})}" th:text = "${user.userName}">name</a>
+                        <a th:href="@{/name/{userName} (userName=${user.userName})}" th:text = "${user.userName}">name</a>
                     </div>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto">
                         <div class="fw-bold">Continent</div>
-                        <a style="text-decoration: none; color: black" th:href="@{/continent/{continent} (continent=${sighting.continent})}" th:text = "${sighting.continent.displayValue}">continent</a>
+                        <a th:href="@{/continent/{continent} (continent=${sighting.continent})}" th:text = "${sighting.continent.displayValue}">continent</a>
                     </div>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                     <div class="ms-2 me-auto">
                         <div class="fw-bold">Country</div>
-                        <a style="text-decoration: none; color: black" th:href="@{/country/{country} (country=${sighting.country})}" th:text = "${sighting.country}">country</a>
+                        <a th:href="@{/country/{country} (country=${sighting.country})}" th:text = "${sighting.country}">country</a>
                     </div>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-start">

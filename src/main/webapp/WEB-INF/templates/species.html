@@ -10,6 +10,7 @@
         rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
         crossorigin="anonymous">
+  <link rel="stylesheet" th:href="@{/style.css}"/>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -73,11 +74,11 @@
     </thead>
     <tbody>
     <tr th:each = "sighting : ${sightings}">
-      <td><a style="text-decoration: none; color: black" th:href="@{/sightingPage/{sightingId} (sightingId=${sighting.sightingId})}" th:text="${sighting.sightingId}">sightingId</a></td>
-      <td><a style="text-decoration: none; color: black" th:href="@{/species/{speciesName} (speciesName=${sighting.speciesName})}" th:text = "${sighting.speciesName}">speciesName</a></td>
-      <td><a style="text-decoration: none; color: black" th:href="@{/continent/{continent} (continent=${sighting.continent})}" th:text = "${sighting.continent.displayValue}">continent</a></td>
-      <td><a style="text-decoration: none; color: black" th:href="@{/country/{country} (country=${sighting.country})}" th:text = "${sighting.country}">country</a></td>
-      <td><a style="text-decoration: none; color: black" th:href="@{/name/{name} (name=${sighting.user.userName})}" th:text="${sighting.user.userName}">user</a></td>
+      <td><a th:href="@{/sightingPage/{sightingId} (sightingId=${sighting.sightingId})}" th:text="${sighting.sightingId}">sightingId</a></td>
+      <td><a th:href="@{/species/{speciesName} (speciesName=${sighting.speciesName})}" th:text = "${sighting.speciesName}">speciesName</a></td>
+      <td><a th:href="@{/continent/{continent} (continent=${sighting.continent})}" th:text = "${sighting.continent.displayValue}">continent</a></td>
+      <td><a th:href="@{/country/{country} (country=${sighting.country})}" th:text = "${sighting.country}">country</a></td>
+      <td><a th:href="@{/name/{name} (name=${sighting.user.userName})}" th:text="${sighting.user.userName}">user</a></td>
       <td><span th:text="${#temporals.format(sighting.dateOfSighting, 'dd-MM-yyyy HH:mm')}">dateOfSighting</span></td>
     </tr>
     </tbody>

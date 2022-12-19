@@ -264,14 +264,14 @@ public class SightingController {
         model.addAttribute("photo1", photo1);
         model.addAttribute("photo2", photo2);
         model.addAttribute("photo3", photo3);
+        model.addAttribute("sightings", publicList);
+        model.addAttribute("sighting", new Sighting());
         model.addAttribute("currentPage", pageNumber);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
         model.addAttribute("reverseSortDir", sortDir.equals("desc") ? "asc" : "desc");
-        model.addAttribute("sightings", publicList);
-        model.addAttribute("sighting", new Sighting());
         return "index";
     }
     @GetMapping("/sortBy")
