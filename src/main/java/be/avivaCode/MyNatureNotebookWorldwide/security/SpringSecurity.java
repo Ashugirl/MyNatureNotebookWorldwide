@@ -34,8 +34,8 @@ public class SpringSecurity {
             http.headers().frameOptions().disable();
             http.csrf().disable()
                     .authorizeRequests()
-                    .antMatchers("/register/**").permitAll()
                     .antMatchers("/index").permitAll()
+                    .antMatchers("/register/**").permitAll()
                     .antMatchers("/users").hasRole("ADMIN")
                     .antMatchers("/h2/**").permitAll()
                     .antMatchers("/sightingPage").permitAll()

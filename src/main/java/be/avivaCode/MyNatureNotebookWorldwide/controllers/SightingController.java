@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Controller
@@ -72,6 +73,7 @@ public class SightingController {
         for (Sighting s : showAllByUser) {
             if (!s.getKeepPrivate()) {
                 publicList.add(s);
+                model.addAttribute("sighting", s);
             }
         }
         model.addAttribute("sightings", publicList);
@@ -99,20 +101,34 @@ public class SightingController {
 
     // returns all sightings from a specific continent
     @GetMapping("/continent/{continent}")
-    public String getAllByContinent(Model model, @PathVariable("continent")Sighting.Continent continent, String continentString, Sighting sighting){
-        continentString = continent.getDisplayValue();
-        List<Sighting> showAllByContinent = sightingService.getAllByContinent(sighting.getContinent());
-        List<Sighting> publicList = new ArrayList<>();
-        for (Sighting s : showAllByContinent) {
-            if (!s.getKeepPrivate()) {
-                publicList.add(s);
+    public String getAllByContinent(Model model, @PathVariable("continent")Sighting.Continent continent, @Param("species") String speciesName, String continentString, Sighting sighting) {
+        if (speciesName == null) {
+            continentString = continent.getDisplayValue();
+            List<Sighting> showAllByContinent = sightingService.getAllByContinent(sighting.getContinent());
+            List<Sighting> publicList = new ArrayList<>();
+            for (Sighting s : showAllByContinent) {
+                if (!s.getKeepPrivate()) {
+                    publicList.add(s);
+                }
             }
-        }
-        model.addAttribute("continent", continentString);
-        model.addAttribute("sightings", publicList);
-        return "continent";
-    }
+            model.addAttribute("continent", continentString);
+            model.addAttribute("sightings", publicList);
+            return "continent";
+        } else {
 
+            List<Sighting> sightings = sightingService.searchBySpecies(speciesName);
+            List<Sighting> publicList = new ArrayList<>();
+            for (Sighting s : sightings) {
+                if (!s.getKeepPrivate()) {
+                    publicList.add(s);
+                }
+            }
+            model.addAttribute("species", speciesName);
+            model.addAttribute("sighting", sighting);
+            model.addAttribute("sightings", publicList);
+            return "species";
+        }
+    }
     // returns all sightings from a specific country
     @GetMapping("/country/{country}")
     public String getAllByCountry(Model model, @PathVariable("country") String country, Sighting sighting){
@@ -135,6 +151,9 @@ public class SightingController {
         Optional user = userService.getUserByUserName(currentUser.getUserName());
         List<Sighting> showAllByCurrentUser = sightingService.getAllByUser(user);
         model.addAttribute("sightings", showAllByCurrentUser);
+        for(Sighting sighting : showAllByCurrentUser){
+            model.addAttribute("sighting", sighting);
+        }
         return "yourSightings";
     }
 
@@ -147,7 +166,7 @@ public class SightingController {
         Species species = new Species(sighting.getSpeciesName());
         model.addAttribute("species", species);
         model.addAttribute("name", species.getName());
-       // model.addAttribute("dateOfSighting", sighting.getDateOfSighting());
+        model.addAttribute("dateOfSighting", sighting.getDateOfSighting());
         model.addAttribute("user", sighting.getUser());
         if(!sighting.getPhotos().isEmpty()) {
             List<Photo> photos = sighting.getPhotos();
@@ -160,12 +179,6 @@ public class SightingController {
             Photo photo = new Photo();
             photo.setFileName(placeholder);
             sighting.getPhotos().add(photo);
-            User user = new User();
-            String userName = "My Nature Notebook Worldwide";
-            sighting.setDateOfSighting(null);
-            sighting.setSpeciesName(null);
-            user.setUserName(userName);
-            model.addAttribute("user", user);
         }
         return "sightingPage";
     }
@@ -284,7 +297,7 @@ public class SightingController {
         return "sortBy";
     }
     // handler method to handle search field request
-    @RequestMapping(path = { "/", "/index", "/search", "/page"})
+    @RequestMapping(path = { "/", "/index", "/search"})
     public String home(Model model, Sighting sighting, @Param("species") String speciesName) {
         if (speciesName != null) {
             List<Sighting> sightings = sightingService.searchBySpecies(speciesName);
@@ -305,7 +318,6 @@ public class SightingController {
             return findPaginated(1, "dateOfSighting",  "desc", model);
         }
     }
-
     // returns the call to api ITIS database for form autocomplete
     @GetMapping("/speciesNameAutocomplete")
     @ResponseBody

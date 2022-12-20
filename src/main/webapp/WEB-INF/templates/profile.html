@@ -49,6 +49,79 @@
                 </li>
             </ul>
         </div>
+        <div>
+            <div class="dropdown">
+                <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    Resources
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="#">FAQs</a></li>
+                    <li><a class="dropdown-item" href="https://www.birds.cornell.edu/home/">Handy Links</a></li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            Help with IDs
+                        </a>
+                        <ul class="dropdown-menu dropdown-submenu" data-bs-toggle="dropdown">
+                            <li>
+                                <a class="dropdown-item" href="#">Get Help &raquo;</a>
+                                <ul class="dropdown-menu dropdown-submenu">
+                                    <li>
+                                        <a class="dropdown-item" href="#">Africa</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Antarctica</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Asia</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Europe</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">North America</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Oceania</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">South America</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">Give Help &raquo; </a>
+                                <ul class="dropdown-menu dropdown-submenu">
+                                    <li>
+                                        <a class="dropdown-item" href="#">Africa</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Antarctica</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Asia</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Europe</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">North America</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Oceania</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">South America</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a class="dropdown-item" href="#">Community</a></li>
+                    <li><a class="dropdown-item" href="#">Quizzes</a></li>
+                </ul>
+            </div>
+        </div>&nbsp
     </div>
 </nav>
 <br /><br />
@@ -152,12 +225,12 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <div th:each="speciesName : ${wishList}">
-                                    <li>
-                                        <a class="dropdown-item" th:href="@{/species/{speciesName} (speciesName = ${species.name})}"  th:text="${speciesName}">
-                                        speciesName
-                                        </a>
-                                    </li>
-                                    <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <a class="dropdown-item" th:href="@{/species/{speciesName} (speciesName = ${speciesName})}"  th:text="${speciesName}">
+                                                speciesName
+                                            </a>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
                                     </div>
                                 </ul>
                             </div>

@@ -1,16 +1,13 @@
-package be.avivaCode.MyNatureNotebookWorldwide.service.repositories;
+package be.avivaCode.MyNatureNotebookWorldwide.repositories;
 
 import be.avivaCode.MyNatureNotebookWorldwide.data.Sighting;
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
-import org.hibernate.event.spi.SaveOrUpdateEvent;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 @Repository
 public interface SightingRepository extends JpaRepository<Sighting, Long> {

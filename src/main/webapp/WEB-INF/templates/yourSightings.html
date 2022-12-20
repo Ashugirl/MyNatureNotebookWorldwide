@@ -5,15 +5,21 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>User Sightings</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"
+    <title>Your Sightings</title>
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css}"
+          th:rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-          rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
-          crossorigin="anonymous">
-    <link rel="stylesheet" th:href="@{/style.css}"/>
+
+    <script th:src="@{https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js}" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js}" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+    <!-- jquery cdns for autocomplete field -->
+    <script th:src="@{https://code.jquery.com/jquery-3.6.1.js}" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    <script th:src="@{https://code.jquery.com/ui/1.13.2/jquery-ui.js}" integrity="sha256-xLD7nhI62fcsEZK2/v8LsBcb4lG7dgULkuXoXB/j91c=" crossorigin="anonymous"></script>
+    <link th:rel="stylesheet" th:href="@{https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css}">
+    <script th:src="@{/autocomplete.js}" defer></script>
+    <link th:rel="stylesheet" th:href="@{/style.css}"/>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -49,6 +55,83 @@
                 </li>
             </ul>
         </div>
+        <div>
+            <div class="dropdown">
+                <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    Resources
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="#">FAQs</a></li>
+                    <li><a class="dropdown-item" href="https://www.birds.cornell.edu/home/">Handy Links</a></li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            Help with IDs
+                        </a>
+                        <ul class="dropdown-menu dropdown-submenu" data-bs-toggle="dropdown">
+                            <li>
+                                <a class="dropdown-item" href="#">Get Help &raquo;</a>
+                                <ul class="dropdown-menu dropdown-submenu">
+                                    <li>
+                                        <a class="dropdown-item" href="#">Africa</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Antarctica</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Asia</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Europe</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">North America</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Oceania</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">South America</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">Give Help &raquo; </a>
+                                <ul class="dropdown-menu dropdown-submenu">
+                                    <li>
+                                        <a class="dropdown-item" href="#">Africa</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Antarctica</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Asia</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Europe</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">North America</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Oceania</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">South America</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a class="dropdown-item" href="#">Community</a></li>
+                    <li><a class="dropdown-item" href="#">Quizzes</a></li>
+                </ul>
+            </div>
+        </div>&nbsp
+        <form class="d-flex" role="search"  th:object="${sighting}" method="post">
+            <input type="text" class="input-large search-query" th:action="@{/speciesNameAutocomplete}" value="search" name="species" id="speciesName" th:field="*{speciesName}" placeholder="Try typing a species name" aria-label="Search">&nbsp
+            <button class="btn btn-outline-light" type="submit">Search</button>
+        </form>
     </div>
 </nav>
 <br /><br />

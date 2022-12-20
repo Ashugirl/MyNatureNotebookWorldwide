@@ -6,7 +6,7 @@ import be.avivaCode.MyNatureNotebookWorldwide.data.Species;
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
 import be.avivaCode.MyNatureNotebookWorldwide.dto.UserDto;
 import be.avivaCode.MyNatureNotebookWorldwide.service.PhotoService;
-import be.avivaCode.MyNatureNotebookWorldwide.service.repositories.UserRepository;
+import be.avivaCode.MyNatureNotebookWorldwide.repositories.UserRepository;
 import be.avivaCode.MyNatureNotebookWorldwide.service.SightingService;
 import be.avivaCode.MyNatureNotebookWorldwide.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

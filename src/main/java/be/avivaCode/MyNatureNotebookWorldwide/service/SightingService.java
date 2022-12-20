@@ -3,7 +3,7 @@ package be.avivaCode.MyNatureNotebookWorldwide.service;
 import be.avivaCode.MyNatureNotebookWorldwide.data.Photo;
 import be.avivaCode.MyNatureNotebookWorldwide.data.Sighting;
 import be.avivaCode.MyNatureNotebookWorldwide.data.User;
-import be.avivaCode.MyNatureNotebookWorldwide.service.repositories.SightingRepository;
+import be.avivaCode.MyNatureNotebookWorldwide.repositories.SightingRepository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

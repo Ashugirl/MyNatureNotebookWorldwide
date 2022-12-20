@@ -16,7 +16,7 @@
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js" integrity="sha256-xLD7nhI62fcsEZK2/v8LsBcb4lG7dgULkuXoXB/j91c=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <script th:src="autocomplete.js" defer></script>
+    <script th:src="@{/autocomplete.js}" defer></script>
 
 </head>
 <body>
@@ -53,9 +53,81 @@
                 </li>
             </ul>
         </div>
+        <div>
+            <div class="dropdown">
+                <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    Resources
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="#">FAQs</a></li>
+                    <li><a class="dropdown-item" href="https://www.birds.cornell.edu/home/">Handy Links</a></li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            Help with IDs
+                        </a>
+                        <ul class="dropdown-menu dropdown-submenu" data-bs-toggle="dropdown">
+                            <li>
+                                <a class="dropdown-item" href="#">Get Help &raquo;</a>
+                                <ul class="dropdown-menu dropdown-submenu">
+                                    <li>
+                                        <a class="dropdown-item" href="#">Africa</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Antarctica</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Asia</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Europe</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">North America</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Oceania</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">South America</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">Give Help &raquo; </a>
+                                <ul class="dropdown-menu dropdown-submenu">
+                                    <li>
+                                        <a class="dropdown-item" href="#">Africa</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Antarctica</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Asia</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Europe</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">North America</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Oceania</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">South America</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a class="dropdown-item" href="#">Community</a></li>
+                    <li><a class="dropdown-item" href="#">Quizzes</a></li>
+                </ul>
+            </div>
+        </div>&nbsp
     </div>
 </nav>
-
 <br /><br /><br />
 <div class="container">
     <div class="row col-md-8 offset-md-2">
