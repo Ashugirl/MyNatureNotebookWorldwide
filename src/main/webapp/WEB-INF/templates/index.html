@@ -41,6 +41,79 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" th:href="@{/addSighting}">Add a Sighting</a>
                 </li>
+                <div>
+                    <div class="dropdown">
+                        <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            Resources
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <li><a class="dropdown-item" href="#">FAQs</a></li>
+                            <li><a class="dropdown-item" href="https://www.birds.cornell.edu/home/">Handy Links</a></li>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    Help with IDs
+                                </a>
+                                <ul class="dropdown-menu dropdown-submenu" data-bs-toggle="dropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="#">Get Help &raquo;</a>
+                                        <ul class="dropdown-menu dropdown-submenu">
+                                            <li>
+                                                <a class="dropdown-item" href="#">Africa</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">Antarctica</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">Asia</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">Europe</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">North America</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">Oceania</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">South America</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#">Give Help &raquo; </a>
+                                        <ul class="dropdown-menu dropdown-submenu">
+                                            <li>
+                                                <a class="dropdown-item" href="#">Africa</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">Antarctica</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">Asia</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">Europe</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">North America</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">Oceania</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="#">South America</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a class="dropdown-item" href="#">Community</a></li>
+                            <li><a class="dropdown-item" href="#">Quizzes</a></li>
+                        </ul>
+                    </div>
+                </div>&nbsp
             </ul>
         </div>
         <div class="collapse navbar-collapse" id="userOptions">
@@ -56,79 +129,7 @@
                 </li>
             </ul>
         </div>
-        <div>
-            <div class="dropdown">
-                <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                    Resources
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#">FAQs</a></li>
-                    <li><a class="dropdown-item" href="https://www.birds.cornell.edu/home/">Handy Links</a></li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            Help with IDs
-                        </a>
-                        <ul class="dropdown-menu dropdown-submenu" data-bs-toggle="dropdown">
-                            <li>
-                                <a class="dropdown-item" href="#">Get Help &raquo;</a>
-                                <ul class="dropdown-menu dropdown-submenu">
-                                    <li>
-                                        <a class="dropdown-item" href="#">Africa</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">Antarctica</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">Asia</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">Europe</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">North America</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">Oceania</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">South America</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">Give Help &raquo; </a>
-                                    <ul class="dropdown-menu dropdown-submenu">
-                                        <li>
-                                            <a class="dropdown-item" href="#">Africa</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#">Antarctica</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#">Asia</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#">Europe</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#">North America</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#">Oceania</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#">South America</a>
-                                        </li>
-                                    </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a class="dropdown-item" href="#">Community</a></li>
-                    <li><a class="dropdown-item" href="#">Quizzes</a></li>
-                </ul>
-            </div>
-        </div>&nbsp
+
         <form class="d-flex" role="search" th:object="${sighting}" method="post">
             <input type="text" class="input-large search-query" value="search" name="species" id="speciesName" th:field="*{speciesName}" placeholder="Try typing a species name" aria-label="Search">&nbsp
             <button class="btn btn-outline-light" type="submit">Search</button>
@@ -209,12 +210,12 @@
     <table class="table table-bordered table-hover">
         <thead class="table-dark">
         <tr>
-            <th><a style="color: white" th:href="@{'/page/' + ${currentPage} + '?sortField=sightingId&sortDir=' + ${reverseSortDir}}">ID</a></th>
-            <th><a style="color: white" th:href="@{'/page/' + ${currentPage} + '?sortField=speciesName&sortDir=' + ${reverseSortDir}}">Species</a></th>
-            <th><a style="color: white" th:href="@{'/page/' + ${currentPage} + '?sortField=continent&sortDir=' + ${reverseSortDir}}">Continent</a></th>
-            <th><a style="color: white" th:href="@{'/page/' + ${currentPage} + '?sortField=country&sortDir=' + ${reverseSortDir}}">Country</a></th>
-            <th><a style="color: white" th:href="@{'/page/' + ${currentPage} + '?sortField=user.userName&sortDir=' + ${reverseSortDir}}">User Name</a></th>
-            <th><a style="color: white" th:href="@{'/page/' + ${currentPage} + '?sortField=dateOfSighting&sortDir=' + ${reverseSortDir}}">Date & Time</a></th>
+            <th><a style="color: white" th:href="@{'/index/' + ${currentPage} + '?sortField=sightingId&sortDir=' + ${reverseSortDir}}">ID</a></th>
+            <th><a style="color: white" th:href="@{'/index/' + ${currentPage} + '?sortField=speciesName&sortDir=' + ${reverseSortDir}}">Species</a></th>
+            <th><a style="color: white" th:href="@{'/index/' + ${currentPage} + '?sortField=continent&sortDir=' + ${reverseSortDir}}">Continent</a></th>
+            <th><a style="color: white" th:href="@{'/index/' + ${currentPage} + '?sortField=country&sortDir=' + ${reverseSortDir}}">Country</a></th>
+            <th><a style="color: white" th:href="@{'/index/' + ${currentPage} + '?sortField=user.userName&sortDir=' + ${reverseSortDir}}">User Name</a></th>
+            <th><a style="color: white" th:href="@{'/index/' + ${currentPage} + '?sortField=dateOfSighting&sortDir=' + ${reverseSortDir}}">Date & Time</a></th>
 
         </tr>
         </thead>
@@ -231,11 +232,11 @@
     </table>
     <nav aria-label="Page navigation">
         <ul class="pagination">
-            <li class="page-item"><a class="page-link" tabindex="-1" th:if="${currentPage > 1}" th:href="@{'/page/' + ${currentPage - 1} + '?sortField=' + ${sortField}  + '&sortDir=' + ${sortDir}}">Previous</a></li>
+            <li class="page-item"><a class="page-link" tabindex="-1" th:if="${currentPage > 1}" th:href="@{'/index/' + ${currentPage - 1} + '?sortField=' + ${sortField}  + '&sortDir=' + ${sortDir}}">Previous</a></li>
             <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-            <li class="page-item"><a class="page-link" th:if="${currentPage != i}" th:href="@{'/page/' + ${i} + '?sortField=' + ${sortField}  + '&sortDir=' + ${sortDir}}" >[[${i}]]</a><li  class="page-link" th:unless="${currentPage != i}">[[${i}]]</li>&nbsp; &nbsp;</li>
+            <li class="page-item"><a class="page-link" th:if="${currentPage != i}" th:href="@{'/index/' + ${i} + '?sortField=' + ${sortField}  + '&sortDir=' + ${sortDir}}" >[[${i}]]</a><li  class="page-link" th:unless="${currentPage != i}">[[${i}]]</li>&nbsp; &nbsp;</li>
             </span>
-            <li class="page-item"><a class="page-link"th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} +'&sortDir=' + ${sortDir}}">Next</a></li>
+            <li class="page-item"><a class="page-link"th:if="${currentPage < totalPages}" th:href="@{'/index/' + ${currentPage + 1} + '?sortField=' + ${sortField} +'&sortDir=' + ${sortDir}}">Next</a></li>
         </ul>
     </nav>
 

@@ -69,10 +69,10 @@ public class SightingService {
     }
 
     public Page<Sighting> findPaginated(int pageNumber, int pageSize,
-                                       String sortByDate, String sortDirection){
-       Sort dateSorter = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())?
-               Sort.by(sortByDate).ascending(): Sort.by(sortByDate).descending();
-        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, dateSorter);
+                                       String sortField, String sortDirection){
+       Sort fieldSorter = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())?
+               Sort.by(sortField).ascending(): Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, fieldSorter);
         return this.sightingRepository.findAll(pageable);
     }
     @Cacheable("speciesNames")
@@ -101,7 +101,7 @@ public class SightingService {
         return sightings;
     }
 
-    // returns all sightings from a continent from newest to oldest
+     //returns all sightings from a continent from newest to oldest
     public List<Sighting> getAllByContinent(Sighting.Continent continent){
         List<Sighting> sightings = new ArrayList<>();
         sightingRepository.findAllByContinent(continent)
@@ -109,6 +109,14 @@ public class SightingService {
         sightings.sort(Comparator.comparing(Sighting::getDateOfSighting).reversed());
         return sightings;
     }
+
+//    public Page<Sighting> findPaginated(Sighting.Continent continent, int pageNumber, int pageSize,
+//                                        String sortField, String sortDirection){
+//        Sort fieldSorter = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())?
+//                Sort.by(sortField).ascending(): Sort.by(sortField).descending();
+//        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize, fieldSorter);
+//        return (Page<Sighting>) this.sightingRepository.findAllByContinent(continent, pageable);
+//    }
 
     // returns all sightings of a species from newest to oldest
     public List<Sighting> getAllBySpeciesName(String speciesName){

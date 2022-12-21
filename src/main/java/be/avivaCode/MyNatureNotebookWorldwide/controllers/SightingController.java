@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Controller
@@ -101,34 +100,52 @@ public class SightingController {
 
     // returns all sightings from a specific continent
     @GetMapping("/continent/{continent}")
-    public String getAllByContinent(Model model, @PathVariable("continent")Sighting.Continent continent, @Param("species") String speciesName, String continentString, Sighting sighting) {
-        if (speciesName == null) {
-            continentString = continent.getDisplayValue();
-            List<Sighting> showAllByContinent = sightingService.getAllByContinent(sighting.getContinent());
-            List<Sighting> publicList = new ArrayList<>();
-            for (Sighting s : showAllByContinent) {
-                if (!s.getKeepPrivate()) {
-                    publicList.add(s);
-                }
+    public String getAllByContinent(Model model, @PathVariable("continent")Sighting.Continent continent,
+                                    String continentString, Sighting sighting) {
+        continentString = continent.getDisplayValue();
+        List<Sighting> showAllByContinent = sightingService.getAllByContinent(sighting.getContinent());
+        List<Sighting> publicList = new ArrayList<>();
+        for (Sighting s : showAllByContinent) {
+            if (!s.getKeepPrivate()) {
+                publicList.add(s);
             }
-            model.addAttribute("continent", continentString);
-            model.addAttribute("sightings", publicList);
-            return "continent";
-        } else {
-
-            List<Sighting> sightings = sightingService.searchBySpecies(speciesName);
-            List<Sighting> publicList = new ArrayList<>();
-            for (Sighting s : sightings) {
-                if (!s.getKeepPrivate()) {
-                    publicList.add(s);
-                }
-            }
-            model.addAttribute("species", speciesName);
-            model.addAttribute("sighting", sighting);
-            model.addAttribute("sightings", publicList);
-            return "species";
         }
+        model.addAttribute("continent", continentString);
+        model.addAttribute("sightings", publicList);
+        return "continent";
     }
+
+    //TODO : keep trying to get sorting and pagination for each html
+//    // returns all sightings from a specific continent
+//    @GetMapping("/continent/{continent}")
+//    public Page<Sighting> getAllByContinent(Model model, @PathVariable("continent")Sighting.Continent continent, @Param("species") String speciesName,
+////                                           @PathVariable(value = "pageNumber")
+//                                                   Integer pageNumber,
+//                                            @RequestParam("sortField") String sortField,
+//                                            @RequestParam("sortDir") String sortDir,
+//                                            String continentString) {
+//        int pageSize = 10;
+//        Page<Sighting> page = sightingService.findPaginated(pageNumber, pageSize, sortField, sortDir);
+//
+//        continentString = continent.getDisplayValue();
+//        List<Sighting> showAllByContinent = page.getContent();
+//        List<Sighting> publicList = new ArrayList<>();
+//        for (Sighting s : showAllByContinent) {
+//            if (!s.getKeepPrivate()) {
+//                    publicList.add(s);
+//                }
+//            }
+//        model.addAttribute("currentPage", pageNumber);
+//        model.addAttribute("totalPages", page.getTotalPages());
+//        model.addAttribute("totalItems", page.getTotalElements());
+//        model.addAttribute("sortField", sortField);
+//        model.addAttribute("sortDir", sortDir);
+//        model.addAttribute("reverseSortDir", sortDir.equals("desc") ? "asc" : "desc");
+//        model.addAttribute("continent", continentString);
+//        model.addAttribute("sighting", new Sighting());
+//        model.addAttribute("sightings", publicList);
+//        return sightingService.findPaginated(continent, 1, pageSize, sortField, sortDir);
+//    }
     // returns all sightings from a specific country
     @GetMapping("/country/{country}")
     public String getAllByCountry(Model model, @PathVariable("country") String country, Sighting sighting){
@@ -236,14 +253,14 @@ public class SightingController {
     /******************* HANDLER METHODS FOR HTML **********************/
 
     // handler method to handle home page request
-    @GetMapping(path = {"/index", "/"})
-    public String index(Model model){
-        List<Sighting> sightings = sightingService.getAllSightings();
-        return findPaginated(1, "dateOfSighting",  "desc", model);
-    }
+//    @GetMapping(path = {"/index", "/"})
+//    public String index(Model model){
+//        List<Sighting> sightings = sightingService.getAllSightings();
+//        return findPaginated(1, "dateOfSighting",  "desc", model);
+//    }
 
     // handler to allow pagination
-    @GetMapping("/page/{pageNumber}")
+    @GetMapping("/index/{pageNumber}")
     public String findPaginated(@PathVariable(value = "pageNumber") int pageNumber,
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDir") String sortDir,
@@ -297,7 +314,7 @@ public class SightingController {
         return "sortBy";
     }
     // handler method to handle search field request
-    @RequestMapping(path = { "/", "/index", "/search"})
+    @RequestMapping(path = { "/", "/index", "/search" })
     public String home(Model model, Sighting sighting, @Param("species") String speciesName) {
         if (speciesName != null) {
             List<Sighting> sightings = sightingService.searchBySpecies(speciesName);
