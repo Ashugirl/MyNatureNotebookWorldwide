@@ -14,47 +14,47 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SpringSecurity {
 
-    // allows app to show different content based on role.
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-        auth
-                .inMemoryAuthentication()
-                .withUser("user").password(passwordEncoder().encode("password")).roles("USER")
-                .and()
-                .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
-    }
+  // allows app to show different content based on role.
+  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    auth
+        .inMemoryAuthentication()
+        .withUser("user").password(passwordEncoder().encode("password")).roles("USER")
+        .and()
+        .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
+  }
 
-        @Bean
-        public PasswordEncoder passwordEncoder() {
-            return new BCryptPasswordEncoder();
-        }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-        // configure security filter chain
-        @Bean
-        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-            http.headers().frameOptions().disable();
-            http.csrf().disable()
-                    .authorizeRequests()
-                    .antMatchers("/index").permitAll()
-                    .antMatchers("/register/**").permitAll()
-                    .antMatchers("/users").hasRole("ADMIN")
-                    .antMatchers("/h2/**").permitAll()
-                    .antMatchers("/sightingPage").permitAll()
-                    .antMatchers("/addSighting").authenticated()
-                    .antMatchers("/yourSightings").authenticated()
-                    .antMatchers("/profile").authenticated()
-                    .antMatchers("/**/addToWishList/**").authenticated()
-                    .and()
-                    .formLogin(
-                            form -> form
-                                    .loginPage("/login")
-                                    .loginProcessingUrl("/login")
-                                    .defaultSuccessUrl("/index")
-                                    .permitAll()
-                    ).logout(
-                            logout -> logout
-                                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                                    .permitAll()
-                    );
-            return http.build();
-        }
-    }
+  // configure security filter chain
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http.headers().frameOptions().disable();
+    http.csrf().disable()
+        .authorizeRequests()
+        .antMatchers("/index").permitAll()
+        .antMatchers("/register/**").permitAll()
+        .antMatchers("/users").hasRole("ADMIN")
+        .antMatchers("/h2/**").permitAll()
+        .antMatchers("/sightingPage").permitAll()
+        .antMatchers("/addSighting").authenticated()
+        .antMatchers("/yourSightings").authenticated()
+        .antMatchers("/profile").authenticated()
+        .antMatchers("/**/addToWishList/**").authenticated()
+        .and()
+        .formLogin(
+            form -> form
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/index")
+                .permitAll()
+        ).logout(
+            logout -> logout
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .permitAll()
+        );
+    return http.build();
+  }
+}

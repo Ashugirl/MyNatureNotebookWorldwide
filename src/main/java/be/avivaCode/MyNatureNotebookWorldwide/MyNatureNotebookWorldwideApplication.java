@@ -9,9 +9,10 @@ import org.springframework.cache.annotation.EnableCaching;
 @SpringBootApplication
 @EnableCaching
 public class MyNatureNotebookWorldwideApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(MyNatureNotebookWorldwideApplication.class, args);
-	}
+
+  public static void main(String[] args) {
+    SpringApplication.run(MyNatureNotebookWorldwideApplication.class, args);
+  }
 }
 
 

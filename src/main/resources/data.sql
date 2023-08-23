@@ -126,10 +126,6 @@ deceased, behaviour, locationHidden, keepPrivate, lifer, notes, user_id)
 VALUES (default, 'Podarcis muralis - Common Wall Lizard', 'EUROPE', 'Belgium', 'Dendermonde', '2022-06-28 10:15',
 1, 'REPTILE', NULL, 'ADULT', 0, 'basking', 1 ,0, 1, 'near the rail tracks', 4);
 
-INSERT INTO photo (photoId, fileName, path, sighting_sighting_id, user_id)
-VALUES (default, 'wallLizard.jpeg',
-'/Users/avivashuman/IdeaProjects/MyNatureNotebookWorldwide/src/main/resources/static/photos/', 12, 4);
-
 
 INSERT INTO sighting (sightingId, speciesName, continent, country, location, dateOfSighting, quantity, classOfAnimal, sex, lifeStage,
 deceased, behaviour, locationHidden, keepPrivate, lifer, notes, user_id)
@@ -281,10 +277,6 @@ INSERT INTO sighting (sightingId, speciesName, continent, country, location, dat
 deceased, behaviour, locationHidden, keepPrivate, lifer, notes, user_id)
 VALUES (default, 'Eristalis tenax - drone fly', 'EUROPE', 'Belgium', 'Dendermonde', '2022-06-17 16:23',
 1, 'INVERTEBRATE', NULL,NULL, 0, '', 0 ,0, 1, 'in my garden', 4);
-
-INSERT INTO photo (photoId, fileName, path, sighting_sighting_id, user_id)
-VALUES (default, 'drone_fly.jpg',
-'/Users/avivashuman/IdeaProjects/MyNatureNotebookWorldwide/src/main/resources/static/photos/', 27, 4);
 
 
 INSERT INTO sighting (sightingId, speciesName, continent, country, location, dateOfSighting, quantity, classOfAnimal, sex, lifeStage,
